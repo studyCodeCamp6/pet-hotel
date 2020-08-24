@@ -1,8 +1,19 @@
 const db = require('../models')
 
 const register = async (req, res) => {
-    const { username, password, name } = req.body
-    const targetUser = await db.User.findOne({ where: { username } })
+    const {
+        username,
+        password,
+        name,
+        lastName,
+        phoneNumber,
+        email,
+        wallet_id,
+        wallet,
+        status
+    } = req.body
+
+    const targetUser = await db.Customers.findOne({ where: { username } })
 
     if (targetUser) {
         res.status(400).send({ message: "Username already used" })
@@ -10,7 +21,7 @@ const register = async (req, res) => {
         const salt = bc.genSaltSync(Number(process.env.ROUND))
         const hashedPW = bc.hashSync(password, salt)
 
-        await db.User.create({
+        await db.customer.create({
             password: hashedPW,
             username,
             name,
