@@ -2,22 +2,22 @@ module.exports = (sequelize, DataTypes) => {
     const model = sequelize.define('Customers', {
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
         },
         lastName: {
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
         },
         phoneNumber: {
             type: DataTypes.INTEGER(10),
-            allowNull: false
+            // allowNull: false
         },
         email: {
             type: DataTypes.STRING
         },
         wallet_id: {
             type: DataTypes.STRING,
-            allowNull: false,
+            // allowNull: false,
             unique: true
         },
         wallet: {
@@ -25,14 +25,22 @@ module.exports = (sequelize, DataTypes) => {
         },
         username: {
             type: DataTypes.STRING,
-            allowNull: false,
+            // allowNull: false,
             unique: true
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false
+            // allowNull: false
+        },
+        status: {
+            type: DataTypes.STRING,
+            defaultValue: 0
         }
     })
+    
+    model.associate = models => {
+        model.belongsToMany(models.Providers, {through: models.Bills, as: "To", foreignKey: "customer_id"})
+    }
     
     return model;
 }
