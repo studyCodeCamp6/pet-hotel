@@ -25,3 +25,7 @@ const register = async (req, res) => {
         res.status(201).send({ message: "User created" })
     }
 }
+
+module.exports = {
+    register
+}
