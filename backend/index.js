@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const express = require("express");
 const db = require("./models");
 const cors = require("cors");
@@ -8,7 +6,7 @@ const app = express();
 
 // require('./config/passport');
 
-let allowedOrigins = ["http://localhost:3000"];git 
+let allowedOrigins = ["http://localhost:3000"];
 
 app.use(cors({
     origin: function (origin, callback) {

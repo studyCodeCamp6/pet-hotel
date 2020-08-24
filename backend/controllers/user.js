@@ -21,7 +21,7 @@ const register = async (req, res) => {
         const salt = bc.genSaltSync(Number(process.env.ROUND))
         const hashedPW = bc.hashSync(password, salt)
 
-        await db.customer.create({
+        await db.Customers.create({
             password: hashedPW,
             username,
             name,
