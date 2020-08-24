@@ -37,10 +37,11 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0
         }
     })
-    
+
     model.associate = models => {
-        model.belongsToMany(models.Providers, {through: models.Bills, as: "To", foreignKey: "customer_id"})
+        model.belongsToMany(models.Providers, { through: models.Bills, as: "To", foreignKey: "customer_id" })
+        model.hasMany(models.Pets, { foreignKey: "customer_id" })
     }
-    
+
     return model;
 }
