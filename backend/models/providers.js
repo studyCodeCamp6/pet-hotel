@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM("CAT", "DOG", "CAT&DOG")
         },
         homeNumber: {
-            type: DataTypes.STRING(10),
+            type: DataTypes.INTEGER(10),
             // allowNull: false
         },
         moo: {
@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         zipCode: {
             type: DataTypes.INTEGER
+        },
+        image: {
+            type: DataTypes.STRING(1200)
         }
     })
 

@@ -1,3 +1,9 @@
 backend/node_modules/
-config/config.json
-.env
+
+backend/config/config.json
+
+backend/.env
+
+backend/config/config.json
+
+backend/images/

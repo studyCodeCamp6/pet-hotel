@@ -3,14 +3,7 @@ const bc = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-  const {
-    username,
-    password,
-    name,
-    lastName,
-    phoneNumber,
-    email,
-  } = req.body;
+  const { username, password, name, lastName, phoneNumber, email } = req.body;
 
   const targetUser = await db.Customers.findOne({ where: { username } });
 
@@ -43,8 +36,8 @@ const login = async (req, res) => {
     const isPWCorrect = bc.compareSync(password, targetUser.password);
 
     if (isPWCorrect) {
-      const payload = { id: targetUser.id, name: targetUser.name };
-      const token = jwt.sign(payload,process.env.SECRET, { expiresIn: 36000 });
+      const payload = { id: targetUser.user_id, name: targetUser.name, status: targetUser.status };
+      const token = jwt.sign(payload, process.env.SECRET, { expiresIn: process.env.TIMEOUT });
 
       res.status(200).send({
         message: "successfully login",
