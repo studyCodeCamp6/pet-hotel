@@ -30,10 +30,16 @@ function App() {
           </a>
         </Menu.Item>
 
-        <SubMenu title="about">
+      <SubMenu title="about" icon={<AppstoreOutlined />}>
           <Menu.Item key="setting:1">company</Menu.Item>
           <Menu.Item key="setting:2">reward</Menu.Item>
         </SubMenu>
+
+        <Menu.Item key="company" icon={<AppstoreOutlined />}>
+          <a href="/" rel="noopener noreferrer">
+            company
+          </a>
+        </Menu.Item>
         <Menu.Item key="account" icon={<UserOutlined />}>
           <a href="/login">{"login"}</a>
         </Menu.Item>

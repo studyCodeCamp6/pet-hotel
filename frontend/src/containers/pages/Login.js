@@ -33,7 +33,7 @@ function Login(props) {
   return (
     <Row style={{ height: "100vh" }} justify="center" align="middle">
       <Col xs={15} sm={7} md={9} lg={7} xl={6} xxl={5}>
-        <img style={{ width: "100%" }} alt="logo fakebook" src="" />
+        <img style={{ width: "100%" }} alt="logo" src="" />
       </Col>
       <Col xs={0} sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
       <Col xs={20} sm={9} md={9} lg={8} xl={6} xxl={5}>
@@ -64,7 +64,7 @@ function Login(props) {
           </Row>
           <Row justify="space-around">
             <Col>
-              <Link to="/signup">
+              <Link to="/register">
                 <Button type="link">Signup</Button>
               </Link>
             </Col>

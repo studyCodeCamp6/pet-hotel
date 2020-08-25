@@ -27,8 +27,6 @@ function Register(props) {
         lastName: values.lastname,
         phoneNumber: values.phone,
         email: values.email,
-        wallet: values.wallet,
-        wallet_id: values.wallet_id,
       });
 
       props.history.push("/");
@@ -95,7 +93,7 @@ function Register(props) {
             <Form.Item
               name="firstname"
               label="Name"
-              rules={[{ required: true, message: "กรุณาใสj=njvด้วยนะครับ" }]}
+              rules={[{ required: true, message: "กรุณาใส่ชื่อด้วยนะครับ" }]}
             >
               <Input />
             </Form.Item>
@@ -129,31 +127,6 @@ function Register(props) {
             >
               <Input />
             </Form.Item>
-
-            <Form.Item
-              name="wallet"
-              label="wallet"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              name="wallet_id"
-              label="wallet id"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
             <Row justify="end">
               <Button htmlType="submit">ลงทะเบียน</Button>
             </Row>
