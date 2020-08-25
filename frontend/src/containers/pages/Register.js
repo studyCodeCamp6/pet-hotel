@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button, notification, Row, Col, Select } from "antd";
 import axios from "../../config/axios";
-// import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const formLayout = {
   labelCol: { xs: 24, sm: 24, md: 5, lg: 7, xl: 7 },
@@ -24,14 +24,14 @@ function Register(props) {
         username: values.username,
         password: values.password,
         name: values.firstname,
-        lastName:values.lastname,
-        phoneNumber:values.phone,
-        email:values.email,
-        wallet:values.wallet,
-        wallet_id:values.wallet_id
+        lastName: values.lastname,
+        phoneNumber: values.phone,
+        email: values.email,
+        wallet: values.wallet,
+        wallet_id: values.wallet_id,
       });
 
-    //   props.history.push("/");
+      props.history.push("/");
       notification.success({
         message: "สมัครสำเร็จ",
       });
@@ -164,5 +164,4 @@ function Register(props) {
   );
 }
 
-export default Register;
-// export default withRouter(Register);
+export default withRouter(Register);
