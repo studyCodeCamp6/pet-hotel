@@ -6,7 +6,6 @@ const fileUpload = require("express-fileupload");
 const app = express();
 const RoutesCustomers = require('./routes/customers')
 const RoutesProviders = require('./routes/providers')
-const RoutesUser = require('./routes/User')
 const RoutesPets = require('./routes/pets')
 
 require('./config/passport');
@@ -33,8 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/customers', RoutesCustomers)
 app.use('/providers', RoutesProviders)
-app.use('/users',RoutesUser)
-app.use('/pets',RoutesPets)
+app.use('/pets', RoutesPets)
 
 
 db.sequelize.sync({ force: false }).then(() => {
