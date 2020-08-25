@@ -4,10 +4,11 @@ const db = require("./models");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const app = express();
-const RoutesUser = require('./routes/User')
+const RoutesCustomers = require('./routes/customers')
+const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
 
-// require('./config/passport');
+require('./config/passport');
 
 let allowedOrigins = ["http://localhost:3000"];
 
@@ -29,8 +30,9 @@ app.use(express.static('./images'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/users',RoutesUser)
-app.use('/pets',RoutesPets)
+app.use('/customers', RoutesCustomers)
+app.use('/providers', RoutesProviders)
+app.use('/pets', RoutesPets)
 
 
 db.sequelize.sync({ force: false }).then(() => {
