@@ -4,7 +4,7 @@ const db = require("./models");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const app = express();
-const RoutesUser = require('./routes/User')
+const RoutesUser = require('./routes/users')
 
 // require('./config/passport');
 
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/users',RoutesUser)
 
 
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force:false}).then(() => {
     app.listen(process.env.PORT, () => {
         console.log(`Server is running at ${process.env.PORT}`);
     });
