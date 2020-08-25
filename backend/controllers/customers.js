@@ -3,7 +3,7 @@ const bc = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-  const { username, password, name, lastname, phone, address } = req.body;
+  const { username, password, name, lastName, phoneNumber, email } = req.body;
 
   const targetUser = await db.User.findOne({ where: { username } });
 
@@ -16,20 +16,16 @@ const register = async (req, res) => {
     await db.User.create({
       username,
       name,
-      lastname,
-      address,
-      phone,
+      lastName,
       email,
-      tel,
-      password: hashedPW,
+      phoneNumber,
+      email,
+      password: hashedPW
     });
   }
 
   res.status(201).send({ message: "user created" });
 };
-
-
-
 
 const login = async (req, res) => {
   const { username, password } = req.body;
@@ -42,8 +38,8 @@ const login = async (req, res) => {
     const isPWCorrect = bc.compareSync(password, targetUser.password);
 
     if (isPWCorrect) {
-      const payload = { id: targetUser.user_id, name: targetUser.name };
-      const token = jwt.sign(payload, process.env.SECRET, { expiresIn: 36000 });
+      const payload = { id: targetUser.user_id, name: targetUser.name, status: targetUser.status };
+      const token = jwt.sign(payload, process.env.SECRET, { expiresIn: process.env.TIMEOUT });
 
       res.status(200).send({
         message: "successfully login",
@@ -59,5 +55,4 @@ const login = async (req, res) => {
 module.exports = {
   register,
   login,
-
 };

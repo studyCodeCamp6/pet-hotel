@@ -6,3 +6,5 @@ backend/config/config.json
 backend/.env
 
 backend/config/config.json
+
+backend/images/
