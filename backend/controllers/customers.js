@@ -14,16 +14,14 @@ const register = async (req, res) => {
     const hashedPW = bc.hashSync(password, salt);
 
     await db.Customers.create({
-      password: hashedPW,
       username,
       lastName,
-      name,
-      email,
       phoneNumber,
+      email,
+      password: hashedPW,
     });
+    res.status(201).send({ message: "user created" });
   }
-
-  res.status(201).send({ message: "user created" });
 };
 
 const login = async (req, res) => {
