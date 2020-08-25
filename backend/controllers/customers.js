@@ -17,6 +17,8 @@ const register = async (req, res) => {
       username,
       name,
       lastname,
+      address,
+      phone,
       email,
       tel,
       password: hashedPW,
@@ -25,6 +27,9 @@ const register = async (req, res) => {
 
   res.status(201).send({ message: "user created" });
 };
+
+
+
 
 const login = async (req, res) => {
   const { username, password } = req.body;
@@ -43,7 +48,7 @@ const login = async (req, res) => {
       res.status(200).send({
         message: "successfully login",
         access_token: token,
-        accessToken: token, 
+        accessToken: token,
       });
     } else {
       res.status(400).send({ message: "Username or Password is wrong" });
@@ -54,4 +59,6 @@ const login = async (req, res) => {
 module.exports = {
   register,
   login,
+  registerPets,
+  deletePets
 };

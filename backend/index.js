@@ -29,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/users',RoutesUser)
+app.use('/pets')
 
 
 db.sequelize.sync({ force: false }).then(() => {
