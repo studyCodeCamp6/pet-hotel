@@ -10,8 +10,6 @@ const register = async (req, res) => {
     lastName,
     phoneNumber,
     email,
-    wallet_id,
-    wallet,
   } = req.body;
 
   const targetUser = await db.Customers.findOne({ where: { username } });
@@ -28,8 +26,6 @@ const register = async (req, res) => {
       lastName,
       phoneNumber,
       email,
-      wallet,
-      wallet_id,
       password: hashedPW,
     });
     res.status(201).send({ message: "user created" });
