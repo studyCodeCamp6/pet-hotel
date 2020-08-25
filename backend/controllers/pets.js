@@ -3,7 +3,10 @@ const bc = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const getPetsByCustomers = async (req, res) => {
-
+    console.log(req.user)
+    const petsAll = await db.Pets.findAll()
+    res.status(201).send(petsAll)
+    // await db.Pets.findAll({include:{model : db.Pets}, where: {customer_id : req.customers.id} })
 }
 
 const registerPets = async (req, res) => {
@@ -21,7 +24,7 @@ const registerPets = async (req, res) => {
     images.mv(`images/${filePath}`);  // path อะไร
 
     const addDog = await db.Pets.create({
-        // customer_id: req.user.id,
+        // customer_id: req.customer.id,
         certificate: filePath,
         image: filePath,
         name,
@@ -38,7 +41,7 @@ const deletePets = async (req, res) => {
     const targetId = await db.Pets.findOne({ where: { id } })
     if (targetId) {
         await targetId.destroy()
-        res.status(201).send(targetId)
+        res.status(201).send({ message: `ID : ${targetId.id}` })
     }
 }
 

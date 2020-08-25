@@ -1,4 +1,4 @@
-backend/node_modules/
-backend/config/config.json
-backend/.env
-backend/images
+node_modules/
+config/config.json
+.env
+images

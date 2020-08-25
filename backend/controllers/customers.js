@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const register = async (req, res) => {
   const { username, password, name, lastName, phoneNumber, email } = req.body;
 
-  const targetUser = await db.User.findOne({ where: { username } });
+  const targetUser = await db.Customers.findOne({ where: { username } });
 
   if (targetUser) {
     res.status(400).send({ message: "username already used" });
@@ -13,14 +13,13 @@ const register = async (req, res) => {
     const salt = bc.genSaltSync(Number(process.env.ROUNDS));
     const hashedPW = bc.hashSync(password, salt);
 
-    await db.User.create({
+    await db.Customers.create({
+      password: hashedPW,
       username,
-      name,
       lastName,
+      name,
       email,
       phoneNumber,
-      email,
-      password: hashedPW
     });
   }
 
@@ -30,7 +29,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { username, password } = req.body;
 
-  const targetUser = await db.User.findOne({ where: { username } });
+  const targetUser = await db.Customers.findOne({ where: { username } });
 
   if (!targetUser) {
     res.status(400).send({ message: "Username or Password not correct" });
