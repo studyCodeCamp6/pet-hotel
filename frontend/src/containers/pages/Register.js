@@ -20,15 +20,13 @@ const prefixSelector = (
 function Register(props) {
   const onFinish = async (values) => {
     try {
-      await axios.post("/users/register", {
+      await axios.post("/customers/register", {
         username: values.username,
         password: values.password,
         name: values.firstname,
         lastName: values.lastname,
         phoneNumber: values.phone,
         email: values.email,
-        wallet: values.wallet,
-        wallet_id: values.wallet_id,
       });
 
       props.history.push("/");

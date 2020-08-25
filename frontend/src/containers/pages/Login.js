@@ -13,7 +13,7 @@ const formItemLayout = {
 function Login(props) {
   function onFinish({ username, password }) {
     axios
-      .post("/users/login", { username, password })
+      .post("/customers/login", { username, password })
       .then((result) => {
         LocalStorageService.setToken(result.data.accessToken);
         console.log(props);
@@ -43,9 +43,7 @@ function Login(props) {
               style={{ width: "100%" }}
               label="Username"
               name="username"
-              rules={[
-                { required: true, message: "กรุณากรอก Username ด้วยนะจ๊ะ" },
-              ]}
+              rules={[{ required: true, message: "กรุณากรอก Username" }]}
             >
               <Input />
             </Form.Item>
@@ -55,9 +53,7 @@ function Login(props) {
               style={{ width: "100%" }}
               label="Password"
               name="password"
-              rules={[
-                { required: true, message: "กรุณากรอก Password ด้วยแหนะ" },
-              ]}
+              rules={[{ required: true, message: "กรุณากรอก Password" }]}
             >
               <Input.Password />
             </Form.Item>
