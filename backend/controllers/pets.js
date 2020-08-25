@@ -2,6 +2,10 @@ const db = require("../models");
 const bc = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const getPetsByCustomers = async (req, res) => {
+
+}
+
 const registerPets = async (req, res) => {
     const { name, breedType, weight, sex, image, other } = req.body
 
@@ -30,5 +34,17 @@ const registerPets = async (req, res) => {
 }
 
 const deletePets = async (req, res) => {
-
+    const { id } = req.params
+    const targetId = await db.Pets.findOne({ where: { id } })
+    if (targetId) {
+        await targetId.destroy()
+        res.status(201).send(targetId)
+    }
 }
+
+
+module.exports = {
+    registerPets,
+    deletePets,
+    getPetsByCustomers
+};
