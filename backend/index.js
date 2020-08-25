@@ -4,7 +4,7 @@ const db = require("./models");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const app = express();
-const RoutesUser = require('./routes/User')
+const RoutesUser = require('./routes/customers')
 const RoutesPets = require('./routes/pets')
 
 // require('./config/passport');
