@@ -6,7 +6,6 @@ const controllers = require('../controllers/customers')
 
 router.post("/register",controllers.register);
 router.post("/login",controllers.login)
-router.post("/register/pets",controllers.registerPets)
 
 
 

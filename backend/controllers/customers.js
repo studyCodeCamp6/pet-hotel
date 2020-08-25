@@ -59,6 +59,5 @@ const login = async (req, res) => {
 module.exports = {
   register,
   login,
-  registerPets,
-  deletePets
+
 };
