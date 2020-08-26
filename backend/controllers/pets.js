@@ -10,23 +10,22 @@ const getPetsByCustomers = async (req, res) => {
 }
 
 const registerPets = async (req, res) => {
-    const { name, breedType, weight, sex, image, other } = req.body
+    const { name, breedType, weight, sex, other,image } = req.body
 
     if (!req.files || Object.keys(req.files).length === 0) {
         res.status(400).send({ message: "No files were uploaded." });
     }
 
-    // req.file.{{ชื่อ field ใน Postman นะจ๊ะ}}
-    let images = req.files.image;
+    
+    let images = req.files.image  // req.file.{{ชื่อ field ใน Postman นะจ๊ะ}}
     let fileExtension = images.name.split(".").slice(-1)[0];
     let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
-    console.log(images)
     images.mv(`images/${filePath}`);  // path อะไร
 
     const addDog = await db.Pets.create({
         // customer_id: req.customer.id,
         certificate: filePath,
-        image: filePath,
+        images: filePath,
         name,
         breedType,
         weight,

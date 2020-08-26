@@ -35,7 +35,7 @@ const login = async (req, res) => {
     const isPWCorrect = bc.compareSync(password, targetUser.password);
 
     if (isPWCorrect) {
-      const payload = { id: targetUser.user_id, name: targetUser.name, status: targetUser.status };
+      const payload = { id: targetUser.id, name: targetUser.name, status: targetUser.status };
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: process.env.TIMEOUT });
 
       res.status(200).send({

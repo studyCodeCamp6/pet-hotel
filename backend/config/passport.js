@@ -10,7 +10,6 @@ const options = {
 const jwtStrategy = new JWTStrategy(options, async (payload, done) => {
     const idFromToken = payload.id;
     const user = await db.Customers.findOne({ where: { id: idFromToken } });
-    // SELECT * FROM user WHERE id = idFromToken LIMIT 1;
 
     if (user) {
         done(null, user);
