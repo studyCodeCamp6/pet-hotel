@@ -9,6 +9,7 @@ const app = express();
 const RoutesCustomers = require('./routes/customers')
 const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
+const RoutesBills = require('./routes/bills')
 
 require('./config/passport');
 
@@ -36,6 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/customers', RoutesCustomers)
 app.use('/providers', RoutesProviders)
+app.use('/bills',RoutesBills)
 app.use('/pets', RoutesPets)
 
 
