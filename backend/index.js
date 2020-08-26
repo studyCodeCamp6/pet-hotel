@@ -10,8 +10,6 @@ const RoutesCustomers = require('./routes/customers')
 const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
 
-require('./config/passport');
-
 let allowedOrigins = ["http://localhost:3000"];
 
 app.use(
@@ -39,7 +37,7 @@ app.use('/providers', RoutesProviders)
 app.use('/pets', RoutesPets)
 
 
-db.sequelize.sync({ force:false}).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   app.listen(process.env.PORT, () => {
     console.log(`Server is running at ${process.env.PORT}`);
   });
