@@ -1,6 +1,7 @@
 import LoginPage from '../containers/pages/Login'
 import RegisterPage from '../containers/pages/Register'
 import AddPetsPage from '../containers/pages/Add_Pets'
+import BookingPetsPage from '../containers/pages/Booking_Pets'
 
 const components = {
     login: {
@@ -12,8 +13,12 @@ const components = {
         component: RegisterPage
     },
     addPets: {
-        url: '/pets',
+        url: '/pets/add',
         component: AddPetsPage
+    },
+    bookingPets : {
+        url : '/pets',
+        component : BookingPetsPage
     }
 }
 export default {
@@ -21,7 +26,8 @@ export default {
         allowedRoutes: [
             components.login,
             components.register,
-            components.addPets
+            components.addPets,
+            components.bookingPets
         ],
         redirectRoutes: "/login"
     },
