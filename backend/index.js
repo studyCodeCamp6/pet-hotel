@@ -9,6 +9,7 @@ const app = express();
 const RoutesCustomers = require('./routes/customers')
 const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
+const RoutesBills = require('./routes/bill')
 
 // require('./config/passport');
 
@@ -37,6 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/customers', RoutesCustomers)
 app.use('/providers', RoutesProviders)
 app.use('/pets', RoutesPets)
+app.use('/bill', RoutesBills)
 
 
 db.sequelize.sync({ force: false }).then(() => {

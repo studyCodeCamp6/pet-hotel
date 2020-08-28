@@ -12,29 +12,26 @@ const getPetsByCustomers = async (req, res) => {
 const registerPets = async (req, res) => {
     const { name, breedType, weight, sex, other } = req.body
 
-    if (!req.files || Object.keys(req.files).length === 0) {
-        res.status(400).send({ message: "No files were uploaded." });
-    }
+    // if (!req.files || Object.keys(req.files).length === 0) {
+    //     res.status(400).send({ message: "No files were uploaded." });
+    // }
 
-
-    let  image  = req.files.image;
-    let fileExtension = image.name.split(".").slice(-1)[0];
-    let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
-    image.mv(`image/${filePath}`);  // path อะไร
-
-    
+    // let  image  = req.files.image;
+    // let fileExtension = image.name.split(".").slice(-1)[0];
+    // let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
+    // image.mv(`image/${filePath}`);  // path อะไร
 
     const addDog = await db.Pets.create({
         // customer_id: req.customer.id,
         // certificate: filePath,
-        image: filePath,
+        // image: filePath,
         name,
         breedType,
         weight,
         sex,
         other
     })
-    res.status(201).send(addDog)
+    res.status(201).send({ message: `Add New Pets Success.`})
 }
 
 const deletePets = async (req, res) => {
