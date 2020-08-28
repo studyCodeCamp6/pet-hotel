@@ -4,7 +4,8 @@ const register = async (req, res) => {
 
     console.log("register provider")
 
-    const { hotelName,
+    const { 
+        hotelName,
         phoneNumber,
         email,
         optionalService,
@@ -15,14 +16,15 @@ const register = async (req, res) => {
     } = req.body
 
     // req.file.{{ชื่อ field ใน Postman นะจ๊ะ}}
-    let { image } = req.files;
-    let fileExtension = image.name.split(".").slice(-1)[0];
-    let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
+    // let { image } = req.files;
+    // let fileExtension = image.name.split(".").slice(-1)[0];
+    // let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
 
 
     const target = await db.Providers.findOne({ where: { customer_id: req.user.dataValues.id } })
 
     if (target) {
+        console.log(req.user)
         res.status(400).send({ message: 'already have hotel' })
     } else {
         await db.Providers.create({
@@ -34,10 +36,10 @@ const register = async (req, res) => {
             wage,
             type,
             address,
-            image: filePath
+            // image: filePath
         })
 
-        image.mv(`images/providers/${filePath}`);
+        // image.mv(`images/providers/${filePath}`);
         res.status(201).send({ message: 'hotel created' })
     }
 }
