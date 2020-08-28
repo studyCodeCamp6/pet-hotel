@@ -10,6 +10,8 @@ const RoutesCustomers = require('./routes/customers')
 const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
 
+// require('./config/passport');
+
 let allowedOrigins = ["http://localhost:3000"];
 
 app.use(

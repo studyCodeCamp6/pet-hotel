@@ -15,7 +15,6 @@ const register = async (req, res) => {
 
     await db.Customers.create({
       username,
-      name,
       lastName,
       phoneNumber,
       email,
