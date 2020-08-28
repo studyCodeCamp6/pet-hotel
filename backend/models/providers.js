@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
             // allowNull: false
         },
         phoneNumber: {
-            type: DataTypes.INTEGER(10),
+            type: DataTypes.STRING(10),
             // allowNull: false
         },
         email: {
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     model.associate = models => {
-        model.belongsToMany(models.Customers, { through: models.Bills, as: "To", foreignKey: "provider_id" })
+        model.hasMany(models.Bills, { foreignKey: "provider_id" })
         model.belongsTo(models.Customers, { foreignKey: "customer_id" })
     }
 
