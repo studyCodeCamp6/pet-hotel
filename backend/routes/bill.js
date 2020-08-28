@@ -1,7 +1,7 @@
 const express = require('express')
-const router = express.Router
-const BillController = require('../controllers/bill')
+const router = express.Router()
+const Controller = require('../controllers/bill')
 
-router.post('/',BillController.addBill)
+router.post('/',Controller.addBill)
 
 module.exports = router

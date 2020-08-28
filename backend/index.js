@@ -2,10 +2,10 @@ require("dotenv").config();
 require('./config/passport');
 
 const express = require("express");
+const app = express();
 const db = require("./models");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-const app = express();
 const RoutesCustomers = require('./routes/customers')
 const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/customers', RoutesCustomers)
 app.use('/providers', RoutesProviders)
 app.use('/pets', RoutesPets)
-app.use('/bill', RoutesBills)
+app.use('/bills', RoutesBills)
 
 
 db.sequelize.sync({ force: false }).then(() => {
