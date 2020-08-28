@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Add_Pets from './Add_Pets'
 import { Row, Col, Checkbox, Space, DatePicker, Form, Input, Button, } from 'antd'
+import axios from '../../config/axios'
 const moment = require('moment')
 
 function Booking_Pets(props) {
 
     const [stDate, setStDate] = useState('')
     const [enDate, setEnDate] = useState('')
-    const [opt , setOpt] = useState([])
+    const [optEnt, setOptEnt] = useState([])
+    const [optEnt1, setOptEnt1] = useState([])
 
     const onChangeTimePicker = (value, dateString) => {
         setStDate(dateString[0])
@@ -16,7 +18,9 @@ function Booking_Pets(props) {
     }
 
     const onChangeOptional = (checkedValues) => {
-        setOpt(checkedValues)
+        const newArray = [...optEnt,checkedValues]
+        setOptEnt1(newArray)
+        
         console.log('checked = ', checkedValues);
     }
 
@@ -35,10 +39,11 @@ function Booking_Pets(props) {
     const onFinish = async (values) => {
         const body = {
             startDate: stDate,
-            endDate : enDate,
-            optionServices: values.introduction, opt
+            endDate: enDate,
+            optionalServices: optEnt1
         }
-        // axios post()
+        const newBills = await axios.post('/bills', body)
+        console.log(newBills)
     }
 
 
