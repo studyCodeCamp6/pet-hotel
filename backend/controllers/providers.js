@@ -21,10 +21,9 @@ const register = async (req, res) => {
     // let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
 
 
-    const target = await db.Providers.findOne({ where: { customer_id: req.user.dataValues.id } })
+    const target = await db.Providers.findOne({ where: { customer_id: req.user.id } })
 
     if (target) {
-        console.log(req.user)
         res.status(400).send({ message: 'already have hotel' })
     } else {
         await db.Providers.create({
@@ -36,7 +35,8 @@ const register = async (req, res) => {
             wage,
             type,
             address,
-            // image: filePath
+            // image: filePath,
+            customer_id: req.user.id
         })
 
         // image.mv(`images/providers/${filePath}`);

@@ -11,7 +11,7 @@ const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
 const RoutesBills = require('./routes/bill')
 
-// require('./config/passport');
+
 
 let allowedOrigins = ["http://localhost:3000"];
 
