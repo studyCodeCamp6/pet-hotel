@@ -8,14 +8,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             // allowNull: false
         },
-        groomOptional: {
-            type: DataTypes.ENUM("TRUE", "FALSE"),
-            defaultValue: "FALSE"
-        },
-        walkOptional: {
-            type: DataTypes.ENUM("TRUE", "FALSE"),
-            defaultValue: "FALSE"
-        },
         status: {
             type: DataTypes.ENUM("WAITING", "ACCEPT", "REJECT", "CONFIRM", "CANCEL", "ONTIME", "PROGRESS", "ENDING", "COMPLETE")
         }
