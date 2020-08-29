@@ -11,12 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING
         },
-        groomOptional: {
-            type: DataTypes.ENUM("TRUE", "FALSE")
-        },
-        walkOptional: {
-            type: DataTypes.ENUM("TRUE", "FALSE")
-        },
         area: {
             type: DataTypes.INTEGER,
             // allowNull: false
@@ -26,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             // allowNull: false
         },
         type: {
-            type: DataTypes.ENUM("CAT", "DOG", "CATANDDOG"),
-            defaultValue: "CAT"
+            type: DataTypes.ENUM("CAT", "DOG", "CATANDDOG")
         },
         address: {
             type: DataTypes.STRING(1200)
