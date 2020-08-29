@@ -13,7 +13,7 @@ const RoutesBills = require('./routes/bills')
 const RoutesHistories = require('./routes/histories')
 
 
-require('./config/passport');
+// require('./config/passport');
 
 let allowedOrigins = ["http://localhost:3000"];
 

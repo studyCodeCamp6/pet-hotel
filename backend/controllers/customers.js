@@ -15,7 +15,6 @@ const register = async (req, res) => {
 
     await db.Customers.create({
       username,
-      name,
       lastName,
       phoneNumber,
       email,
@@ -34,16 +33,10 @@ const login = async (req, res) => {
   } else {
     const isPWCorrect = bc.compareSync(password, targetUser.password);
     if (isPWCorrect) {
-      const payload = {
-        id: targetUser.id,
-        name: targetUser.name,
-        status: targetUser.status,
-      };
-      console.log(process.env.TIMEOUT)
-      const token = jwt.sign(payload, process.env.SECRET, {
-        expiresIn: `${process.env.TIMEOUT}d`,
-      });
-      res.status(201).send({
+      const payload = { id: targetUser.id, name: targetUser.name, status: targetUser.status };
+      const token = jwt.sign(payload, process.env.SECRET, { expiresIn: `${process.env.TIMEOUT}d` });
+
+      res.status(200).send({
         message: "successfully login",
         access_token: token,
         accessToken: token,

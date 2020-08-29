@@ -5,21 +5,10 @@ module.exports = (sequelize, DataTypes) => {
             // allowNull: false
         },
         phoneNumber: {
-            type: DataTypes.INTEGER(10),
+            type: DataTypes.STRING(10),
             // allowNull: false
         },
         email: {
-            type: DataTypes.STRING
-        },
-        wallet_id: {
-            type: DataTypes.STRING,
-            // allowNull: false,
-            unique: true
-        },
-        wallet: {
-            type: DataTypes.INTEGER
-        },
-        optionalService: {
             type: DataTypes.STRING
         },
         area: {
@@ -31,40 +20,33 @@ module.exports = (sequelize, DataTypes) => {
             // allowNull: false
         },
         type: {
-            type: DataTypes.ENUM("CAT", "DOG", "CAT&DOG")
+            type: DataTypes.ENUM("CAT", "DOG", "CATANDDOG")
         },
-        homeNumber: {
-            type: DataTypes.INTEGER(10),
-            // allowNull: false
-        },
-        moo: {
-            type: DataTypes.STRING
-        },
-        lane: {
-            type: DataTypes.STRING
-        },
-        subDistrict: {
-            type: DataTypes.STRING,
-            // allowNull: false
-        },
-        district: {
-            type: DataTypes.STRING,
-            // allowNull: false
-        },
-        province: {
-            type: DataTypes.STRING,
-            // allowNull:false
-        },
-        zipCode: {
-            type: DataTypes.INTEGER
+        address: {
+            type: DataTypes.STRING(1200)
         },
         image: {
             type: DataTypes.STRING(1200)
+        },
+        status: {
+            type: DataTypes.STRING,
+            defaultValue: 0
+        },
+        isOpen: {
+            type: DataTypes.ENUM("OPEN", "CLOSE"),
+            defaultValue: "OPEN"
+        },
+        userName: {
+            type: DataTypes.STRING
+        },
+        password: {
+            type: DataTypes.STRING
         }
     })
 
     model.associate = models => {
         model.hasMany(models.Bills, { foreignKey: "provider_id" })
+        model.hasMany(models.ProviderOptionalServices, {foreignKey: "provider_id"})
         model.belongsTo(models.Customers, { foreignKey: "customer_id" })
     }
 

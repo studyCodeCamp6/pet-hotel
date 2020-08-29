@@ -5,8 +5,8 @@ const controllers = require('../controllers/pets')
 // const auth = passport.authenticate("jwt", { session: false });
 
 
-router.get("/",controllers.registerPets)
-router.post("/register/pets",controllers.registerPets)
+router.get("/",controllers.getPetsByCustomers)
+router.post("/",controllers.registerPets)
 router.delete("/deleted/:id",controllers.deletePets)
 
 

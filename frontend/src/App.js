@@ -14,7 +14,7 @@ function App() {
 
   return (
     <div>
-      <Menu
+      {/* <Menu
         mode="horizontal"
         style={{
           display: "flex",
@@ -43,7 +43,7 @@ function App() {
         <Menu.Item key="account" icon={<UserOutlined />}>
           <a href="/login">{"login"}</a>
         </Menu.Item>
-      </Menu>
+      </Menu> */}
 
       <PrivateRoutes role={role} setRole={setRole} />
     </div>
