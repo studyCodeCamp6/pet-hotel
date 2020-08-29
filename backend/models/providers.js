@@ -11,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING
         },
-        optionalService: {
-            type: DataTypes.STRING
-        },
         area: {
             type: DataTypes.INTEGER,
             // allowNull: false
@@ -23,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             // allowNull: false
         },
         type: {
-            type: DataTypes.ENUM("CAT", "DOG", "CATANDDOG"),
-            defaultValue: "CAT"
+            type: DataTypes.ENUM("CAT", "DOG", "CATANDDOG")
         },
         address: {
             type: DataTypes.STRING(1200)
@@ -39,11 +35,18 @@ module.exports = (sequelize, DataTypes) => {
         isOpen: {
             type: DataTypes.ENUM("OPEN", "CLOSE"),
             defaultValue: "OPEN"
+        },
+        userName: {
+            type: DataTypes.STRING
+        },
+        password: {
+            type: DataTypes.STRING
         }
     })
 
     model.associate = models => {
         model.hasMany(models.Bills, { foreignKey: "provider_id" })
+        model.hasMany(models.ProviderOptionalServices, {foreignKey: "provider_id"})
         model.belongsTo(models.Customers, { foreignKey: "customer_id" })
     }
 

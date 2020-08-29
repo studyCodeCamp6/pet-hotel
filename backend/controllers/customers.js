@@ -36,7 +36,7 @@ const login = async (req, res) => {
 
     if (isPWCorrect) {
       const payload = { id: targetUser.id, name: targetUser.name, status: targetUser.status };
-      const token = jwt.sign(payload, process.env.SECRET, { expiresIn: process.env.TIMEOUT });
+      const token = jwt.sign(payload, process.env.SECRET, { expiresIn: `${process.env.TIMEOUT}d` });
 
       res.status(200).send({
         message: "successfully login",
