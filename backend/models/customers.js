@@ -15,14 +15,6 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING
         },
-        wallet_id: {
-            type: DataTypes.STRING,
-            // allowNull: false,
-            unique: true
-        },
-        wallet: {
-            type: DataTypes.INTEGER
-        },
         username: {
             type: DataTypes.STRING,
             // allowNull: false,
@@ -42,8 +34,9 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     model.associate = models => {
-        model.belongsToMany(models.Providers, { through: models.Bills, as: "To", foreignKey: "customer_id" })
+        model.hasMany(models.Bills, { foreignKey: "customer_id" })
         model.hasMany(models.Pets, { foreignKey: "customer_id" })
+        model.hasOne(models.Providers, { foreignKey: "customer_id" })
     }
 
     return model;
