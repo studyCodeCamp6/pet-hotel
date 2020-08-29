@@ -11,8 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING
         },
-        optionalService: {
-            type: DataTypes.STRING
+        groomOptional: {
+            type: DataTypes.ENUM("TRUE", "FALSE")
+        },
+        walkOptional: {
+            type: DataTypes.ENUM("TRUE", "FALSE")
         },
         area: {
             type: DataTypes.INTEGER,

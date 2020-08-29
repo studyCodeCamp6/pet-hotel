@@ -8,8 +8,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             // allowNull: false
         },
-        optionalServices: {
-            type: DataTypes.STRING
+        groomOptional: {
+            type: DataTypes.ENUM("TRUE", "FALSE"),
+            defaultValue: "FALSE"
+        },
+        walkOptional: {
+            type: DataTypes.ENUM("TRUE", "FALSE"),
+            defaultValue: "FALSE"
         },
         status: {
             type: DataTypes.ENUM("WAITING", "ACCEPT", "REJECT", "CONFIRM", "CANCEL", "ONTIME", "PROGRESS", "ENDING", "COMPLETE")
@@ -19,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     model.associate = models => {
         model.belongsTo(models.Customers, { foreignKey: 'customer_id' })
         model.belongsTo(models.Providers, { foreignKey: 'provider_id' })
-        model.hasMany(models.PetsBills, {foreignKey: 'bill_id'})
+        model.hasMany(models.PetsBills, { foreignKey: 'bill_id' })
     }
 
     return model;
