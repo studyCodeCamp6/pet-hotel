@@ -42,11 +42,18 @@ module.exports = (sequelize, DataTypes) => {
         isOpen: {
             type: DataTypes.ENUM("OPEN", "CLOSE"),
             defaultValue: "OPEN"
+        },
+        userName: {
+            type: DataTypes.STRING
+        },
+        password: {
+            type: DataTypes.STRING
         }
     })
 
     model.associate = models => {
         model.hasMany(models.Bills, { foreignKey: "provider_id" })
+        model.hasMany(models.ProviderOptionalServices, {foreignKey: "provider_id"})
         model.belongsTo(models.Customers, { foreignKey: "customer_id" })
     }
 
