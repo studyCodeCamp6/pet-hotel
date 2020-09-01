@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     model.associate = models => {
         model.belongsTo(models.Customers, { foreignKey: "customer_id" })
         model.hasMany(models.PetsBills, { foreignKey: "pet_id" })
+        model.hasMany(models.PetImages, { foreignKey: "pet_id" })
     }
 
     return model;
