@@ -1,7 +1,5 @@
 const db = require('../models')
-
-
-
+ 
 const addBill = async (req, res) => {
     try {
         const { startDate, endDate, optionalServices } = req.body

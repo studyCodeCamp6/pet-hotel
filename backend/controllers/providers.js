@@ -1,10 +1,12 @@
 const db = require("../models")
+const bc = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-
     console.log("register provider")
-
-    const { 
+    const {
+        username,
+        password,
         hotelName,
         phoneNumber,
         email,
@@ -26,7 +28,11 @@ const register = async (req, res) => {
     if (target) {
         res.status(400).send({ message: 'already have hotel' })
     } else {
+        const salt = bc.genSaltSync(Number(process.env.ROUNDS));
+        const hashedPW = bc.hashSync(password, salt);
         await db.Providers.create({
+            username,
+            password : hashedPW,
             hotelName,
             phoneNumber,
             email,

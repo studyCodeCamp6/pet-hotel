@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM("OPEN", "CLOSE"),
             defaultValue: "OPEN"
         },
-        userName: {
+        username: {
             type: DataTypes.STRING
         },
         password: {

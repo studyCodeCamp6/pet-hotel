@@ -31,7 +31,7 @@ const registerPets = async (req, res) => {
         sex,
         other
     })
-    res.status(201).send({ message: `Add New Pets Success.`})
+    res.status(201).send({ message: `Add New Pets Success.` })
 }
 
 const deletePets = async (req, res) => {

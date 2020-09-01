@@ -72,27 +72,27 @@ function Register(props) {
               <Input.Password />
             </Form.Item>
             <Form.Item
-              name="confirm"
-              label="Confirm Password"
-              hasFeedback
-              dependencies={['password']}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve()
-                    }
-                    return Promise.reject("Confirm password again please")
-                  }
-                })
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+                        name="confirm"
+                        label="Confirm Password"
+                        hasFeedback
+                        dependencies={['password']}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please confirm your password!',
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(rule, value) {
+                                    if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve()
+                                    }
+                                    return Promise.reject("Confirm password again please")
+                                }
+                            })
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
             <Form.Item
               name="firstname"
               label="Name"

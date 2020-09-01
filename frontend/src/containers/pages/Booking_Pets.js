@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Add_Pets from './Add_Pets'
 import { Row, Col, Checkbox, Space, DatePicker, Form, Input, Button, } from 'antd'
 import axios from '../../config/axios'
@@ -25,9 +25,9 @@ function Booking_Pets(props) {
     }
 
     const { RangePicker } = DatePicker;
-    const onOk = (value) => {
-        console.log('onOk: ', value);
-    }
+    // const onOk = (value) => {
+    //     console.log('onOk: ', value);
+    // }
     function disableDate(current) {
         console.log("a")
         let customDate = new Date()

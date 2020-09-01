@@ -10,6 +10,7 @@ const RoutesCustomers = require('./routes/customers')
 const RoutesProviders = require('./routes/providers')
 const RoutesPets = require('./routes/pets')
 const RoutesBills = require('./routes/bill')
+const RoutesOptionals = require('./routes/optionals')
 
 
 
@@ -39,6 +40,7 @@ app.use('/customers', RoutesCustomers)
 app.use('/providers', RoutesProviders)
 app.use('/pets', RoutesPets)
 app.use('/bills', RoutesBills)
+app.use('/optionals',RoutesOptionals)
 
 
 db.sequelize.sync({ force: false }).then(() => {
