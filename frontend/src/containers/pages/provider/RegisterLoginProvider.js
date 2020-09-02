@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from '../../../config/axios'
+import uid from 'uid';
 
 import { Steps, Button, Row, Col, Form, Input, notification, message, Select, Table, Space, Divider } from 'antd';
 import OptionalProviders from './OptionalProviders';
@@ -7,13 +8,9 @@ const { Step } = Steps;
 
 function RegisterLoginProvider() {
     const [current, setCurrent] = useState(0)
-    const [dataFirst, setDataFirst] = useState([])
+    const [dataService, setDataService] = useState([])
     const [data, setData] = useState([])
     const [optional, setOptional] = useState([])
-   
-  
-
-    
 
     const onFinishFirst = async (values) => {
         console.log(values.username)
@@ -32,15 +29,21 @@ function RegisterLoginProvider() {
         await axios.post('/providers/add', body)
     }
 
-
-
+    const onFinishLast = async (values) => {
+        const bodyLast = {
+            key: uid(),
+            name: values.optional,
+        }
+        const newData = [...optional, bodyLast]
+        setOptional(newData)
+    }
 
     const steps = [
         {
             title: 'Register Provider',
             content: 'First-content',
         },
-        
+
         {
             title: 'Optional Services',
             content: 'Last-content',
@@ -54,12 +57,6 @@ function RegisterLoginProvider() {
             dataIndex: 'name',
             key: 'optional'
         },
-        {
-            title: 'Price (1 piece / Baht)',
-            dataIndex: 'price',
-            key: 'price'
-        },
-
         {
             title: 'Action',
             key: 'action',
@@ -176,16 +173,41 @@ function RegisterLoginProvider() {
             </Col>
         </Row>)
 
+    const setService = (optional) => {
+        console.log("hello")
+        setData(optional)
+    }
+    console.log(dataService)
 
-   
 
+    const fetchService = async () => {
+        // const httpResponse = await axios.get('/optionals')
+        // console.log(httpResponse.data)
+        // setDataService(httpResponse.data)
+    }
+
+    const successService = async () => {
+        
+        const cloneData = [...data]
+        const newData = cloneData.map(item => item.name)
+        const data = {
+            // service_id : ,
+            // provider_id : 
+        }
+        await axios.post('/provider/service', data)
+    }
     const lastPage = (
         <OptionalProviders
-        columns={columns}/>
+            columns={columns}
+            setService={setService}
+            onFinishLast={onFinishLast}
+            optional={optional}
+        />
+
     )
 
     // console.log(data)
-    const component = [pageFirst,lastPage]
+    const component = [pageFirst, lastPage]
 
     return (
         <>
@@ -210,7 +232,7 @@ function RegisterLoginProvider() {
                     </Button>
                 )}
                 {current === steps.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                    <Button type="primary" onClick={() => fetchService()}>
                         Done
                     </Button>
                 )}

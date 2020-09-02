@@ -1,63 +1,55 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, Table } from 'antd'
-import uid from 'uid';
+import { Form, Input, Button, Table, Row, Col } from 'antd'
+
 import axios from '../../../config/axios'
 
 function OptionalProviders(props) {
     const [option, setOption] = useState('')
-    const [price, setPrice] = useState('')
-    const [optional, setOptional] = useState([])
+    // const [optional, setOptional] = useState([])
 
 
-
-    const onFinishLast = async(values) => {
-        const bodyLast = {
-            key: uid(),
-            name: values.optional,
-            price: values.price
-        }
-        const newData = [...optional, bodyLast]
-        console.log(values.optional)
-        // await axios.post('/optionals', newData)
-        setOptional(newData)
+    const setFunction = () => {
+        optionalConfirm()
+        props.setService(props.optional)
     }
 
-    const optionalConfirm = async() => {
-        try {
-            await axios.post('/optionals', optional)
-            console.log(optional)
-        }
-        catch (err){
-            console.log(err)
-        }
+    const optionalConfirm = async () => {
+        // console.log(optional)
+        const cloneData = [...props.optional]
+        const newData = cloneData.map(item => ({ name: item.name }))
+        console.log(newData)
+        await axios.post('/optionals', { name: newData })
+
     }
 
     return (
         <div>
-            <Form
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 6 }}
-                layout="horizontal"
-                onFinish={onFinishLast}
-                style={{
-                    width: "100%",
-                    justifyContent: "center"
-                }}
-            >
-                <h1>Optional Services</h1>
-                <Form.Item label="Optional" name="optional" value={option}>
-                    <Input />
-                </Form.Item>
-                <Form.Item label="Price (1 piece / Baht)" name="price" value={price}>
-                    <Input />
-                </Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">confirm</Button>
+            <Row justify="center" align="middle" style={{ height: "100%" }}>
+                <Col xs={23} sm={20} md={20} lg={12} xl={10}>
+                    <Form
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 6 }}
+                        layout="horizontal"
+                        onFinish={props.onFinishLast}
+                        style={{
+                            width: "100%",
+                            justifyContent: "center"
+                        }}
+                    >
+                        <h1>Optional Services</h1>
+                        <Form.Item label="Optional" name="optional" value={option}>
+                            <Input />
+                        </Form.Item>
 
-                <Table dataSource={optional} columns={props.columns} />
+                        <Button type="primary" htmlType="submit" className="login-form-button">confirm</Button>
 
-                <Button onClick={() => optionalConfirm()}>Confirm</Button>
+                        <Table dataSource={props.optional} columns={props.columns} />
 
-            </Form>
+                        <Button onClick={() => setFunction()}>Confirm</Button>
+
+                    </Form>
+                </Col>
+            </Row>
         </div>
     )
 }
