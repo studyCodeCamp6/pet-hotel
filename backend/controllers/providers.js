@@ -32,7 +32,7 @@ const register = async (req, res) => {
         const hashedPW = bc.hashSync(password, salt);
         await db.Providers.create({
             username,
-            password : hashedPW,
+            password: hashedPW,
             hotelName,
             phoneNumber,
             email,
@@ -50,6 +50,35 @@ const register = async (req, res) => {
     }
 }
 
+const getProvider = async (req, res) => {
+    try {
+        const targetProvider = await db.Providers.findAll({ where: { id: req.user.id } })
+        res.status(201).send(targetProvider)
+    }
+    catch (err) {
+        res.status(500).send(err)
+    }
+
+}
+
+
+const updateProvider = async (req, res) => {
+    const { hotelName, address, telephone, email, area, type, wage } = req.body
+    const { id } = req.params
+    const targetProvider = await db.Providers.findOne({ where: { id: req.user.id } })
+    if(targetProvider){
+        await targetProvider.update({
+            hotelName, address, telephone, email, area, type, wage 
+        })
+        res.status(201).send({message : `Product ID : ${id} is updated`})
+    }else{
+        res.status(401).send({message : " is not found"})
+    }
+    
+}
+
 module.exports = {
-    register
+    register,
+    getProvider,
+    updateProvider
 }
