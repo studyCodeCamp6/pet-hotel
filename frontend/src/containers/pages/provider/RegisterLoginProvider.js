@@ -15,8 +15,8 @@ function RegisterLoginProvider() {
     const onFinishFirst = async (values) => {
         console.log(values.username)
         const body = {
-            username: values.username,
-            password: values.password,
+            // username: values.username,
+            // password: values.password,
             hotelName: values.hotelName,
             phoneNumber: values.telephone,
             email: values.email,
@@ -93,7 +93,7 @@ function RegisterLoginProvider() {
                             src=""
                         />
                     </Row>
-                    <h1>Register Provider</h1>
+                    {/* <h1>Register Provider</h1>
                     <Form.Item
                         name="username"
                         label="Username"
@@ -134,7 +134,7 @@ function RegisterLoginProvider() {
                         ]}
                     >
                         <Input.Password />
-                    </Form.Item>
+                    </Form.Item> */}
 
                     <Divider />
 
