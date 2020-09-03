@@ -4,6 +4,7 @@ import AddPetsPage from '../containers/pages/Add_Pets'
 import BookingPetsPage from '../containers/pages/Booking_Pets'
 import RegisterOptionalProviderPage from '../containers/pages/provider/OptionalProviders'
 import RegisterLoginProviderPage from '../containers/pages/provider/RegisterLoginProvider'
+import EditProviderPage from '../containers/pages/provider/EditProvider'
 
 const components = {
     login: {
@@ -22,10 +23,10 @@ const components = {
         url : '/pets',
         component : BookingPetsPage
     },
-    // registerOptionalProviderPage : {
-    //     url : '/providers/optional',
-    //     component : RegisterOptionalProviderPage
-    // },
+    editProviderPage : {
+        url : '/providers/edit',
+        component : EditProviderPage
+    },
     registerLoginProviderPage : {
         url : '/providers/register',
         component : RegisterLoginProviderPage
@@ -39,7 +40,7 @@ export default {
             components.register,
             components.addPets,
             components.bookingPets,
-            // components.registerOptionalProviderPage,
+            components.editProviderPage,
             components.registerLoginProviderPage
         ],
         redirectRoutes: "/login"
@@ -50,7 +51,7 @@ export default {
             components.register,
             components.addPets,
             components.bookingPets,
-            // components.registerOptionalProviderPage,
+            components.editProviderPage,
             components.registerLoginProviderPage
 
         ],

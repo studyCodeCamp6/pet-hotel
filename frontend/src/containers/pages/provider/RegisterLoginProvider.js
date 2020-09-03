@@ -151,7 +151,7 @@ function RegisterLoginProvider() {
                     <Form.Item label="Email" name="email">
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Area Of Hotel m<sup>2</sup>" name="area">
+                    <Form.Item label="Area Of Hotel(m²)" name="area">
                         <Input />
                     </Form.Item>
                     <Form.Item label="Wage Rate (1 piece/Baht)" name="wage">
@@ -173,33 +173,10 @@ function RegisterLoginProvider() {
             </Col>
         </Row>)
 
-    const setService = (optional) => {
-        console.log("hello")
-        setData(optional)
-    }
-    console.log(dataService)
-
-
-    const fetchService = async () => {
-        // const httpResponse = await axios.get('/optionals')
-        // console.log(httpResponse.data)
-        // setDataService(httpResponse.data)
-    }
-
-    const successService = async () => {
-        
-        const cloneData = [...data]
-        const newData = cloneData.map(item => item.name)
-        const data = {
-            // service_id : ,
-            // provider_id : 
-        }
-        await axios.post('/provider/service', data)
-    }
+   
     const lastPage = (
         <OptionalProviders
             columns={columns}
-            setService={setService}
             onFinishLast={onFinishLast}
             optional={optional}
         />
@@ -232,7 +209,7 @@ function RegisterLoginProvider() {
                     </Button>
                 )}
                 {current === steps.length - 1 && (
-                    <Button type="primary" onClick={() => fetchService()}>
+                    <Button type="primary" >
                         Done
                     </Button>
                 )}

@@ -1,23 +1,14 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, Table, Row, Col } from 'antd'
-
 import axios from '../../../config/axios'
 
 function OptionalProviders(props) {
     const [option, setOption] = useState('')
     // const [optional, setOptional] = useState([])
 
-
-    const setFunction = () => {
-        optionalConfirm()
-        props.setService(props.optional)
-    }
-
     const optionalConfirm = async () => {
-        // console.log(optional)
         const cloneData = [...props.optional]
         const newData = cloneData.map(item => ({ name: item.name }))
-        console.log(newData)
         await axios.post('/optionals', { name: newData })
 
     }
@@ -45,7 +36,7 @@ function OptionalProviders(props) {
 
                         <Table dataSource={props.optional} columns={props.columns} />
 
-                        <Button onClick={() => setFunction()}>Confirm</Button>
+                        <Button onClick={() => optionalConfirm()}>Confirm</Button>
 
                     </Form>
                 </Col>
