@@ -62,12 +62,12 @@ const getProvider = async (req, res) => {
 
 
 const updateProvider = async (req, res) => {
-    const { hotelName, address, telephone, email, area, type, wage } = req.body
+    const { hotelName, address, phoneNumber, email, area, type, wage } = req.body
     const { id } = req.params
     const targetProvider = await db.Providers.findOne({ where: { customer_id: req.user.id } })
     if (targetProvider) {
         await targetProvider.update({
-            hotelName, address, telephone, email, area, type, wage
+            hotelName, address, phoneNumber, email, area, type, wage 
         })
         res.status(201).send({ message: `Product ID : ${id} is updated` })
     } else {

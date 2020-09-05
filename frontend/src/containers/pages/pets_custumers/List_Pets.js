@@ -1,31 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Radio, Divider, Table } from 'antd';
-import axios from '../../config/axios';
+import { Row, Col, Radio, Divider, Table, Space, Button, DatePicker } from 'antd';
 
 function List_Pets(props) {
     const [selectionType, setSelectionType] = useState('checkbox');
-    const [pets, setPets] = useState([])
-
-    const fetchDataPets = async () => {
-        const newData = await axios.get('/pets')
-        setPets(newData.data)
-    }
-
-    // useEffect(() => {
-    //     fetchDataPets()
-    // }, [])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
         getCheckboxProps: record => ({
-            // disabled: record.name === 'Disabled User',
-            // Column configuration not to be checked
             name: record.name,
         }),
     };
-    console.log(props.data)
+
 
     const columns = [
         {
@@ -58,11 +45,19 @@ function List_Pets(props) {
             dataIndex: 'image',
             key: 'image'
         },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+                <Space size="large">
+                    <a onClick={() => props.deletePets(text.key)}>Delete</a>
+                </Space>
+            ),
+        },
 
     ]
 
-
-
+    const { RangePicker } = DatePicker;
 
     return (
         <div>
@@ -77,13 +72,27 @@ function List_Pets(props) {
                     </Radio.Group>
 
                     <Divider />
-                    
+
                     <Table rowSelection={{
                         type: selectionType,
                         ...rowSelection,
-                    }} columns={columns} dataSource={props.data}  />
+                    }} columns={columns} dataSource={props.data} />
+                </Col>
+
+            </Row>
+            <Row justify="center">
+                <Col lg={10}>
+                    <h1>setDate</h1>
+                    <Space direction="vertical" size={18}>
+                        <RangePicker
+                            showTime
+                            format="YYYY-MM-DD HH:mm"
+                            onChange={props.onChangeTimePicker}
+                        />
+                    </Space>
                 </Col>
             </Row>
+
         </div>
     )
 }

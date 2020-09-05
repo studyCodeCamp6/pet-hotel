@@ -15,8 +15,6 @@ function RegisterLoginProvider() {
     const onFinishFirst = async (values) => {
         console.log(values.username)
         const body = {
-            // username: values.username,
-            // password: values.password,
             hotelName: values.hotelName,
             phoneNumber: values.telephone,
             email: values.email,
@@ -24,7 +22,6 @@ function RegisterLoginProvider() {
             type: values.breedType,
             address: values.address,
             wage: values.wage
-
         }
         try {
             await axios.post('/providers/add', body)
@@ -39,7 +36,7 @@ function RegisterLoginProvider() {
 
     }
 
-    const onFinishLast = async (values) => {
+    const onFinishLast =  (values) => {
         const bodyLast = {
             key: uid(),
             name: values.optional,
@@ -50,7 +47,7 @@ function RegisterLoginProvider() {
 
     const steps = [
         {
-            title: 'Register Provider',
+            title: 'Information Provider',
             content: 'First-content',
         },
 
@@ -103,48 +100,6 @@ function RegisterLoginProvider() {
                             src={require("../pic/hotel_logo_black.png")}
                         />
                     </Row>
-                    {/* <h1>Register Provider</h1>
-                    <Form.Item
-                        name="username"
-                        label="Username"
-                        rules={[
-                            { required: true, message: "กรุณาใส่ Username ด้วยนะครับ" },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="password"
-                        label="Password"
-                        rules={[
-                            { required: true, message: "กรุณาใส่ Password ด้วยครับ" },
-                        ]}
-                        hasFeedback
-                    >
-                        <Input.Password />
-                    </Form.Item>
-                    <Form.Item
-                        name="confirm"
-                        label="Confirm Password"
-                        hasFeedback
-                        dependencies={['password']}
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please confirm your password!',
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(rule, value) {
-                                    if (!value || getFieldValue('password') === value) {
-                                        return Promise.resolve()
-                                    }
-                                    return Promise.reject("Confirm password again please")
-                                }
-                            })
-                        ]}
-                    >
-                        <Input.Password />
-                    </Form.Item> */}
 
                     <Divider />
 

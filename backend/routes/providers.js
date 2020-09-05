@@ -11,5 +11,9 @@ router.get('/service', auth, controllersGetService.getService)
 router.get('/token', auth, controllers.getProviderToken)
 router.delete('/service/:id', auth, controllersGetService.deleteService)
 router.patch('/role', auth, controllers.setRole)
+router.get('/',auth,controllers.getProvider)
+router.get('/service',auth,controllersGetService.getService)
+router.delete('/service/:id',auth,controllersGetService.deleteService)
+router.put('/service/:id',auth,controllers.updateProvider)
 
 module.exports = router
