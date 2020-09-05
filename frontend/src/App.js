@@ -2,50 +2,39 @@ import React, { useState } from "react";
 import "./App.css";
 import PrivateRoutes from "./containers/private-routes/PrivateRoutes";
 import localStorageService from "./services/LocalStorage";
-import { Menu } from "antd";
-import Register from "./containers/pages/Register";
-import Login from "./containers/pages/Login";
-import { UserOutlined } from "@ant-design/icons";
-import { AppstoreOutlined } from "@ant-design/icons";
+import { Layout, Menu, Breadcrumb } from "antd";
+const { Header, Content, Footer } = Layout;
 
 function App() {
   const [role, setRole] = useState(localStorageService.getRole());
-  const { SubMenu } = Menu;
-
   return (
     <div>
-      {/* <Menu
-        mode="horizontal"
-        style={{
-          display: "flex",
-          position: "fixed",
-          zIndex: "1",
-          justifyContent: "flex-end",
-          width: "100%",
-        }}
-      >
-        <Menu.Item key="home" icon={<AppstoreOutlined />}>
-          <a href="/" rel="noopener noreferrer">
-            Home
-          </a>
-        </Menu.Item>
-
-      <SubMenu title="about" icon={<AppstoreOutlined />}>
-          <Menu.Item key="setting:1">company</Menu.Item>
-          <Menu.Item key="setting:2">reward</Menu.Item>
-        </SubMenu>
-
-        <Menu.Item key="company" icon={<AppstoreOutlined />}>
-          <a href="/" rel="noopener noreferrer">
-            company
-          </a>
-        </Menu.Item>
-        <Menu.Item key="account" icon={<UserOutlined />}>
-          <a href="/login">{"login"}</a>
-        </Menu.Item>
-      </Menu> */}
-
-      <PrivateRoutes role={role} setRole={setRole} />
+      <Layout className="layout">
+        <Header>
+          <div className="logo" />
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+            <Menu.Item key="1">nav 1</Menu.Item>
+            <Menu.Item key="2">nav 2</Menu.Item>
+            <Menu.Item key="3">
+              <a href="/login">login</a>
+            </Menu.Item>
+          </Menu>
+        </Header>
+        <Content style={{ padding: "0 50px" }}>
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
+          <div className="site-layout-content">
+            <PrivateRoutes role={role} setRole={setRole}  />
+          </div>
+        </Content>
+        <Footer style={{ textAlign: "center" }}>
+          Ant Design ©2018 Created by Ant UED
+        </Footer>
+      </Layout>
+      ,
     </div>
   );
 }

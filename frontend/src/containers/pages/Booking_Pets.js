@@ -10,7 +10,7 @@ function Booking_Pets() {
     }
     return (
         <div>
-            <Add_Pets />
+            <Add_Pets/>
             <div>
                 booking
 

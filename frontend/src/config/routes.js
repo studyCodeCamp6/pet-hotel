@@ -2,6 +2,9 @@ import LoginPage from '../containers/pages/Login'
 import RegisterPage from '../containers/pages/Register'
 import AddPetsPage from '../containers/pages/Add_Pets'
 import BookingPetsPage from '../containers/pages/Booking_Pets'
+import TaskCustomers from '../containers/pages/Task_Customers'
+import TaskProviders from '../containers/pages/Task_Providers'
+
 
 const components = {
     login: {
@@ -19,6 +22,14 @@ const components = {
     bookingPets : {
         url : '/pets',
         component : BookingPetsPage
+    },
+    taskCustomers : {
+        url: '/customer/task',
+        component:TaskCustomers
+    },
+    taskProviders:{
+        url:'/provider/task',
+        component:TaskProviders
     }
 }
 export default {
@@ -27,15 +38,24 @@ export default {
             components.login,
             components.register,
             components.addPets,
-            components.bookingPets
+            components.bookingPets,
         ],
         redirectRoutes: "/login"
     },
     user: {
         allowedRoutes: [
             components.login,
-            components.register
-
+            components.register,
+            components.taskCustomers,
+            components.taskProviders
+        ],
+        redirectRoutes: "/login"
+    },
+    provider: {
+        allowedRoutes: [
+            components.login,
+            components.register,
+            components.taskCustomers,
         ],
         redirectRoutes: "/login"
     },
