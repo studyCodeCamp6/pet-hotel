@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     model.associate = models => {
+        model.hasOne(models.Reviews, { foreignKey: 'bill_id' })
         model.hasMany(models.PetsBills, { foreignKey: 'bill_id' })
         model.hasMany(models.BillOptionalServices, { foreignKey: 'bill_id' })
-        model.belongsTo(models.Customers, { foreignKey: 'customer_id' })
         model.belongsTo(models.Providers, { foreignKey: 'provider_id' })
     }
 

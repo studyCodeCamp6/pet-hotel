@@ -3,45 +3,60 @@ import axios from '../../config/axios'
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import { Input, Form, Select, InputNumber, Upload, Button } from 'antd'
 import Modal from 'antd/lib/modal/Modal';
+import List_Pets from './List_Pets';
 
-function Add_Pets() {
-    const [visible,setVisible] = useState( false)
+function Add_Pets(props) {
+    const [visible, setVisible] = useState(false)
+    const [data, setData] = useState([])
+    const [confirm, setConfirm] = useState(false)
+    const [key, setKey] = useState(0)
     const showModal = () => {
-        setVisible(true );
+        setVisible(true);
     };
 
     const handleOk = e => {
-        setVisible( false );
+        setVisible(false);
     };
 
     const handleCancel = e => {
-        setVisible( false );
+        setVisible(false);
     };
 
     const [componentSize, setComponentSize] = useState('default');
     const onFormLayoutChange = ({ size }) => {
         setComponentSize(size);
     };
-
+    let id = 0;
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
+
         const body = {
+            key,
             name: values.name,
             breedType: values.breedType,
             weight: values.weight,
             sex: values.sex,
-            image: values.uploadImage,
-            certificate: values.uploadCertificate,
             other: values.introduction,
+            // image: values.uploadImage,
+            // certificate: values.uploadCertificate,
         }
-        await axios.post('/pets/', body)
+        const newData = [...data, body]
+        setData(newData)
+        setKey(key + 1)
     }
+
+    console.log(data)
+
+
     return (
         <>
             <>
-                <Button type="primary" onClick={showModal}> Add Pets </Button>
+                <Button shape="round" onClick={showModal}> Add Pets + </Button>
+
+                <List_Pets data={data} />
+
                 <Modal
-                    title="Basic Modal"
+                    title="Create New Pet"
                     visible={visible}
                     onOk={handleOk}
                     onCancel={handleCancel}
@@ -59,7 +74,7 @@ function Add_Pets() {
                             justifyContent: "center"
                         }}
                     >
-                        <h2>Create New Pets</h2>
+
                         <Form.Item label="name" name="name">
                             <Input />
                         </Form.Item>
@@ -108,9 +123,7 @@ function Add_Pets() {
                             <Input.TextArea />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="login-form-button">
-                                confirm
-                        </Button>
+                            <Button type="primary" htmlType="submit" className="login-form-button">confirm</Button>
                         </Form.Item>
                     </Form>
                 </Modal>
