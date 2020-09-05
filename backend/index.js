@@ -15,7 +15,7 @@ const RoutesOptionals = require('./routes/optionals')
 
 
 
-let allowedOrigins = ["http://localhost:3000"];
+let allowedOrigins = ["http://localhost:3000","http://localhost:3002"];
 
 app.use(
   cors({

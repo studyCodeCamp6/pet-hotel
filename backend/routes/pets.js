@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-
+const passport = require('passport')
+const auth = passport.authenticate("jwt", { session: false });
 const controllers = require('../controllers/pets')
-// const auth = passport.authenticate("jwt", { session: false });
 
 
-router.get("/",controllers.getPetsByCustomers)
-router.post("/",controllers.registerPets)
-router.delete("/deleted/:id",controllers.deletePets)
+router.get("/",auth,controllers.getPetsByCustomers)
+router.post("/",auth,controllers.registerPets)
+router.delete("/delete/:id",auth,controllers.deletePets)
 
 
 
