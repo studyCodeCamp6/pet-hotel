@@ -9,7 +9,10 @@ function OptionalProviders(props) {
     const optionalConfirm = async () => {
         const cloneData = [...props.optional]
         const newData = cloneData.map(item => ({ name: item.name }))
-        await axios.post('/optionals', { name: newData })
+        console.log(newData)
+        await axios.post('/optionals', {
+             name: newData 
+            })
 
     }
 

@@ -1,8 +1,8 @@
 import LoginPage from '../containers/pages/Login'
 import RegisterPage from '../containers/pages/Register'
-import AddPetsPage from '../containers/pages/Add_Pets'
-import BookingPetsPage from '../containers/pages/Booking_Pets'
-import RegisterOptionalProviderPage from '../containers/pages/provider/OptionalProviders'
+import AddPetsPage from '../containers/pages/pets_custumers/Add_Pets'
+import BookingPetsPage from '../containers/pages/pets_custumers/Booking_Pets'
+// import RegisterOptionalProviderPage from '../containers/pages/provider/OptionalProviders'
 import RegisterLoginProviderPage from '../containers/pages/provider/RegisterLoginProvider'
 import EditProviderPage from '../containers/pages/provider/EditProvider'
 
