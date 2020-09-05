@@ -16,8 +16,9 @@ function Login(props) {
       .post("/customers/login", { username, password })
       .then((result) => {
         LocalStorageService.setToken(result.data.accessToken);
+        LocalStorageService.setRole("user")
         props.setRole("user");
-        props.history.push("/login");
+        props.history.push("/home");
         notification.success({
           message: "login successfully",
         });

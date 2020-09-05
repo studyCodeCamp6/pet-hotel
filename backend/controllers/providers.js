@@ -3,10 +3,9 @@ const bc = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-    console.log("register provider")
     const {
-        username,
-        password,
+        // username,
+        // password,
         hotelName,
         phoneNumber,
         email,
@@ -28,11 +27,11 @@ const register = async (req, res) => {
     if (target) {
         res.status(400).send({ message: 'already have hotel' })
     } else {
-        const salt = bc.genSaltSync(Number(process.env.ROUNDS));
-        const hashedPW = bc.hashSync(password, salt);
+        // const salt = bc.genSaltSync(Number(process.env.ROUNDS));
+        // const hashedPW = bc.hashSync(password, salt);
         await db.Providers.create({
-            username,
-            password: hashedPW,
+            // username,
+            // password: hashedPW,
             hotelName,
             phoneNumber,
             email,
@@ -52,7 +51,7 @@ const register = async (req, res) => {
 
 const getProvider = async (req, res) => {
     try {
-        const targetProvider = await db.Providers.findAll({ where: { id: req.user.id } })
+        const targetProvider = await db.Providers.findOne({ where: { customer_id: req.user.id } })
         res.status(201).send(targetProvider)
     }
     catch (err) {
@@ -65,20 +64,63 @@ const getProvider = async (req, res) => {
 const updateProvider = async (req, res) => {
     const { hotelName, address, telephone, email, area, type, wage } = req.body
     const { id } = req.params
-    const targetProvider = await db.Providers.findOne({ where: { id: req.user.id } })
-    if(targetProvider){
+    const targetProvider = await db.Providers.findOne({ where: { customer_id: req.user.id } })
+    if (targetProvider) {
         await targetProvider.update({
-            hotelName, address, telephone, email, area, type, wage 
+            hotelName, address, telephone, email, area, type, wage
         })
-        res.status(201).send({message : `Product ID : ${id} is updated`})
-    }else{
-        res.status(401).send({message : " is not found"})
+        res.status(201).send({ message: `Product ID : ${id} is updated` })
+    } else {
+        res.status(401).send({ message: " is not found" })
     }
-    
+
 }
+
+const setRole = async (req, res) => {
+    const currentId = Number(req.user.id)
+    const { isProvider } = req.body
+    const targetHotel = await db.Providers.findOne({ where: { customer_id: currentId } })
+
+    if (!targetHotel) {
+        res.send(400).send({ message: "hotel not found" })
+    } else {
+        const newUpdate = await targetHotel.update({
+            isProvider
+        })
+        res.status(200).send(newUpdate)
+    }
+}
+
+const getProviderToken = async (req, res) => {
+    const currentId = Number(req.user.id)
+
+    const targetHotel = await db.Providers.findOne({ where: { customer_id: currentId } })
+
+    if (targetHotel) {
+        const payload = {
+            id: targetHotel.id,
+            name: targetHotel.hotelName,
+            status: targetHotel.status,
+            isProvider: targetHotel.isProvider
+        }
+        const token = jwt.sign(payload,
+            process.env.PROVIDER_SECRET,
+            { expiresIn: `${process.env.TIMEOUT}d` }
+        )
+
+        res.status(200).send({
+            provider_token: token
+        })
+    } else {
+        res.status(400).send({ message: "hotel not found" })
+    }
+}
+
 
 module.exports = {
     register,
     getProvider,
-    updateProvider
+    updateProvider,
+    setRole,
+    getProviderToken
 }
