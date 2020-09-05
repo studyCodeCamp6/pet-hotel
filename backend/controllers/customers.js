@@ -28,12 +28,10 @@ const login = async (req, res) => {
   const { username, password } = req.body;
 
   const targetUser = await db.Customers.findOne({ where: { username } });
-
   if (!targetUser) {
     res.status(400).send({ message: "Username or Password not correct" });
   } else {
     const isPWCorrect = bc.compareSync(password, targetUser.password);
-
     if (isPWCorrect) {
       const payload = { id: targetUser.id, name: targetUser.name, status: targetUser.status };
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: `${process.env.TIMEOUT}d` });

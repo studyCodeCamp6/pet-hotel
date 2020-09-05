@@ -29,6 +29,17 @@ function Login(props) {
       });
   }
 
+  const onFinished = (fieldsValue) => {
+    const rangeTimeValue = fieldsValue["range-time-picker"];
+    const values = {
+      ...fieldsValue,
+      "range-time-picker": [
+        rangeTimeValue[0].format("YYYY-MM-DD HH:mm:ss"),
+        rangeTimeValue[1].format("YYYY-MM-DD HH:mm:ss"),
+      ],
+    };
+    console.log("Received values of form: ", values);
+  };
   return (
     <Row style={{ height: "100vh" }} justify="center" align="middle">
       <Col xs={15} sm={7} md={9} lg={7} xl={6} xxl={5}>
@@ -36,6 +47,11 @@ function Login(props) {
       </Col>
       <Col xs={0} sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
       <Col xs={20} sm={9} md={9} lg={8} xl={6} xxl={5}>
+        <Form
+          name="time_related_controls"
+          {...formItemLayout}
+          onFinish={onFinished}
+        ></Form>
         <Form onFinish={onFinish} {...formItemLayout}>
           <Row>
             <Form.Item
