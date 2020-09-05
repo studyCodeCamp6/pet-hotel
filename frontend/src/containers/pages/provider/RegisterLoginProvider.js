@@ -139,22 +139,116 @@ function RegisterLoginProvider() {
                     <Divider />
 
                     <h1>Information Provider</h1>
-                    <Form.Item label="Hotel name" name="hotelName">
+                    <Form.Item
+                        label="Hotel name"
+                        name="hotelName"
+                        rules={[
+                            {
+                                required: true,
+                                message: "please input hotel name!!",
+                            },
+                            {
+                                validator(rule, val) {
+                                    let regex = /^[a-z0-9_-]{3,}$/;
+                                    if (regex.test(val) && val) {
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject("hotel name should contain at least 3 characters or numbers")
+                                    }
+                                }
+                            }
+                        ]}
+                    >
                         <Input />
                     </Form.Item>
                     <Form.Item label="Address" name="address">
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Telephone" name="telephone">
+                    <Form.Item
+                        label="Telephone"
+                        name="telephone"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your phone number!",
+                            },
+                            {
+                                validator(rule, val) {
+                                    let regex = /^[0-9]{9,10}$/;
+                                    if (regex.test(val) && val) {
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject("phone number should contain 9-10 numbers")
+                                    }
+                                }
+                            }
+                        ]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Email" name="email">
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your email!"
+                            },
+                            {
+                                validator(rule, val) {
+                                    let regex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+                                    if (regex.test(val) && val) {
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject("this is not email format")
+                                    }
+                                }
+                            }
+                        ]}
+                    >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Area Of Hotel(m²)" name="area">
+                    <Form.Item
+                        label="Area Of Hotel(m²)"
+                        name="area"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your hotel area!",
+                            },
+                            {
+                                validator(rule, val) {
+                                    let regex = /^[0-9]$/;
+                                    if (regex.test(val) && val) {
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject("hotel area should contain numbers")
+                                    }
+                                }
+                            }
+                        ]}
+                    >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Wage Rate (1 piece/Baht)" name="wage">
+                    <Form.Item
+                        label="Wage Rate (1 dog or cat/Baht)"
+                        name="wage"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your Wage Rate!",
+                            },
+                            {
+                                validator(rule, val) {
+                                    let regex = /^[0-9]$/;
+                                    if (regex.test(val) && val) {
+                                        return Promise.resolve()
+                                    } else {
+                                        return Promise.reject("Wage Rate should contain numbers")
+                                    }
+                                }
+                            }
+                        ]}
+                    >
                         <Input />
                     </Form.Item>
                     <Form.Item label="breedType" name="breedType">
@@ -167,13 +261,13 @@ function RegisterLoginProvider() {
 
 
                     <Row justify="center">
-                        <Button htmlType="submit">ลงทะเบียน</Button>
+                        <Button htmlType="submit">Register</Button>
                     </Row>
                 </Form>
             </Col>
         </Row>)
 
-   
+
     const lastPage = (
         <OptionalProviders
             columns={columns}
