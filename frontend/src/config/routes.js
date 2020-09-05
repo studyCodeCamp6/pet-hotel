@@ -4,7 +4,9 @@ import AddPetsPage from '../containers/pages/Add_Pets'
 import BookingPetsPage from '../containers/pages/Booking_Pets'
 import TaskCustomers from '../containers/pages/Task_Customers'
 import TaskProviders from '../containers/pages/Task_Providers'
-
+// import RegisterOptionalProviderPage from '../containers/pages/provider/OptionalProviders'
+import RegisterLoginProviderPage from '../containers/pages/provider/RegisterLoginProvider'
+import EditProviderPage from '../containers/pages/provider/EditProvider'
 
 const components = {
     login: {
@@ -29,8 +31,17 @@ const components = {
     },
     taskProviders:{
         url:'/provider/task',
-        component:TaskProviders
+        component:TaskProviders,
+    },
+    editProviderPage : {
+        url : '/providers/edit',
+        component : EditProviderPage
+    },
+    registerLoginProviderPage : {
+        url : '/providers/register',
+        component : RegisterLoginProviderPage
     }
+    
 }
 export default {
     guest: {
@@ -39,6 +50,8 @@ export default {
             components.register,
             components.addPets,
             components.bookingPets,
+            components.editProviderPage,
+            components.registerLoginProviderPage
         ],
         redirectRoutes: "/login"
     },
@@ -56,6 +69,11 @@ export default {
             components.login,
             components.register,
             components.taskCustomers,
+            components.addPets,
+            components.bookingPets,
+            components.editProviderPage,
+            components.registerLoginProviderPage
+
         ],
         redirectRoutes: "/login"
     },

@@ -1,10 +1,13 @@
 const db = require("../models")
+const bc = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-
     console.log("register provider")
-
-    const { hotelName,
+    const {
+        username,
+        password,
+        hotelName,
         phoneNumber,
         email,
         optionalService,
@@ -15,9 +18,9 @@ const register = async (req, res) => {
     } = req.body
 
     // req.file.{{ชื่อ field ใน Postman นะจ๊ะ}}
-    let { image } = req.files;
-    let fileExtension = image.name.split(".").slice(-1)[0];
-    let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
+    // let { image } = req.files;
+    // let fileExtension = image.name.split(".").slice(-1)[0];
+    // let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
 
 
     const target = await db.Providers.findOne({ where: { customer_id: req.user.id } })
@@ -25,7 +28,11 @@ const register = async (req, res) => {
     if (target) {
         res.status(400).send({ message: 'already have hotel' })
     } else {
+        const salt = bc.genSaltSync(Number(process.env.ROUNDS));
+        const hashedPW = bc.hashSync(password, salt);
         await db.Providers.create({
+            username,
+            password: hashedPW,
             hotelName,
             phoneNumber,
             email,
@@ -34,15 +41,44 @@ const register = async (req, res) => {
             wage,
             type,
             address,
-            image: filePath,
+            // image: filePath,
             customer_id: req.user.id
         })
 
-        image.mv(`images/providers/${filePath}`);
+        // image.mv(`images/providers/${filePath}`);
         res.status(201).send({ message: 'hotel created' })
     }
 }
 
+const getProvider = async (req, res) => {
+    try {
+        const targetProvider = await db.Providers.findAll({ where: { id: req.user.id } })
+        res.status(201).send(targetProvider)
+    }
+    catch (err) {
+        res.status(500).send(err)
+    }
+
+}
+
+
+const updateProvider = async (req, res) => {
+    const { hotelName, address, telephone, email, area, type, wage } = req.body
+    const { id } = req.params
+    const targetProvider = await db.Providers.findOne({ where: { id: req.user.id } })
+    if(targetProvider){
+        await targetProvider.update({
+            hotelName, address, telephone, email, area, type, wage 
+        })
+        res.status(201).send({message : `Product ID : ${id} is updated`})
+    }else{
+        res.status(401).send({message : " is not found"})
+    }
+    
+}
+
 module.exports = {
-    register
+    register,
+    getProvider,
+    updateProvider
 }

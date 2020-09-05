@@ -36,17 +36,23 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM("OPEN", "CLOSE"),
             defaultValue: "OPEN"
         },
-        userName: {
+        username: {
             type: DataTypes.STRING
         },
         password: {
             type: DataTypes.STRING
+        },
+        isProvider: {
+            type: DataTypes.ENUM("TRUE", "FALSE"),
+            defaultValue: "FALSE"
         }
     })
 
     model.associate = models => {
         model.hasMany(models.Bills, { foreignKey: "provider_id" })
-        model.hasMany(models.ProviderOptionalServices, {foreignKey: "provider_id"})
+        model.hasMany(models.ProviderOptionalServices, { foreignKey: "provider_id" })
+        model.hasMany(models.ProviderImages, { foreignKey: "provider_id" })
+        model.hasMany(models.Reviews, { foreignKey: "provider_id" })
         model.belongsTo(models.Customers, { foreignKey: "customer_id" })
     }
 

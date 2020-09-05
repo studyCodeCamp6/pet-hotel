@@ -2,21 +2,18 @@ require("dotenv").config();
 require("./config/passport");
 
 const express = require("express");
+const app = express();
 const db = require("./models");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-const app = express();
 const RoutesCustomers = require("./routes/customers");
 const RoutesProviders = require("./routes/providers");
 const RoutesPets = require("./routes/pets");
 const RoutesBills = require("./routes/tasks");
 const RoutesHistories = require("./routes/histories");
-
-const EventEmitter = require("eventemitter3")
-const emitter = new EventEmitter()
+const RoutesOptionals = require('./routes/optionals')
 
 
-// require('./config/passport');
 
 let allowedOrigins = ["http://localhost:3000"];
 
@@ -43,8 +40,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/customers", RoutesCustomers);
 app.use("/providers", RoutesProviders);
 app.use("/tasks", RoutesBills);
-app.use("/pets", RoutesPets);
 app.use("/histories", RoutesHistories);
+app.use('/pets', RoutesPets)
+app.use('/bills', RoutesBills)
+app.use('/optionals',RoutesOptionals)
+
 
 
 

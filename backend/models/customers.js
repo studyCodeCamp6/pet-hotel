@@ -30,11 +30,14 @@ module.exports = (sequelize, DataTypes) => {
         },
         image: {
             type: DataTypes.STRING(1200)
+        },
+        isCustomer: {
+            type: DataTypes.ENUM("TRUE", "FALSE"),
+            defaultValue: "TRUE"
         }
     })
 
     model.associate = models => {
-        model.hasMany(models.Bills, { foreignKey: "customer_id" })
         model.hasMany(models.Pets, { foreignKey: "customer_id" })
         model.hasOne(models.Providers, { foreignKey: "customer_id" })
     }
