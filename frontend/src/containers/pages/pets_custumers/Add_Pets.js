@@ -1,15 +1,42 @@
-import React, { useState } from 'react'
-import axios from '../../config/axios'
+import React, { useState, useEffect } from 'react'
+import axios from '../../../config/axios'
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
-import { Input, Form, Select, InputNumber, Upload, Button } from 'antd'
+import { Input, Form, Select, InputNumber, Upload, Button, Row, Col } from 'antd'
 import Modal from 'antd/lib/modal/Modal';
+import jwtDecode from 'jwt-decode'
 import List_Pets from './List_Pets';
+import LocalStorage from '../../../services/LocalStorage'
+import Booking_Pets from './Booking_Pets';
 
 function Add_Pets(props) {
     const [visible, setVisible] = useState(false)
     const [data, setData] = useState([])
     const [confirm, setConfirm] = useState(false)
+    const [pets, setPets] = useState([])
     const [key, setKey] = useState(0)
+    const [ID, setID] = useState('')
+    const [stDate, setStDate] = useState('')
+    const [enDate, setEnDate] = useState('')
+    const [service, setService] = useState([])
+
+
+    useEffect(() => {
+        const token = LocalStorage.getToken()
+        if (token) {
+            const user = jwtDecode(token)
+            setID(user.id)
+        }
+    }, [])
+
+    const fetchDataPets = async () => {
+        const newData = await axios.get('/pets')
+        setData(newData.data)
+    }
+
+    useEffect(() => {
+        fetchDataPets()
+    }, [confirm])
+
     const showModal = () => {
         setVisible(true);
     };
@@ -27,9 +54,9 @@ function Add_Pets(props) {
         setComponentSize(size);
     };
     let id = 0;
+
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
-
         const body = {
             key,
             name: values.name,
@@ -37,23 +64,107 @@ function Add_Pets(props) {
             weight: values.weight,
             sex: values.sex,
             other: values.introduction,
+            customer_id: ID
             // image: values.uploadImage,
             // certificate: values.uploadCertificate,
         }
         const newData = [...data, body]
         setData(newData)
+        // setConfirm((pervState) => !pervState)
         setKey(key + 1)
+        setVisible(false);
+    }
+
+    const deletePets = async (id) => {
+        const cloneData = [...data]
+        console.log(id)
+        console.log(cloneData)
+        const newData = cloneData.filter(item => item.key !== id)
+        console.log(newData)
+        setData(newData)
+        try {
+            await axios.delete(`/pets/delete/${id}`)
+            console.log('deleted')
+        } catch (err) {
+            console.log(err)
+        }
+        setConfirm((pervState) => !pervState)
+    }
+
+
+
+    const onChangeTimePicker = (value, dateString) => {
+        setStDate(dateString[0])
+        setEnDate(dateString[1])
+        console.log('Selected Time: ', value);
+    }
+    const onChange = (checkedValues) => {
+        setService(checkedValues)
+    }
+
+
+
+    const confirmPets = async () => {
+        const cloneData = [...data]
+        console.log(cloneData)
+        const bodyDate = {
+            startDate: stDate,
+            endDate: enDate,
+            provider_id: ID,
+            status: 'waiting'
+        }
+        const cloneDataServices = [...service]
+        const newServices = cloneDataServices.map(item => ({ service_id: item }))
+        try {
+            await axios.post('/pets', { cloneData, bodyDate, newServices })
+            console.log('Add pets && Date && service Success')
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
     console.log(data)
+    console.log(stDate)
+    console.log(enDate)
 
 
     return (
         <>
             <>
-                <Button shape="round" onClick={showModal}> Add Pets + </Button>
-
-                <List_Pets data={data} />
+                <Row justify="center" >
+                    <Col lg={15}>
+                        <Row justify="center" >
+                            <Col>
+                                <h1>Pets Information</h1>
+                            </Col>
+                        </Row>
+                        <Button shape="round" onClick={showModal}>+ Add Pets </Button>
+                        <Row >
+                            <Col lg={23}>
+                                <List_Pets
+                                    data={data}
+                                    deletePets={deletePets}
+                                    pets={pets}
+                                    stDate={stDate}
+                                    enDate={enDate}
+                                    onChangeTimePicker={onChangeTimePicker}
+                                />
+                            </Col>
+                        </Row>
+                        <Row justify='center'>
+                            <Col lg={18}>
+                                <Booking_Pets
+                                    onChange={onChange} />
+                            </Col>
+                        </Row>
+                        <Row justify='center'>
+                            <Col>
+                                <Button shape="round" onClick={() => confirmPets()}>Confirm </Button>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
 
                 <Modal
                     title="Create New Pet"
@@ -62,8 +173,8 @@ function Add_Pets(props) {
                     onCancel={handleCancel}
                 >
                     <Form
-                        labelCol={{ span: 8 }}
-                        wrapperCol={{ span: 6 }}
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 15 }}
                         layout="horizontal"
                         initialValues={{ size: componentSize }}
                         onValuesChange={onFormLayoutChange}
