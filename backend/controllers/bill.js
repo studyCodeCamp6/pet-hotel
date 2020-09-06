@@ -6,7 +6,9 @@ const addBill = async (req, res) => {
         await db.Bills.create({
             startDate,
             endDate,
-            optionalServices
+            optionalServices,
+            status:"WAITING",
+            customer_id:req.user.id
         })
         res.status(201).send({ message: "Add bills success" })
     }

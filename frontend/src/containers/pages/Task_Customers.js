@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Space } from "antd";
+import { Table, Tag} from "antd";
 import axios from "../../config/axios";
 import moment from "moment";
 
@@ -111,6 +111,7 @@ function Task_Customers() {
   let arrayData = [];
   let newArrayData = [];
   if (bill.length !== 0) {
+    console.log(bill)
     for (let i = 0; i < bill.targetBill.length; i++) {
       let petCount = bill.billToPet[i].length;
 
@@ -131,7 +132,6 @@ function Task_Customers() {
       }
     }
   }
-  console.log(newArrayData)
 
   return <Table columns={columns} dataSource={newArrayData} />;
 }

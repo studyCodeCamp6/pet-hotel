@@ -6,13 +6,14 @@ const db = require("../models");
 const getCustomerBills = async (req, res) => {
   try {
     const myId = req.user.id;
+    console.log(myId)
     const targetBill = await db.Bills.findAll({
       where: { customer_id: myId },
       order: [["startDate", "DESC"]],
       attributes: ["id", "provider_id", "startDate", "endDate", "status"],
       raw: true,
     });
-
+    
     if (!targetBill) {
       res.status(404).send({ message: `Not Found bill ID: ${id}` });
     } else {

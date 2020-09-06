@@ -60,7 +60,9 @@ export default {
             components.login,
             components.register,
             components.taskCustomers,
-            components.taskProviders
+            components.taskProviders,
+            components.addPets,
+            components.bookingPets,
         ],
         redirectRoutes: "/login"
     },
