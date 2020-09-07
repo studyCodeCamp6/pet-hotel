@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const controllers = require('../controllers/customers')
-// const auth = passport.authenticate("jwt", { session: false });
+const controllers = require('../controllers/customers');
+const passport = require("passport");
 
-router.post("/register",controllers.register);
-router.post("/login",controllers.login)
+const auth = passport.authenticate("jwt", { session: false });
 
+router.post("/register", controllers.register);
+router.post("/login", controllers.login);
+router.patch("/role", auth, controllers.setRole);
+router.get("/profile", auth, controllers.getProfile);
 
 
 module.exports = router;

@@ -15,6 +15,7 @@ const register = async (req, res) => {
 
     await db.Customers.create({
       username,
+      name,
       lastName,
       phoneNumber,
       email,
@@ -33,7 +34,12 @@ const login = async (req, res) => {
   } else {
     const isPWCorrect = bc.compareSync(password, targetUser.password);
     if (isPWCorrect) {
-      const payload = { id: targetUser.id, name: targetUser.name, status: targetUser.status };
+      const payload = {
+        id: targetUser.id,
+        name: targetUser.name,
+        status: targetUser.status,
+        isCustomer: targetUser.isCustomer
+      };
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: `${process.env.TIMEOUT}d` });
 
       res.status(200).send({
@@ -47,7 +53,37 @@ const login = async (req, res) => {
   }
 };
 
+const setRole = async (req, res) => {
+  const currentId = Number(req.user.id)
+  const { isCustomer } = req.body
+
+  const targetUser = await db.Customers.findOne({ where: { id: currentId } })
+  if (!targetUser) {
+    res.status(400).send({ message: "user not found" })
+  } else {
+    const newUpdate = await targetUser.update({
+      isCustomer
+    })
+    res.status(200).send(newUpdate)
+  }
+}
+
+const getProfile = async (req, res) => {
+  const currentId = Number(req.user.id)
+  const targetProfile = await db.Customers.findOne({ where: { id: currentId } })
+
+  if (!targetProfile) {
+    res.status(404).send({ message: 'user not found' })
+  } else {
+    res.status(200).send(targetProfile)
+  }
+}
+
+
+
 module.exports = {
   register,
   login,
+  setRole,
+  getProfile
 };

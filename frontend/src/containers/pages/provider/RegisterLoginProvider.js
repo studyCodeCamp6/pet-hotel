@@ -23,7 +23,17 @@ function RegisterLoginProvider() {
             address: values.address,
             wage: values.wage
         }
-        await axios.post('/providers/add', body)
+        try {
+            await axios.post('/providers/add', body)
+            notification.success({
+                message: "register as hotel provider successfully"
+            })
+        } catch (error) {
+            notification.error({
+                message: error.response?.data?.message || 'failed to register'
+            })
+        }
+
     }
 
     const onFinishLast =  (values) => {
@@ -82,12 +92,12 @@ function RegisterLoginProvider() {
     const pageFirst = (
         <Row justify="center" align="middle" style={{ height: "100%" }}>
             <Col xs={23} sm={20} md={20} lg={12} xl={10}>
-                <Form onFinish={onFinishFirst}>
+                <Form>
                     <Row justify="center" style={{ margin: "20px" }}>
                         <img
                             style={{ width: "100%", maxWidth: "250px" }}
                             alt="logo"
-                            src=""
+                            src={require("../pic/hotel_logo_black.png")}
                         />
                     </Row>
 
@@ -172,7 +182,7 @@ function RegisterLoginProvider() {
                             },
                             {
                                 validator(rule, val) {
-                                    let regex = /^[0-9]$/;
+                                    let regex = /^[0-9]{1,}$/;
                                     if (regex.test(val) && val) {
                                         return Promise.resolve()
                                     } else {
@@ -194,7 +204,7 @@ function RegisterLoginProvider() {
                             },
                             {
                                 validator(rule, val) {
-                                    let regex = /^[0-9]$/;
+                                    let regex = /^[0-9]{1,}$/;
                                     if (regex.test(val) && val) {
                                         return Promise.resolve()
                                     } else {
@@ -216,7 +226,7 @@ function RegisterLoginProvider() {
 
 
                     <Row justify="center">
-                        <Button htmlType="submit">Register</Button>
+                        <Button htmlType="submit" onClick={onFinishFirst}>Register</Button>
                     </Row>
                 </Form>
             </Col>
