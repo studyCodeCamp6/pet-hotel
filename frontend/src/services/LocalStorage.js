@@ -6,11 +6,20 @@ function getToken() {
     return localStorage.getItem("ACCESS_TOKEN");
 }
 
+const setRole = (role) => {
+    localStorage.setItem("ROLE", role)
+}
+
 const getRole = () => {
     if (getToken()) {
-        return "user"
+        return localStorage.getItem("ROLE")
     }
-    return "guest";
+    setRole("guest")
+    return localStorage.getItem("ROLE");
+}
+
+const removeRole = () => {
+    localStorage.removeItem("ROLE");
 }
 
 function removeToken() {
@@ -21,5 +30,7 @@ export default {
     setToken,
     getToken,
     removeToken,
-    getRole
+    getRole,
+    setRole,
+    removeRole
 }

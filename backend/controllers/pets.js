@@ -30,13 +30,11 @@ const registerPets = async (req, res) => {
 
     // const newResponse = { bill_id: newDate.dataValues.id }
     const newBills = addDog.map(item => ({ pet_id: item.dataValues.id, bill_id: newDate.dataValues.id }))
-    console.log(newBills)
     const addPets = await db.PetsBills.bulkCreate(newBills)
 
 
     const { newServices } = req.body
     const newDataServices = newServices.map(item => ({ service_id: item.service_id, bill_id: newDate.dataValues.id }))
-    console.log(newDataServices)
     const newData = await db.BillOptionalServices.bulkCreate(newDataServices)
 
 

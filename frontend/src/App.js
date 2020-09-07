@@ -16,43 +16,47 @@ function App() {
 
   const logout = async () => {
     await axios.patch('/customers/role', { isCustomer: "FALSE" })
-    setRole("guest");
     setName("")
+    setRole("guest")
+    localStorageService.setRole("guest");
     localStorageService.removeToken();
-  }
-
-  const getUser = async () => {
-    const token = localStorageService.getToken()
-    if (token) {
-      const user = jwtDecode(token)
-      setName(user.name)
-    }
-  }
-
-  const getHotelData = async () => {
-    const hotel = await axios.get("/providers/hotel")
-    setHotel(hotel.data)
   }
 
   const changeToProvider = async () => {
     await axios.patch('customers/role', { isCustomer: "FALSE" })
     await axios.patch('providers/role', { isProvider: "TRUE" })
     setRole("provider")
+    localStorageService.setRole("provider")
   }
   const changeToUser = async () => {
     await axios.patch('customers/role', { isCustomer: "TRUE" })
     await axios.patch('providers/role', { isProvider: "FALSE" })
     setRole("user")
+    localStorageService.setRole('user')
   }
+  useEffect(() => {
+    const getUserDataFromToken = async () => {
+      const token = localStorageService.getToken()
+      if (token) {
+        const user = jwtDecode(token)
+        setName(user.name)
+      }
+    };
+    getUserDataFromToken()
+  });
 
   useEffect(() => {
-    getHotelData()
-    getUser().then(window.location.reload)
-  }, [])
+    const fetchHotel = async () => {
+      const hotel = await axios.get("/providers/")
+      setHotel(hotel.data)
+    };
+    fetchHotel()
+  })
 
   const customerMenu = (
     <Menu>
       <Menu.Item key="0">
+        <Link to="/customer/task" />
         <div>Profile</div>
       </Menu.Item>
       {
@@ -69,50 +73,68 @@ function App() {
       <Menu.Item key="3">
         <Button onClick={logout}>
           <PoweroffOutlined />
+          <Link to="/login" />
           logout
         </Button>
       </Menu.Item>
     </Menu>
   );
 
-  const providerMenu = (<Menu>
-    <Menu.Item key="0">
-      <div>Profile</div>
-    </Menu.Item>
-    {
-      (hotel) ?
-        <Menu.Item key="1">
-          <Button type="link" onClick={changeToUser}>
-            {name}
-          </Button>
-        </Menu.Item>
-        :
-        null
-    }
-    <Menu.Divider />
-    <Menu.Item key="3">
-      <Button onClick={logout}>
-        <PoweroffOutlined />
+  const providerMenu = (
+    <Menu>
+      <Menu.Item key="0">
+        <Link to="/provider/profile" />
+        <div>Profile</div>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <Button type="link" onClick={changeToUser}>
+          {name}
+        </Button>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="3">
+        <Button onClick={logout}>
+          <PoweroffOutlined />
+          <Link to="/login" />
           logout
         </Button>
-    </Menu.Item>
-  </Menu>
+      </Menu.Item>
+    </Menu>
   );
 
   return (
     <div>
-      {(role === "guest") ?
+      {(localStorageService.getRole() === "user" && role === "user") ?
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
             <div className="logo" />
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">
-                <Link to="/login" />
-                Login
+                <Link to="/home" />
+                  home
               </Menu.Item>
               <Menu.Item key="2">
-                <Link to="/register" />
-                Register
+                <Link to="/providers/register" />
+                  Hotel register
+              </Menu.Item>
+              <Menu.Item key="3">
+                <Link to="/customer/task" />
+                  My Booking
+              </Menu.Item>
+              <Menu.Item key="7">
+                <Dropdown
+                  trigger={['click']}
+                  overlay={customerMenu}
+                >
+                  <a
+                    className="ant-dropdown-link"
+                    onClick={e => e.preventDefault()}
+                    href
+                  >
+                    {(!name) ? "user" : name}
+                    <DownOutlined />
+                  </a>
+                </Dropdown>
               </Menu.Item>
             </Menu>
           </Header>
@@ -121,10 +143,10 @@ function App() {
               <PrivateRoutes role={role} setRole={setRole} />
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Haustier's hotel</Footer>
+          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>
         :
-        (role === "user") ?
+        (localStorageService.getRole() === "provider" && role === "provider") ?
           <Layout>
             <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
               <div className="logo" />
@@ -134,16 +156,20 @@ function App() {
                   home
                 </Menu.Item>
                 <Menu.Item key="2">
-                  <Link to="/providers/register" />
-                  Hotel register
+                  <Link to="/providers/task" />
+                  Booking request
                 </Menu.Item>
                 <Menu.Item key="3">
                   <Dropdown
-                    overlay={customerMenu}
-                  // onClick={getHotelData}
+                    trigger={['click']}
+                    overlay={providerMenu}
                   >
-                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                      {(!name) ? "user" : name}
+                    <a
+                      className="ant-dropdown-link"
+                      onClick={e => e.preventDefault()}
+                      href
+                    >
+                      {hotel.hotelName}
                       <DownOutlined />
                     </a>
                   </Dropdown>
@@ -158,28 +184,22 @@ function App() {
             <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
           </Layout>
           :
-          (role === "provider") ?
+          (localStorageService.getRole() === "guest" && role === "guest") ?
             <Layout>
               <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                 <div className="logo" />
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-                  <Menu.Item key="1">
+                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']}>
+                  <Menu.Item key="0">
                     <Link to="/home" />
-                  home
-                </Menu.Item>
-                  <Menu.Item key="2">
-                    <Link to="/providers/register" />
-                  Task
-                </Menu.Item>
+                    Home
+                  </Menu.Item>
                   <Menu.Item key="3">
-                    <Dropdown
-                      overlay={providerMenu}
-                    >
-                      <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        {hotel.hotelName}
-                        <DownOutlined />
-                      </a>
-                    </Dropdown>
+                    <Link to="/register" />
+                    Register
+                  </Menu.Item>
+                  <Menu.Item key="2">
+                    <Link to="/login" />
+                    Login
                   </Menu.Item>
                 </Menu>
               </Header>
@@ -188,12 +208,12 @@ function App() {
                   <PrivateRoutes role={role} setRole={setRole} />
                 </div>
               </Content>
-              <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+              <Footer style={{ textAlign: 'center' }}>Haustier's hotel</Footer>
             </Layout>
             :
             null
       }
-    </div>
+    </div >
   );
 }
 

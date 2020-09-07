@@ -67,7 +67,7 @@ const updateProvider = async (req, res) => {
     const targetProvider = await db.Providers.findOne({ where: { customer_id: req.user.id } })
     if (targetProvider) {
         await targetProvider.update({
-            hotelName, address, phoneNumber, email, area, type, wage 
+            hotelName, address, phoneNumber, email, area, type, wage
         })
         res.status(201).send({ message: `Product ID : ${id} is updated` })
     } else {
@@ -116,11 +116,29 @@ const getProviderToken = async (req, res) => {
     }
 }
 
+const getProviderReviews = async (req, res) => {
+    const currentId = Number(req.user.id)
+    const targetProvider = await db.Providers.findOne({ customer_id: currentId })
+
+    if (targetProvider) {
+        const providerId = targetProvider.id
+        const reviews = await db.Reviews.findAll({ where: { provider_id: providerId } })
+        if (reviews.length > 0) {
+            res.status(200).send(reviews)
+        } else {
+            res.status(404).send({ message: 'your hotel have not been review yet' })
+        }
+    } else {
+        res.status(400).send({ message: 'hotel not found' })
+    }
+}
+
 
 module.exports = {
     register,
     getProvider,
     updateProvider,
     setRole,
-    getProviderToken
+    getProviderToken,
+    getProviderReviews
 }

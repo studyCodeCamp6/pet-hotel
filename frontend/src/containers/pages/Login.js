@@ -11,23 +11,25 @@ const formItemLayout = {
 };
 
 function Login(props) {
-  function onFinish({ username, password }) {
-    axios
-      .post("/customers/login", { username, password })
-      .then((result) => {
-        LocalStorageService.setToken(result.data.accessToken);
-        LocalStorageService.setRole("user")
-        props.setRole("user");
-        props.history.push("/home");
-        notification.success({
-          message: "login successfully",
-        });
+  const onFinish = async (value) => {
+    try {
+      const response = await axios.post("/customers/login", {
+        username: value.username,
+        password: value.password
       })
-      .catch((err) => {
-        notification.error({
-          message: err.response?.data?.message || "failed to login",
-        });
-      });
+
+      LocalStorageService.setToken(response.data.accessToken);
+      LocalStorageService.setRole("user")
+      props.setRole("user")
+      props.history.push("/home")
+      notification.success({
+        message: "login successfully"
+      })
+    } catch (err) {
+      notification.error({
+        message: err.response?.data?.message || "login failed",
+      })
+    }
   }
 
   const onFinished = (fieldsValue) => {
