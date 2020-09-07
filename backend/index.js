@@ -10,7 +10,6 @@ const RoutesCustomers = require("./routes/customers");
 const RoutesProviders = require("./routes/providers");
 const RoutesPets = require("./routes/pets");
 const RoutesTasks = require("./routes/tasks");
-const RoutesBills = require("./routes/bill")
 const RoutesHistories = require("./routes/histories");
 const RoutesOptionals = require('./routes/optionals');
 
@@ -39,10 +38,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/customers", RoutesCustomers);
 app.use("/providers", RoutesProviders);
 app.use("/tasks", RoutesTasks);
-app.use('/bills',RoutesBills)
 app.use("/histories", RoutesHistories);
 app.use('/pets', RoutesPets);
-app.use('/bills', RoutesBills);
 app.use('/optionals', RoutesOptionals);
 
 
