@@ -41,7 +41,7 @@ function Register(props) {
   };
 
   return (
-    <>
+    <div style={{ height: '100vh' }}>
       <Row justify="center" align="middle" style={{ height: "100%" }}>
         <Col xs={23} sm={20} md={20} lg={12} xl={10}>
           <Form {...formLayout} onFinish={onFinish}>
@@ -214,7 +214,7 @@ function Register(props) {
           </Form>
         </Col>
       </Row>
-    </>
+    </div>
   );
 }
 

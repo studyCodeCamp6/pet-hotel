@@ -12,9 +12,7 @@ const RoutesPets = require("./routes/pets");
 const RoutesTasks = require("./routes/tasks");
 const RoutesBills = require("./routes/bill")
 const RoutesHistories = require("./routes/histories");
-const RoutesOptionals = require('./routes/optionals')
-
-
+const RoutesOptionals = require('./routes/optionals');
 
 let allowedOrigins = ["http://localhost:3000","http://localhost:3002"];
 
@@ -43,8 +41,9 @@ app.use("/providers", RoutesProviders);
 app.use("/tasks", RoutesTasks);
 app.use('/bills',RoutesBills)
 app.use("/histories", RoutesHistories);
-app.use('/pets', RoutesPets)
-app.use('/optionals',RoutesOptionals)
+app.use('/pets', RoutesPets);
+app.use('/bills', RoutesBills);
+app.use('/optionals', RoutesOptionals);
 
 
 
