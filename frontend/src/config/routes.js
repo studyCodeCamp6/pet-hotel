@@ -1,10 +1,10 @@
 import LoginPage from '../containers/pages/Login'
 import RegisterPage from '../containers/pages/Register'
-import AddPetsPage from '../containers/pages/Add_Pets'
-import BookingPetsPage from '../containers/pages/Booking_Pets'
-import TaskCustomers from '../containers/pages/Task_Customers'
-import TaskProviders from '../containers/pages/Task_Providers'
-// import RegisterOptionalProviderPage from '../containers/pages/provider/OptionalProviders'
+import AddPetsPage from '../containers/pages/pets_custumers/Add_Pets'
+import BookingPetsPage from '../containers/pages/pets_custumers/Booking_Pets'
+import TaskCustomers from '../containers/pages/task/Task_Customers'
+import TaskProviders from '../containers/pages/task/Task_Providers'
+import RegisterOptionalProviderPage from '../containers/pages/provider/OptionalProviders'
 import RegisterLoginProviderPage from '../containers/pages/provider/RegisterLoginProvider'
 import EditProviderPage from '../containers/pages/provider/EditProvider'
 
@@ -63,6 +63,8 @@ export default {
             components.taskProviders,
             components.addPets,
             components.bookingPets,
+            components.registerLoginProviderPage
+
         ],
         redirectRoutes: "/login"
     },
