@@ -32,8 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(1200)
         },
         isCustomer: {
-            type: DataTypes.ENUM("TRUE", "FALSE"),
-            defaultValue: "TRUE"
+            type: DataTypes.ENUM("TRUE", "FALSE")
         }
     })
 

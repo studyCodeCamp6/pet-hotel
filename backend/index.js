@@ -9,11 +9,9 @@ const fileUpload = require("express-fileupload");
 const RoutesCustomers = require("./routes/customers");
 const RoutesProviders = require("./routes/providers");
 const RoutesPets = require("./routes/pets");
-const RoutesBills = require("./routes/tasks");
+const RoutesTasks = require("./routes/tasks");
 const RoutesHistories = require("./routes/histories");
-const RoutesOptionals = require('./routes/optionals')
-
-
+const RoutesOptionals = require('./routes/optionals');
 
 let allowedOrigins = ["http://localhost:3000","http://localhost:3002"];
 
@@ -39,12 +37,10 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/customers", RoutesCustomers);
 app.use("/providers", RoutesProviders);
-app.use("/tasks", RoutesBills);
+app.use("/tasks", RoutesTasks);
 app.use("/histories", RoutesHistories);
-app.use('/pets', RoutesPets)
-app.use('/bills', RoutesBills)
-app.use('/optionals',RoutesOptionals)
-
+app.use('/pets', RoutesPets);
+app.use('/optionals', RoutesOptionals);
 
 
 

@@ -1,11 +1,9 @@
 import React from 'react'
 
-function Navbar() {
+export default function Review() {
     return (
         <div>
-            This is navbar
+            this is customer review page
         </div>
     )
 }
-
-export default Navbar

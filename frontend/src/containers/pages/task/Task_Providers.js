@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Space } from "antd";
-import axios from "../../config/axios";
+import { Table, Tag} from "antd";
+import axios from "../../../config/axios";
 import moment from "moment";
 
 const columns = [
   {
-    title: "Hotel Name",
-    dataIndex: "provider_id",
-    key: "provider_id",
+    title: "Name",
+    dataIndex: "customer_name",
+    key: "customer_name",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "lastname",
+    dataIndex: "lastName",
+    key: "lastName",
+  },
+  {
+    title:"Ban Status",
+    dataIndex:"BanStatus",
+    key:"BanStatus"
   },
   {
     title: "pet name",
@@ -21,8 +26,13 @@ const columns = [
   },
   {
     title: "pet type",
-    dataIndex: "petType",
-    key: "petType",
+    dataIndex: "breedType",
+    key: "breedType",
+  },
+  {
+    title: "weight",
+    dataIndex: "weight",
+    key: "weight",
   },
   {
     title: "date",
@@ -46,7 +56,7 @@ const columns = [
             <span style={{ color: "yellowgreen", margin: "0 10% 0 0" }}>
               waiting
             </span>
-            <Tag color={"volcano"}> cancle</Tag>
+            <Tag color={"blue"}> accept</Tag>
           </>
         ) : status === "ACCEPT" ? (
           <>
@@ -92,12 +102,11 @@ const columns = [
   },
 ];
 
-function Task_Customers() {
+function Task_Providers() {
   let [bill, setBill] = useState([]);
-  let [allData, setAllData] = useState([]);
   const fetchData = async () => {
     try {
-      const targetBill = await axios.get(`/tasks/customers`);
+      const targetBill = await axios.get(`/tasks/providers`);
       await setBill(...bill, targetBill.data);
     } catch (error) {
       console.log(error);
@@ -108,32 +117,30 @@ function Task_Customers() {
     fetchData();
   }, []);
 
+  console.log("pet",bill.targetPet);
+
   let arrayData = [];
-  let newArrayData = [];
   if (bill.length !== 0) {
     for (let i = 0; i < bill.targetBill.length; i++) {
-      let petCount = bill.billToPet[i].length;
-
-        for (let j = 0; j < petCount; j++) {
-          newArrayData = [
-            ...newArrayData,
-            {
-              key: Math.random(),
-              provider_id: bill.billToCustomers[i][0].hotelName,
-              address: bill.billToCustomers[i][0].address,
-              startDate: bill.targetBill[i].startDate,
-              endDate: bill.targetBill[i].endtDate,
-              status: bill.targetBill[i].status,
-              petName: bill.billToPet[i][j]['Pet.name'],
-              petType: bill.billToPet[i][j]['Pet.breedType'],
-            },
-          ];
-      }
+      arrayData = [
+        ...arrayData,
+        {
+          key:i,
+          customer_name: bill.billToCustomers[i][0].name,
+          lastName: bill.billToCustomers[i][0].lastName,
+          BanStatus: bill.billToCustomers[i][0].status,
+          petName: bill.targetPet[i][0].name,
+          breedType: bill.targetPet[i][0].breedType,
+          weight: bill.targetPet[i][0].weight,
+          startDate: bill.targetBill[i].startDate,
+          endDate: bill.targetBill[i].endtDate,
+          status: bill.targetBill[i].status,
+        },
+      ];
     }
   }
-  console.log(newArrayData)
 
-  return <Table columns={columns} dataSource={newArrayData} />;
+  return <Table columns={columns} dataSource={arrayData}/>;
 }
 
-export default Task_Customers;
+export default Task_Providers;

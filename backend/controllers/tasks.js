@@ -9,10 +9,11 @@ const getCustomerBills = async (req, res) => {
     const targetBill = await db.Bills.findAll({
       where: { customer_id: myId },
       order: [["startDate", "DESC"]],
-      attributes: ["id", "provider_id", "startDate", "endDate", "status"],
-      raw: true,
+      attributes: ["id", "provider_id","startDate", "endDate", "status"],
+      include:[{model:db.Providers,attributes:["hotelName","phoneNumber","email","area","wage","type","image","address","status","isOpen"],},{model:db.PetsBills,attributes:[["bill_id","pet_id"]],include:{model:db.Pets,attributes:["name","breedType","weight","sex","certificate","image","other"]}}]
     });
 
+    
     if (!targetBill) {
       res.status(404).send({ message: `Not Found bill ID: ${id}` });
     } else {
@@ -24,21 +25,8 @@ const getCustomerBills = async (req, res) => {
             raw: true,
           });
         })
-      );
-
-      let billToPet = await Promise.all(
-        targetBill.map(async (bill) => {
-          return await db.PetsBills.findAll({
-            where: { bill_id: [bill.id] },
-            attributes: ["pet_id", "bill_id"],
-            raw: true,
-            include:{model:db.Pets,attributes:["name","breedType"]}
-          });
-        })
-      );
-      console.log(targetBill, billToCustomers,billToPet)
-
-      res.send({ targetBill, billToCustomers,billToPet});
+        );
+      res.send({targetBill});
     }
   } catch (error) {
     res.send(error);
@@ -85,16 +73,16 @@ const UpdateCustomerBIlls = async (req, res) => {
   try {
     const { bId } = req.params;
     const myId = req.user.id;
-
     const targetBill = await db.Bills.findOne({
       where: {
-        [Op.and]: [{ id: bId }, { customer_id: myId }, { status: "WAITING" }],
+        [Op.and]: [{ id: bId }, { customer_id: myId }, { status: ["WAITING"] }],
       },
     });
     if (targetBill) {
-      await targetBill.update({ status: "CANCLE" });
-      // console.log(bId, "billID");
-      res.send({ message: "provider accecpted" });
+      console.log("a",targetBill.status)    
+      await targetBill.update({status:"CANCEL" });
+      console.log("b",targetBill)    
+      res.send({ message: "sucess" });
     } else {
       res.send({ message: "provider accecpted" });
     }

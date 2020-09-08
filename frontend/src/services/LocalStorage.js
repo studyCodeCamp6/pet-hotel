@@ -1,26 +1,36 @@
 function setToken(token) {
-    localStorage.setItem("ACCESS_TOKEN",token)
+    localStorage.setItem("ACCESS_TOKEN", token)
 }
 
-function getToken(){
+function getToken() {
     return localStorage.getItem("ACCESS_TOKEN");
 }
 
-function getRole() {
-    if(getToken()) {
-        return "user"
-    }
-    return "guest";
+const setRole = (role) => {
+    localStorage.setItem("ROLE", role)
 }
 
+const getRole = () => {
+    if (getToken()) {
+        return localStorage.getItem("ROLE")
+    }
+    setRole("guest")
+    return localStorage.getItem("ROLE");
+}
+
+const removeRole = () => {
+    localStorage.removeItem("ROLE");
+}
 
 function removeToken() {
     localStorage.removeItem("ACCESS_TOKEN");
 }
 
-export default{
+export default {
     setToken,
     getToken,
     removeToken,
-    getRole
+    getRole,
+    setRole,
+    removeRole
 }

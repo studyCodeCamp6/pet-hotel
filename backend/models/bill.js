@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         status: {
             type: DataTypes.ENUM("WAITING", "ACCEPT", "REJECT", "CONFIRM", "CANCEL", "ONTIME", "PROGRESS", "ENDING", "COMPLETE")
+        },
+        customer_id:{
+            type:DataTypes.INTEGER
         }
     })
 
