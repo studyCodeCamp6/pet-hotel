@@ -1,12 +1,13 @@
 import LoginPage from '../containers/pages/Login'
 import RegisterPage from '../containers/pages/Register'
-import AddPetsPage from '../containers/pages/Add_Pets'
-import BookingPetsPage from '../containers/pages/Booking_Pets'
+import AddPetsPage from '../containers/pages/pets_custumers/Add_Pets'
+import BookingPetsPage from '../containers/pages/pets_custumers/Booking_Pets'
 import TaskCustomers from '../containers/pages/Task_Customers'
 import TaskProviders from '../containers/pages/Task_Providers'
 // import RegisterOptionalProviderPage from '../containers/pages/provider/OptionalProviders'
 import RegisterLoginProviderPage from '../containers/pages/provider/RegisterLoginProvider'
 import EditProviderPage from '../containers/pages/provider/EditProvider'
+import providerHistoryPage from '../containers/pages/history/Provider_history'
 
 const components = {
     login: {
@@ -21,37 +22,39 @@ const components = {
         url: '/pets/add',
         component: AddPetsPage
     },
-    bookingPets : {
-        url : '/pets',
-        component : BookingPetsPage
+    bookingPets: {
+        url: '/pets',
+        component: BookingPetsPage
     },
-    taskCustomers : {
+    taskCustomers: {
         url: '/customer/task',
-        component:TaskCustomers
+        component: TaskCustomers
     },
-    taskProviders:{
-        url:'/provider/task',
-        component:TaskProviders,
+    taskProviders: {
+        url: '/provider/task',
+        component: TaskProviders,
     },
-    editProviderPage : {
-        url : '/providers/edit',
-        component : EditProviderPage
+    editProviderPage: {
+        url: '/providers/edit',
+        component: EditProviderPage
     },
-    registerLoginProviderPage : {
-        url : '/providers/register',
-        component : RegisterLoginProviderPage
+    registerLoginProviderPage: {
+        url: '/providers/register',
+        component: RegisterLoginProviderPage
+    },
+    providerHistory: {
+        url: '/history/provider',
+        component : providerHistoryPage
     }
-    
+
 }
 export default {
     guest: {
         allowedRoutes: [
             components.login,
             components.register,
-            components.addPets,
             components.bookingPets,
-            components.editProviderPage,
-            components.registerLoginProviderPage
+
         ],
         redirectRoutes: "/login"
     },
@@ -59,8 +62,12 @@ export default {
         allowedRoutes: [
             components.login,
             components.register,
+            components.addPets,
             components.taskCustomers,
-            components.taskProviders
+            components.registerLoginProviderPage,
+            components.editProviderPage,
+            components.taskProviders,
+            components.providerHistory
         ],
         redirectRoutes: "/login"
     },
