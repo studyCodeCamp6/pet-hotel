@@ -59,7 +59,7 @@ function Provider_history() {
                     breedType: bill.targetPet[i][0].breedType,
                     weight: bill.targetPet[i][0].weight,
                     startDate: bill.targetBill[i].startDate,
-                    endDate: bill.targetBill[i].endtDate,
+                    endDate: bill.targetBill[i].endDate,
                     status: bill.targetBill[i].status,
                 },
             ];
@@ -68,6 +68,7 @@ function Provider_history() {
 
     return (
         <div>
+            
             <Table columns={columns} dataSource={arrayData} />
         </div>
     )

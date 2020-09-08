@@ -100,7 +100,8 @@ const components = {
     adminManagePage: {
         url: '/admin/manage',
         component: AdminManagePage
-    }
+    },
+    
 }
 export default {
     guest: {
@@ -110,7 +111,7 @@ export default {
             components.bookingPets,
             components.homePage,
         ],
-        redirectRoutes: "/home"
+        redirectRoutes: "/login"
     },
     user: {
         allowedRoutes: [
@@ -124,7 +125,9 @@ export default {
             components.editReviewPage,
             components.customerReviewPage,
             components.registerLoginProviderPage,
-            components.customerHistoryPage
+            components.customerHistoryPage,
+            components.editProviderPage,
+            components.providerHistoryPage
         ],
         redirectRoutes: "/home"
     },

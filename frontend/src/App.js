@@ -13,6 +13,8 @@ function App() {
   const [role, setRole] = useState(localStorageService.getRole());
   const [name, setName] = useState('');
   const [hotel, setHotel] = useState('')
+  console.log(localStorageService.getRole())
+  console.log(role)
 
   const logout = async () => {
     await axios.patch('/customers/role', { isCustomer: "FALSE" })
@@ -37,21 +39,23 @@ function App() {
   useEffect(() => {
     const getUserDataFromToken = async () => {
       const token = localStorageService.getToken()
+      console.log(token)
       if (token) {
         const user = jwtDecode(token)
-        setName(user.name)
+        console.log(user)
+        setName(user.name||'default')
       }
     };
     getUserDataFromToken()
-  });
+  }, [role]);
 
   useEffect(() => {
     const fetchHotel = async () => {
       const hotel = await axios.get("/providers/")
-      setHotel(hotel.data)
+      setHotel(hotel.data || 'default')
     };
     fetchHotel()
-  })
+  }, [role])
 
   const customerMenu = (
     <Menu>
@@ -211,7 +215,7 @@ function App() {
               <Footer style={{ textAlign: 'center' }}>Haustier's hotel</Footer>
             </Layout>
             :
-            null
+            <div>123123123</div>
       }
     </div >
   );
