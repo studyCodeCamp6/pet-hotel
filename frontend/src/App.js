@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import PrivateRoutes from "./containers/private-routes/PrivateRoutes";
 import localStorageService from "./services/LocalStorage";
@@ -7,6 +7,7 @@ import { DownOutlined, PoweroffOutlined } from '@ant-design/icons'
 import axios from "./config/axios"
 import jwtDecode from 'jwt-decode'
 import { Link } from "react-router-dom";
+import SubMenu from "antd/lib/menu/SubMenu";
 
 const { Header, Content, Footer } = Layout;
 function App() {
@@ -15,14 +16,6 @@ function App() {
   const [hotel, setHotel] = useState('')
   console.log(localStorageService.getRole())
   console.log(role)
-
-  const logout = async () => {
-    await axios.patch('/customers/role', { isCustomer: "FALSE" })
-    setName("")
-    setRole("guest")
-    localStorageService.setRole("guest");
-    localStorageService.removeToken();
-  }
 
   const changeToProvider = async () => {
     await axios.patch('customers/role', { isCustomer: "FALSE" })
@@ -36,6 +29,7 @@ function App() {
     setRole("user")
     localStorageService.setRole('user')
   }
+<<<<<<< HEAD
   useEffect(() => {
     const getUserDataFromToken = async () => {
       const token = localStorageService.getToken()
@@ -56,55 +50,47 @@ function App() {
     };
     fetchHotel()
   }, [role])
+=======
 
-  const customerMenu = (
-    <Menu>
-      <Menu.Item key="0">
-        <Link to="/customer/task" />
-        <div>Profile</div>
-      </Menu.Item>
-      {
-        (hotel) ?
-          <Menu.Item key="1">
-            <Button type="link" onClick={changeToProvider}>
-              {hotel.hotelName}
-            </Button>
-          </Menu.Item>
-          :
-          null
-      }
-      <Menu.Divider />
-      <Menu.Item key="3">
-        <Button onClick={logout}>
-          <PoweroffOutlined />
-          <Link to="/login" />
-          logout
-        </Button>
-      </Menu.Item>
-    </Menu>
-  );
+  const usePrevious = (val) => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = val
+    });
+    return ref.current
+  }
+>>>>>>> develop
 
-  const providerMenu = (
-    <Menu>
-      <Menu.Item key="0">
-        <Link to="/provider/profile" />
-        <div>Profile</div>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <Button type="link" onClick={changeToUser}>
-          {name}
-        </Button>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3">
-        <Button onClick={logout}>
-          <PoweroffOutlined />
-          <Link to="/login" />
-          logout
-        </Button>
-      </Menu.Item>
-    </Menu>
-  );
+  const fetchUserData = async () => {
+    const token = localStorageService.getToken()
+    if (token) {
+      const user = jwtDecode(token)
+      await setName(user.name)
+    }
+  }
+
+  const fetchHotelData = async () => {
+    const hotel = await axios.get("/providers/")
+    setHotel(hotel.data)
+  }
+
+  const logout = async () => {
+    await axios.patch('/customers/role', { isCustomer: "FALSE" })
+    await setName("")
+    await setRole("guest")
+    await setHotel("")
+    localStorageService.setRole("guest");
+    localStorageService.removeToken();
+  }
+
+  const hotelData = usePrevious(hotel)
+  const userName = usePrevious(name)
+  // const prevRole = usePrevious(role)
+
+  useEffect(() => {
+    fetchHotelData()
+    fetchUserData()
+  }, [userName, hotelData, role])
 
   return (
     <div>
@@ -125,21 +111,39 @@ function App() {
                 <Link to="/customer/task" />
                   My Booking
               </Menu.Item>
-              <Menu.Item key="7">
-                <Dropdown
-                  trigger={['click']}
-                  overlay={customerMenu}
+              <SubMenu
+                icon={<DownOutlined />}
+                title={(!name) ? "user" : name}
+              >
+                <Menu.ItemGroup
+                  title="profile"
                 >
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={e => e.preventDefault()}
-                    href
+                  <Menu.Item
+                    key="user-profile"
                   >
-                    {(!name) ? "user" : name}
-                    <DownOutlined />
-                  </a>
-                </Dropdown>
-              </Menu.Item>
+                    <Link to="/customer/profile" />
+                    profile
+                  </Menu.Item>
+                </Menu.ItemGroup>
+                <Menu.ItemGroup
+                  title="hotel"
+                >
+                  <Menu.Item
+                    key="provider"
+                    onClick={changeToProvider}
+                  >
+                    {hotel.hotelName}
+                  </Menu.Item>
+                </Menu.ItemGroup>
+                <Menu.Item
+                  key="logout"
+                  icon={<PoweroffOutlined />}
+                  onClick={logout}
+                >
+                  <Link to="/login" />
+                  logout
+                </Menu.Item>
+              </SubMenu>
             </Menu>
           </Header>
           <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
@@ -156,28 +160,46 @@ function App() {
               <div className="logo" />
               <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1">
-                  <Link to="/home" />
+                  <Link to="/provider/home" />
                   home
                 </Menu.Item>
                 <Menu.Item key="2">
                   <Link to="/providers/task" />
                   Booking request
                 </Menu.Item>
-                <Menu.Item key="3">
-                  <Dropdown
-                    trigger={['click']}
-                    overlay={providerMenu}
+                <SubMenu
+                  icon={<DownOutlined />}
+                  title={hotel.hotelName}
+                >
+                  <Menu.ItemGroup
+                    title="profile"
                   >
-                    <a
-                      className="ant-dropdown-link"
-                      onClick={e => e.preventDefault()}
-                      href
+                    <Menu.Item
+                      key="user-profile"
                     >
-                      {hotel.hotelName}
-                      <DownOutlined />
-                    </a>
-                  </Dropdown>
+                      <Link to="/provider/profile" />
+                    profile
+                  </Menu.Item>
+                  </Menu.ItemGroup>
+                  <Menu.ItemGroup
+                    title="customer"
+                  >
+                    <Menu.Item
+                      key="provider"
+                      onClick={changeToUser}
+                    >
+                      {name}
+                    </Menu.Item>
+                  </Menu.ItemGroup>
+                  <Menu.Item
+                    key="logout"
+                    icon={<PoweroffOutlined />}
+                    onClick={logout}
+                  >
+                    <Link to="/login" />
+                  logout
                 </Menu.Item>
+                </SubMenu>
               </Menu>
             </Header>
             <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>

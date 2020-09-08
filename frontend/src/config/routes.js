@@ -19,6 +19,7 @@ import ProviderHistoryPage from '../containers/pages/provider_bill/ProviderHisto
 import ProviderReviewPage from '../containers/pages/provider_review/Review'
 import AdminLoginPage from '../containers/pages/admin/Login'
 import AdminManagePage from '../containers/pages/admin/Manage'
+import ProviderHomePage from '../containers/pages/provider/Home'
 
 const components = {
     login: {
@@ -93,6 +94,10 @@ const components = {
         url: '/provider/review',
         component: ProviderReviewPage
     },
+    providerHomePage: {
+        url: '/provider/home',
+        component: ProviderHomePage
+    },
     adminLoginPage: {
         url: '/admin/login',
         component: AdminLoginPage
@@ -101,7 +106,6 @@ const components = {
         url: '/admin/manage',
         component: AdminManagePage
     },
-    
 }
 export default {
     guest: {
@@ -133,13 +137,14 @@ export default {
     },
     provider: {
         allowedRoutes: [
+            components.providerHomePage,
             components.providerProfilePage,
             components.editProviderPage,
             components.taskProviders,
             components.providerHistoryPage,
             components.providerReviewPage
         ],
-        redirectRoutes: "/home"
+        redirectRoutes: "/provider/home"
     },
     admin: {
         allowedRoutes: [
