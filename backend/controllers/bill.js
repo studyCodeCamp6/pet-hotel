@@ -6,8 +6,9 @@ const addBill = async (req, res) => {
         const newDate = await db.Bills.create({
             startDate,
             endDate,
-            provider_id,
-            status: 'waiting'
+            optionalServices,
+            status:"WAITING",
+            customer_id:req.user.id
         })
         const newResponse = newDate.dataValues.id
         console.log(newResponse)

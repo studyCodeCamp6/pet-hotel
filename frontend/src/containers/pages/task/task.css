@@ -1,0 +1,19 @@
+tr.ant-table-row.ant-table-row-level-0 {
+  cursor: pointer;
+}
+
+.status{
+    margin:0 10% 0 0;
+}
+.status-green{
+    margin:0 10% 0 0;
+    color:yellowgreen;
+}
+.status-yellow{
+    margin:0 10% 0 0;
+    color:yellow;
+}
+.status-grey{
+    margin:0 10% 0 0;
+    color:grey;
+}
