@@ -4,18 +4,14 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
     console.log("register provider")
-    const {
-        username,
-        password,
-        hotelName,
+    const { hotelName,
         phoneNumber,
         email,
         optionalService,
         area,
         wage,
         type,
-        address
-    } = req.body
+        address, } = req.body
 
     // req.file.{{ชื่อ field ใน Postman นะจ๊ะ}}
     // let { image } = req.files;
@@ -23,36 +19,36 @@ const register = async (req, res) => {
     // let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
 
 
-    const target = await db.Providers.findOne({ where: { customer_id: req.user.id } })
+    // const target = await db.Providers.findOne({ where: { customer_id: req.user.id } })
 
-    if (target) {
-        res.status(400).send({ message: 'already have hotel' })
-    } else {
-        const salt = bc.genSaltSync(Number(process.env.ROUNDS));
-        const hashedPW = bc.hashSync(password, salt);
-        await db.Providers.create({
-            username,
-            password: hashedPW,
-            hotelName,
-            phoneNumber,
-            email,
-            optionalService,
-            area,
-            wage,
-            type,
-            address,
-            // image: filePath,
-            customer_id: req.user.id
-        })
+    // if (target) {
+    //     res.status(400).send({ message: 'already have hotel' })
+    // } else {
+    //     const salt = bc.genSaltSync(Number(process.env.ROUNDS));
+    //     const hashedPW = bc.hashSync(password, salt);
+    await db.Providers.create({
+        // username,
+        // password: hashedPW,
+        hotelName,
+        phoneNumber,
+        email,
+        optionalService,
+        area,
+        wage,
+        type,
+        address,
+        // image: filePath,
+        customer_id: req.user.id
+    })
 
-        // image.mv(`images/providers/${filePath}`);
-        res.status(201).send({ message: 'hotel created' })
-    }
+    // image.mv(`images/providers/${filePath}`);
+    res.status(201).send({ message: 'hotel created' })
+
 }
 
 const getProvider = async (req, res) => {
     try {
-        const targetProvider = await db.Providers.findAll({ where: { id: req.user.id } })
+        const targetProvider = await db.Providers.findAll({ where: { id: 3} })
         res.status(201).send(targetProvider)
     }
     catch (err) {
@@ -66,15 +62,15 @@ const updateProvider = async (req, res) => {
     const { hotelName, address, phoneNumber, email, area, type, wage } = req.body
     const { id } = req.params
     const targetProvider = await db.Providers.findOne({ where: { id: req.user.id } })
-    if(targetProvider){
+    if (targetProvider) {
         await targetProvider.update({
-            hotelName, address, phoneNumber, email, area, type, wage 
+            hotelName, address, phoneNumber, email, area, type, wage
         })
-        res.status(201).send({message : `Product ID : ${id} is updated`})
-    }else{
-        res.status(401).send({message : " is not found"})
+        res.status(201).send({ message: `Product ID : ${id} is updated` })
+    } else {
+        res.status(401).send({ message: " is not found" })
     }
-    
+
 }
 
 module.exports = {
