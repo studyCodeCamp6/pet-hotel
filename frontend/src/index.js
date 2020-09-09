@@ -5,11 +5,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
+import Task_Customers from './containers/pages/task/Task_Customers';
+import Task_Providers from './containers/pages/task/Task_Providers';
 
 ReactDOM.render(
   <BrowserRouter>
     <App />
-    </BrowserRouter>,
+    {/* <Task_Customers /> */}
+    {/* <Task_Providers /> */}
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
