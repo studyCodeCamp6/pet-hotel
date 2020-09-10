@@ -12,11 +12,12 @@ function EditProvider() {
     const [dataInformation, setInformation] = useState(false)
     const [ID, setID] = useState('')
 
-    console.log(dataProviderService)
+    console.log(dataProvider)
 
     const fetchData = async () => {
         const httpData = await axios.get('/providers')
-        setDataProvider(httpData.data)
+        const newData = [httpData.data]
+        setDataProvider(newData)
     }
 
     const fetchDataService = async () => {

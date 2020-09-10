@@ -9,9 +9,9 @@ function CustomerHistory() {
 
     const columns = [
         {
-            title: "customer name",
-            dataIndex: "customer_name",
-            key: "customer_name",
+            title: "Hotel name",
+            dataIndex: "hotel_name",
+            key: "hotel_name",
         },
         {
             title: 'optionalServices',

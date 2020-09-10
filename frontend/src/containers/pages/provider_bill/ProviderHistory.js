@@ -69,7 +69,7 @@ function ProviderHistory() {
 
     return (
         <div>
-            <Table columns={columns} dataSource={bill} />
+            {/* <Table columns={columns} dataSource={bill} /> */}
         </div>
     )
 }

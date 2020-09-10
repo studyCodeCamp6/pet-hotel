@@ -29,28 +29,6 @@ function App() {
     setRole("user")
     localStorageService.setRole('user')
   }
-<<<<<<< HEAD
-  useEffect(() => {
-    const getUserDataFromToken = async () => {
-      const token = localStorageService.getToken()
-      console.log(token)
-      if (token) {
-        const user = jwtDecode(token)
-        console.log(user)
-        setName(user.name||'default')
-      }
-    };
-    getUserDataFromToken()
-  }, [role]);
-
-  useEffect(() => {
-    const fetchHotel = async () => {
-      const hotel = await axios.get("/providers/")
-      setHotel(hotel.data || 'default')
-    };
-    fetchHotel()
-  }, [role])
-=======
 
   const usePrevious = (val) => {
     const ref = useRef();
@@ -59,7 +37,6 @@ function App() {
     });
     return ref.current
   }
->>>>>>> develop
 
   const fetchUserData = async () => {
     const token = localStorageService.getToken()

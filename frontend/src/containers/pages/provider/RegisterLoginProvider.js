@@ -23,9 +23,9 @@ function RegisterLoginProvider() {
             wage: values.wage
         }
         console.log(body)
-        await axios.post('/providers/add', body)
+       
         try {
-            await axios.post('/providers/add', body)
+            await axios.post('/providers/newHotel', body)
             notification.success({
                 message: "register as hotel provider successfully"
             })
@@ -93,7 +93,8 @@ function RegisterLoginProvider() {
     const pageFirst = (
         <Row justify="center" align="middle" style={{ height: "100%" }}>
             <Col xs={23} sm={20} md={20} lg={12} xl={10}>
-                <Form>
+                <Form 
+                onFinish={onFinishFirst}>
                     <Row justify="center" style={{ margin: "20px" }}>
                         <img
                             style={{ width: "100%", maxWidth: "250px" }}
@@ -227,7 +228,7 @@ function RegisterLoginProvider() {
 
 
                     <Row justify="center">
-                        <Button htmlType="submit" onClick={onFinishFirst}>Register</Button>
+                        <Button type="primary" htmlType="submit">Register</Button>
                     </Row>
                 </Form>
             </Col>
