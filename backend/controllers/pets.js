@@ -20,25 +20,33 @@ const registerPets = async (req, res) => {
     // let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
     // image.mv(`image/${filePath}`);  // path อะไร
 
-    const { cloneData } = req.body
-    const addDog = await db.Pets.bulkCreate(cloneData)
+    try {
+        const { cloneData, bodyDate, newServices } = req.body
+        // console.log(bodyDate)
+        const addDog = await db.Pets.bulkCreate(cloneData)
+        // console.log('pets' , addDog)
 
-    // certificate: filePath,
-    // image: filePath,
-    const { bodyDate } = req.body
-    const newDate = await db.Bills.create(bodyDate)
+        // certificate: filePath,
+        // image: filePath,
+        const newDate = await db.Bills.create(bodyDate)
+        // console.log("bill Date", newDate)
 
-    // const newResponse = { bill_id: newDate.dataValues.id }
-    const newBills = addDog.map(item => ({ pet_id: item.dataValues.id, bill_id: newDate.dataValues.id }))
-    const addPets = await db.PetsBills.bulkCreate(newBills)
-
-
-    const { newServices } = req.body
-    const newDataServices = newServices.map(item => ({ service_id: item.service_id, bill_id: newDate.dataValues.id }))
-    const newData = await db.BillOptionalServices.bulkCreate(newDataServices)
+        // const newResponse = { bill_id: newDate.dataValues.id }
+        const newBills = addDog.map(item => ({ pet_id: item.dataValues.id, bill_id: newDate.dataValues.id }))
+        const addPets = await db.PetsBills.bulkCreate(newBills)
+        // console.log("bill pets", addPets)
 
 
-    res.status(201).send({ message: `Add New Pets Success.` })
+        // bill service
+        const newDataServices = newServices.map(item => ({ service_id: item.service_id, bill_id: newDate.dataValues.id }))
+        const newData = await db.BillOptionalServices.bulkCreate(newDataServices)
+        // console.log("bill service", newData)
+
+        res.status(201).send({ message: `Add New Pets Success.` })
+    }
+    catch (err) {
+       console.log(err)
+    }
 }
 
 const deletePets = async (req, res) => {
