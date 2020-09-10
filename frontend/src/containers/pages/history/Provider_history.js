@@ -3,15 +3,15 @@ import { Table } from 'antd';
 import axios from '../../../config/axios';
 import moment from "moment";
 
-function CustomerHistory() {
+function Provider_history() {
     let [bill, setBill] = useState([]);
     let [allData, setAllData] = useState([]);
 
     const columns = [
         {
-            title: "Hotel name",
-            dataIndex: "hotel_name",
-            key: "hotel_name",
+            title: "customer name",
+            dataIndex: "customer_name",
+            key: "customer_name",
         },
         {
             title: 'optionalServices',
@@ -59,7 +59,7 @@ function CustomerHistory() {
                     breedType: bill.targetPet[i][0].breedType,
                     weight: bill.targetPet[i][0].weight,
                     startDate: bill.targetBill[i].startDate,
-                    endDate: bill.targetBill[i].endtDate,
+                    endDate: bill.targetBill[i].endDate,
                     status: bill.targetBill[i].status,
                 },
             ];
@@ -68,11 +68,10 @@ function CustomerHistory() {
 
     return (
         <div>
-
+            
             <Table columns={columns} dataSource={arrayData} />
         </div>
     )
 }
 
-export default CustomerHistory
-
+export default Provider_history
