@@ -21,13 +21,13 @@ const register = async (req, res) => {
     // let filePath = `/${(new Date()).getTime()}.${fileExtension}`;
 
 
-    // const target = await db.Providers.findOne({ where: { customer_id: req.user.id } })
+    const target = await db.Providers.findOne({ where: { customer_id: req.user.id } })
 
     if (target) {
         res.status(400).send({ message: 'already have hotel' })
     } else {
         // const salt = bc.genSaltSync(Number(process.env.ROUNDS));
-        // const hashedPW = bc.hashSync(password, salt);
+        const hashedPW = bc.hashSync(password, salt);
         await db.Providers.create({
             // username,
             // password: hashedPW,
@@ -46,9 +46,10 @@ const register = async (req, res) => {
     }
 }
 
+
 const getProvider = async (req, res) => {
     try {
-        const targetProvider = await db.Providers.findAll({ where: { id: 3 } })
+        const targetProvider = await db.Providers.findOne({ where: { customer_id: req.user.id } })
         res.status(201).send(targetProvider)
     }
     catch (err) {
@@ -58,6 +59,18 @@ const getProvider = async (req, res) => {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+   
 const updateProvider = async (req, res) => {
     const { hotelName, address, phoneNumber, email, area, type, wage } = req.body
     const { id } = req.params
