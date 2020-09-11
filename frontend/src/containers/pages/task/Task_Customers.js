@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Modal, Descriptions, Badge } from "antd";
+import { Table, Tag, Modal} from "antd";
 import axios from "../../../config/axios";
 import moment from "moment";
 import "./task.css";
@@ -117,236 +117,255 @@ const columns = [
   },
 ];
 
-const columnsModal = [
-  {
-    title: "Hotel Name",
-    dataIndex: "provider_id",
-    key: "provider_id",
-    fixed: "left",
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "Phone Number",
-    dataIndex: "phoneNumber",
-    key: "phoneNumber",
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
-  },
-  {
-    title: "Area",
-    dataIndex: "area",
-    key: "area",
-  },
-  {
-    title: "Wage",
-    dataIndex: "wage",
-    key: "wage",
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-    key: "type",
-  },
-  {
-    title: "Image",
-    dataIndex: "image",
-    key: "image",
-  },
-  {
-    title: "Ban",
-    dataIndex: "statusBan",
-    key: "statusBan",
-  },
-  {
-    title: "pet name",
-    dataIndex: "petName",
-    key: "petName",
-    render: (petName) => (
-      <>
-        {petName === undefined
-          ? false
-          : petName.map((pet, idx) => {
-              return (
-                <div key={idx}>
-                  {idx + 1}. <Tag>{pet}</Tag>
-                </div>
-              );
-            })}
-      </>
-    ),
-  },
-  {
-    title: "pet type",
-    dataIndex: "petType",
-    key: "petType",
-    render: (petType) => (
-      <>
-        {petType === undefined
-          ? false
-          : petType.map((pet, idx) => {
-              return (
-                <div key={idx}>
-                  {idx + 1}. <Tag>{pet}</Tag>
-                </div>
-              );
-            })}
-      </>
-    ),
-  },
-  {
-    title: "pet Weight",
-    dataIndex: "petWeight",
-    key: "petWeight",
-    render: (petWeight) => (
-      <>
-        {petWeight === undefined
-          ? false
-          : petWeight.map((pet, idx) => {
-              return (
-                <div key={idx}>
-                  {idx + 1}. <Tag>{pet}</Tag>
-                </div>
-              );
-            })}
-      </>
-    ),
-  },
-  {
-    title: "pet Sex",
-    dataIndex: "petSex",
-    key: "petSex",
-    render: (petSex) => (
-      <>
-        {petSex === undefined
-          ? false
-          : petSex.map((pet, idx) => {
-              return (
-                <div key={idx}>
-                  {idx + 1}. <Tag>{pet}</Tag>
-                </div>
-              );
-            })}
-      </>
-    ),
-  },
-  {
-    title: "pet Image",
-    dataIndex: "petImage",
-    key: "petImage",
-    render: (petImage) => (
-      <>
-        {petImage === undefined
-          ? false
-          : petImage.map((pet, idx) => {
-              return (
-                <div key={idx}>
-                  {idx + 1}. <Tag>{pet}</Tag>
-                </div>
-              );
-            })}
-      </>
-    ),
-  },
-  {
-    title: "start date",
-    dataIndex: "startDate",
-    key: "startDate",
-    render: (startDate) => (
-      <div>
-        <div>{moment(startDate).format("Do MMMM YYYY")}</div>
-        <div>{moment(startDate).format("h:mm a")}</div>
-      </div>
-    ),
-  },
-  {
-    title: "end date",
-    dataIndex: "endDate",
-    key: "endDate",
-    render: (endDate) => (
-      <>
-        <div>{moment(endDate).format("Do MMMM YYYY")}</div>
-        <div>{moment(endDate).format("h:mm a")}</div>
-      </>
-    ),
-  },
-  {
-    title: "status",
-    key: "status",
-    dataIndex: "status",
-    render: (status) => (
-      <>
-        {status === "WAITING" ? (
-          <>
-            <span className={"status-green"}>waiting</span>
-          </>
-        ) : status === "ACCEPT" ? (
-          <>
-            <span className={"status-yellow"}>accept</span>
-          </>
-        ) : status === "CANCEL" ? (
-          <>
-            <span className={"status-grey"}>cancel</span>
-          </>
-        ) : status === "REJECT" ? (
-          <>
-            <span className={"status-grey"}>accept</span>
-          </>
-        ) : status === "CONFIRM" ? (
-          <>
-            <span className={"status-yellow"}>accept</span>
-          </>
-        ) : status === "ONTIME" ? (
-          <>
-            <span className={"status-yellow"}>accept</span>
-          </>
-        ) : status === "PROGRESS" ? (
-          <>
-            <span className={"status-yellow"}>accept</span>
-          </>
-        ) : status === "ENDING" ? (
-          <>
-            <span className={"status-yellow"}>accept</span>
-          </>
-        ) : (
-          <div>something went wrong</div>
-        )}
-      </>
-    ),
-  },
-  {
-    title: "Action",
-    key: "status",
-    dataIndex: "status",
-    render: (status, billId) => {
-      return (
-        <>
-          {status === "WAITING" ? (
-            <Tag
-              color={"volcano"}
-              onClick={() => updateBill("CANCEL", billId.billId)}
-            >
-              cancel
-            </Tag>
-          ) : (
-            []
-          )}
-        </>
-      );
-    },
-  },
-];
+
 
 function Task_Customers() {
   const [bill, setBill] = useState([]);
   const [billModal, setBillModal] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [paymentModalVisible,setPaymentModalVisible] = useState(false)
+
+
+  const columnsModal = [
+    {
+      title: "Hotel Name",
+      dataIndex: "provider_id",
+      key: "provider_id",
+      fixed: "left",
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Phone Number",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Area",
+      dataIndex: "area",
+      key: "area",
+    },
+    {
+      title: "Wage",
+      dataIndex: "wage",
+      key: "wage",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+    },
+    {
+      title: "Ban",
+      dataIndex: "statusBan",
+      key: "statusBan",
+    },
+    {
+      title: "pet name",
+      dataIndex: "petName",
+      key: "petName",
+      render: (petName) => (
+        <>
+          {petName === undefined
+            ? false
+            : petName.map((pet, idx) => {
+                return (
+                  <div key={idx}>
+                    {idx + 1}. <Tag>{pet}</Tag>
+                  </div>
+                );
+              })}
+        </>
+      ),
+    },
+    {
+      title: "pet type",
+      dataIndex: "petType",
+      key: "petType",
+      render: (petType) => (
+        <>
+          {petType === undefined
+            ? false
+            : petType.map((pet, idx) => {
+                return (
+                  <div key={idx}>
+                    {idx + 1}. <Tag>{pet}</Tag>
+                  </div>
+                );
+              })}
+        </>
+      ),
+    },
+    {
+      title: "pet Weight",
+      dataIndex: "petWeight",
+      key: "petWeight",
+      render: (petWeight) => (
+        <>
+          {petWeight === undefined
+            ? false
+            : petWeight.map((pet, idx) => {
+                return (
+                  <div key={idx}>
+                    {idx + 1}. <Tag>{pet}</Tag>
+                  </div>
+                );
+              })}
+        </>
+      ),
+    },
+    {
+      title: "pet Sex",
+      dataIndex: "petSex",
+      key: "petSex",
+      render: (petSex) => (
+        <>
+          {petSex === undefined
+            ? false
+            : petSex.map((pet, idx) => {
+                return (
+                  <div key={idx}>
+                    {idx + 1}. <Tag>{pet}</Tag>
+                  </div>
+                );
+              })}
+        </>
+      ),
+    },
+    {
+      title: "pet Image",
+      dataIndex: "petImage",
+      key: "petImage",
+      render: (petImage) => (
+        <>
+          {petImage === undefined
+            ? false
+            : petImage.map((pet, idx) => {
+                return (
+                  <div key={idx}>
+                    {idx + 1}. <Tag>{pet}</Tag>
+                  </div>
+                );
+              })}
+        </>
+      ),
+    },
+    {
+      title: "start date",
+      dataIndex: "startDate",
+      key: "startDate",
+      render: (startDate) => (
+        <div>
+          <div>{moment(startDate).format("Do MMMM YYYY")}</div>
+          <div>{moment(startDate).format("h:mm a")}</div>
+        </div>
+      ),
+    },
+    {
+      title: "end date",
+      dataIndex: "endDate",
+      key: "endDate",
+      render: (endDate) => (
+        <>
+          <div>{moment(endDate).format("Do MMMM YYYY")}</div>
+          <div>{moment(endDate).format("h:mm a")}</div>
+        </>
+      ),
+    },
+    {
+      title: "status",
+      key: "status",
+      dataIndex: "status",
+      render: (status) => (
+        <>
+          {status === "WAITING" ? (
+            <>
+              <span className={"status-green"}>waiting</span>
+            </>
+          ) : status === "ACCEPT" ? (
+            <>
+              <span className={"status-yellow"}>accept</span>
+            </>
+          ) : status === "CANCEL" ? (
+            <>
+              <span className={"status-grey"}>cancel</span>
+            </>
+          ) : status === "REJECT" ? (
+            <>
+              <span className={"status-grey"}>accept</span>
+            </>
+          ) : status === "CONFIRM" ? (
+            <>
+              <span className={"status-yellow"}>confirm</span>
+            </>
+          ) : status === "ONTIME" ? (
+            <>
+              <span className={"status-yellow"}>accept</span>
+            </>
+          ) : status === "PROGRESS" ? (
+            <>
+              <span className={"status-yellow"}>accept</span>
+            </>
+          ) : status === "ENDING" ? (
+            <>
+              <span className={"status-yellow"}>accept</span>
+            </>
+          ) : (
+            <div>something went wrong</div>
+          )}
+        </>
+      ),
+    },
+    {
+      title: "Action",
+      key: "status",
+      dataIndex: "status",
+      render: (status, billId,cost) => {
+        return (
+          <>
+            {status === "WAITING" ? (
+              <button><Tag
+                color={"volcano"}
+                onClick={() => updateBill("CANCEL", billId.billId)}
+              >
+                cancel
+              </Tag>
+              </button>
+            ) : 
+              status === "ACCEPT" ? (
+                <>
+               <button><Tag
+                  color={"blue"}
+                  onClick={this.showModalPay}
+                >
+                  CONFIRM
+                </Tag>
+                </button>
+                <Modal visible={paymentModalVisible} onOk={handleCancelPay} onCancel={handleCancelPay}>
+                    are you sure you want to pay?
+
+                </Modal>
+                </>
+              ):"something wen wrong"
+            }
+          </>
+        );
+      },
+    },
+  ];
 
   const handleOk = (e) => {
     setVisible(false);
@@ -355,6 +374,27 @@ function Task_Customers() {
   const handleCancel = (e) => {
     setVisible(false);
   };
+
+  const showModalPay = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  const handleOkPay = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  const handleCancelPay = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
   useEffect(() => {
     fetchData();
   }, [visible]);
@@ -363,6 +403,7 @@ function Task_Customers() {
     try {
       const targetBill = await axios.get(`/tasks/customers`);
       await setBill(targetBill.data);
+      console.log(targetBill)
     } catch (error) {
       console.log(error);
     }

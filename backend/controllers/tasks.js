@@ -9,10 +9,41 @@ const getCustomerBills = async (req, res) => {
     const targetBill = await db.Bills.findAll({
       where: { customer_id: myId },
       order: [["startDate", "DESC"]],
-      attributes: ["id", "provider_id", "startDate", "endDate", "status"],
-      include: [{ model: db.Providers, attributes: ["hotelName", "phoneNumber", "email", "area", "wage", "type", "image", "address", "status", "isOpen"], }, { model: db.PetsBills, attributes: [["bill_id", "pet_id"]], include: { model: db.Pets, attributes: ["name", "breedType", "weight", "sex", "certificate", "image", "other"] } }]
+      attributes: ["id","provider_id", "startDate", "endDate", "status"],
+      include: [
+        {
+          model: db.Providers,
+          attributes: [
+            "hotelName",
+            "phoneNumber",
+            "email",
+            "area",
+            "wage",
+            "type",
+            "image",
+            "address",
+            "status",
+            "isOpen",
+          ],
+        },
+        {
+          model: db.PetsBills,
+          attributes: [["bill_id", "pet_id"]],
+          include: {
+            model: db.Pets,
+            attributes: [
+              "name",
+              "breedType",
+              "weight",
+              "sex",
+              "certificate",
+              "image",
+              "other",
+            ],
+          },
+        },
+      ],
     });
-
 
     if (!targetBill) {
       res.status(404).send({ message: `Not Found bill ID: ${id}` });
@@ -75,13 +106,17 @@ const UpdateCustomerBIlls = async (req, res) => {
     const myId = req.user.id;
     const targetBill = await db.Bills.findOne({
       where: {
-        [Op.and]: [{ id: bId }, { customer_id: myId }, { status: ["WAITING"] }],
+        [Op.and]: [{ id: bId }, { customer_id: myId }],
       },
     });
     if (targetBill) {
+<<<<<<< HEAD
+      await targetBill.update({ status:req.body.status });
+=======
       console.log("a", targetBill.status)
       await targetBill.update({ status: "CANCEL" });
       console.log("b", targetBill)
+>>>>>>> develop
       res.send({ message: "sucess" });
     } else {
       res.send({ message: "provider accecpted" });
@@ -100,6 +135,15 @@ const getProviderBills = async (req, res) => {
     const targetBill = await db.Bills.findAll({
       where: { provider_id: myId },
       order: [["startDate", "DESC"]],
+<<<<<<< HEAD
+      attributes: ["id", "startDate", "endDate", "status"],
+      include: [
+        {
+          model: db.PetsBills,
+          attributes: [["bill_id", "pet_id","id"]],
+          include: {
+            model: db.Pets,
+=======
       attributes: ["id", "customer_id", "startDate", "endDate", "status"],
       raw: true,
     });
@@ -130,6 +174,7 @@ const getProviderBills = async (req, res) => {
         targetPetBills.map(async (ele, idx) => {
           return await db.Pets.findAll({
             where: { id: [ele.pet_id] },
+>>>>>>> develop
             attributes: [
               "name",
               "breedType",
@@ -138,17 +183,38 @@ const getProviderBills = async (req, res) => {
               "certificate",
               "image",
               "other",
+              "customer_id",
+              
             ],
+<<<<<<< HEAD
+            include:{
+                model:db.Customers,
+                attributes:["id","name","lastName","phoneNumber","email","status","image"]
+              }
+          },
+        },
+      ],
+    
+    });
+
+    if (!targetBill) {
+      res.status(404).send({ message: `Not Found bill ID: ${id}` });
+    } else {
+      console.log("this is",targetBill)
+      res.send({ targetBill });
+=======
             raw: true,
           });
         })
 
       res.send({ targetBill, billToCustomers, targetPet });
+>>>>>>> develop
     }
   } catch (error) {
     res.send(error);
   }
 };
+
 
 const UpdateProviderBIlls = async (req, res) => {
   const { status } = req.body;
@@ -158,11 +224,11 @@ const UpdateProviderBIlls = async (req, res) => {
 
     const targetBill = await db.Bills.findOne({
       where: {
-        [Op.and]: [{ id: bId }, { provider_id: myId }, { status: status }],
+        [Op.and]: [{ id: bId }, { provider_id: myId }],
       },
     });
     if (targetBill) {
-      await targetBill.update({ status: status });
+      await targetBill.update({ status:req.body.status});
       res.send({ message: "provider accecpted" });
     } else {
       res.send({ message: "provider accecpted" });
