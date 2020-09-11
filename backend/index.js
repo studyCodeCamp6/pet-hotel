@@ -13,7 +13,7 @@ const RoutesTasks = require("./routes/tasks");
 const RoutesHistories = require("./routes/histories");
 const RoutesOptionals = require('./routes/optionals');
 
-let allowedOrigins = ["http://localhost:3000","http://localhost:3002"];
+let allowedOrigins = ["http://localhost:3000","http://localhost:3001"];
 
 app.use(
   cors({

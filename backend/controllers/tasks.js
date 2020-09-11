@@ -110,7 +110,13 @@ const UpdateCustomerBIlls = async (req, res) => {
       },
     });
     if (targetBill) {
+<<<<<<< HEAD
       await targetBill.update({ status:req.body.status });
+=======
+      console.log("a", targetBill.status)
+      await targetBill.update({ status: "CANCEL" });
+      console.log("b", targetBill)
+>>>>>>> develop
       res.send({ message: "sucess" });
     } else {
       res.send({ message: "provider accecpted" });
@@ -125,9 +131,11 @@ const UpdateCustomerBIlls = async (req, res) => {
 const getProviderBills = async (req, res) => {
   try {
     const myId = req.user.id;
+    console.log("this is the ", myId)
     const targetBill = await db.Bills.findAll({
       where: { provider_id: myId },
       order: [["startDate", "DESC"]],
+<<<<<<< HEAD
       attributes: ["id", "startDate", "endDate", "status"],
       include: [
         {
@@ -135,6 +143,38 @@ const getProviderBills = async (req, res) => {
           attributes: [["bill_id", "pet_id","id"]],
           include: {
             model: db.Pets,
+=======
+      attributes: ["id", "customer_id", "startDate", "endDate", "status"],
+      raw: true,
+    });
+
+    if (!targetBill) {
+      res.status(404).send({ message: `Not Found bill ID: ${id}` });
+    } else {
+      const billToCustomers = await
+        targetBill.map((customer) => {
+          return db.Customers.findAll({
+            where: { id: customer.customer_id },
+            attributes: ["name", "lastName", "phoneNumber", "status"],
+            raw: true,
+          });
+        });
+
+      const billToPet = await targetBill.map((bill) => {
+        return bill.id;
+      });
+
+      const targetPetBills = await db.PetsBills.findAll({
+        where: { bill_id: billToPet },
+        attributes: ["pet_id"],
+        raw: true,
+      });
+
+      const targetPet = await
+        targetPetBills.map(async (ele, idx) => {
+          return await db.Pets.findAll({
+            where: { id: [ele.pet_id] },
+>>>>>>> develop
             attributes: [
               "name",
               "breedType",
@@ -146,6 +186,7 @@ const getProviderBills = async (req, res) => {
               "customer_id",
               
             ],
+<<<<<<< HEAD
             include:{
                 model:db.Customers,
                 attributes:["id","name","lastName","phoneNumber","email","status","image"]
@@ -161,6 +202,13 @@ const getProviderBills = async (req, res) => {
     } else {
       console.log("this is",targetBill)
       res.send({ targetBill });
+=======
+            raw: true,
+          });
+        })
+
+      res.send({ targetBill, billToCustomers, targetPet });
+>>>>>>> develop
     }
   } catch (error) {
     res.send(error);

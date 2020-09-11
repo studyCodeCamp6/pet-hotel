@@ -91,30 +91,29 @@ function Add_Pets(props) {
         setConfirm((pervState) => !pervState)
     }
 
-
-
     const onChangeTimePicker = (value, dateString) => {
         setStDate(dateString[0])
         setEnDate(dateString[1])
         console.log('Selected Time: ', value);
     }
+
     const onChange = (checkedValues) => {
         setService(checkedValues)
     }
 
-
-
     const confirmPets = async () => {
         const cloneData = [...data]
         console.log(cloneData)
+        const cloneDataServices = [...service]
+        const newServices = await cloneDataServices.map(item => ({ service_id: item }))
+        console.log(newServices)
         const bodyDate = {
             startDate: stDate,
             endDate: enDate,
             provider_id: ID,
             status: 'waiting'
         }
-        const cloneDataServices = [...service]
-        const newServices = cloneDataServices.map(item => ({ service_id: item }))
+        console.log(bodyDate)
         try {
             await axios.post('/pets', { cloneData, bodyDate, newServices })
             console.log('Add pets && Date && service Success')
@@ -127,6 +126,7 @@ function Add_Pets(props) {
     console.log(data)
     console.log(stDate)
     console.log(enDate)
+    console.log(service)
 
 
     return (
