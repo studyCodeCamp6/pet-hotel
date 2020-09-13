@@ -1,0 +1,127 @@
+.NavbarItems {
+  background: #553234;
+  height: 47px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.navbar-logo {
+  color: #f6ab4a;
+  justify-self: start;
+  margin-top: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.fa-react {
+  margin-left: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.nav-menu {
+  display: grid;
+  grid-template-columns: repeat(8, auto);
+  grid-gap: 10px;
+  list-style: none;
+  text-align: center;
+  width: 70vw;
+  justify-content: end;
+  margin-right: 2rem;
+  margin-top: 20px;
+}
+
+.nav-links {
+  color: #f6ab4a;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.nav-links:hover {
+  color: #000000;
+  background-color: #f6ab4a;
+  border-radius: 4px;
+  transition: all 0.2s ease-out;
+}
+
+.fa-bars {
+  color: #f6ab4a;
+}
+
+.menu-icon {
+  display: none;
+}
+
+@media screen and (max-width: 960px) {
+  .NavbarItems {
+    position: relative;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 2000px;
+    position: absolute;
+    top: 27px;
+    left: 100%;
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
+
+  .nav-menu.active {
+    background: #f6d04a;
+    background-color: #f6d04a;
+    height: 2000px;
+    left: 30%;
+    opacity: 1;
+    transition: all 0.5s ease;
+    z-index: 1;
+    padding-left: 0;
+  }
+
+  .nav-links {
+    text-align: left;
+    padding: 1rem 2rem;
+    width: 100%;
+    display: table;
+  }
+
+  .nav-links:hover {
+    background-color: #f6ab4a;
+    border-radius: 0;
+  }
+
+  .navbar-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 0px;
+    /* transform: translate(25%, 50%); */
+  }
+
+  .menu-icon {
+    display: block;
+    position: absolute;
+    top: 3;
+    right: 20px;
+    transform: translate(-100, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
+  .fa-times {
+    color: #f6ab4a;
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    color: #000000;
+  }
+
+  .nav-links:hover {
+    color: #000000;
+  }
+
+}
