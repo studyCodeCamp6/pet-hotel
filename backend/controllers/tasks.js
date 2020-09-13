@@ -1,5 +1,9 @@
 const { Op } = require("sequelize");
 const db = require("../models");
+const moment = require("moment");
+const momentTimezone = require("moment-timezone");
+const { utc } = require("moment");
+const { sequelize } = require("../models");
 
 /* =============  Customer Bill =============*/
 
@@ -9,7 +13,7 @@ const getCustomerBills = async (req, res) => {
     const targetBill = await db.Bills.findAll({
       where: { customer_id: myId },
       order: [["startDate", "DESC"]],
-      attributes: ["id","provider_id", "startDate", "endDate", "status"],
+      attributes: ["id", "provider_id", "startDate", "endDate", "status"],
       include: [
         {
           model: db.Providers,
@@ -28,7 +32,6 @@ const getCustomerBills = async (req, res) => {
         },
         {
           model: db.PetsBills,
-          attributes: [["bill_id", "pet_id"]],
           include: {
             model: db.Pets,
             attributes: [
@@ -110,13 +113,8 @@ const UpdateCustomerBIlls = async (req, res) => {
       },
     });
     if (targetBill) {
-<<<<<<< HEAD
-      await targetBill.update({ status:req.body.status });
-=======
-      console.log("a", targetBill.status)
-      await targetBill.update({ status: "CANCEL" });
-      console.log("b", targetBill)
->>>>>>> develop
+      console.log(req.body.status);
+      await targetBill.update({ status: req.body.status });
       res.send({ message: "sucess" });
     } else {
       res.send({ message: "provider accecpted" });
@@ -131,50 +129,18 @@ const UpdateCustomerBIlls = async (req, res) => {
 const getProviderBills = async (req, res) => {
   try {
     const myId = req.user.id;
-    console.log("this is the ", myId)
     const targetBill = await db.Bills.findAll({
-      where: { provider_id: myId },
+      where: {
+        provider_id: myId,
+        [Op.not]: [{ status: ["ENDING", "COMPLETE"] }],
+      },
       order: [["startDate", "DESC"]],
-<<<<<<< HEAD
       attributes: ["id", "startDate", "endDate", "status"],
       include: [
         {
           model: db.PetsBills,
-          attributes: [["bill_id", "pet_id","id"]],
           include: {
             model: db.Pets,
-=======
-      attributes: ["id", "customer_id", "startDate", "endDate", "status"],
-      raw: true,
-    });
-
-    if (!targetBill) {
-      res.status(404).send({ message: `Not Found bill ID: ${id}` });
-    } else {
-      const billToCustomers = await
-        targetBill.map((customer) => {
-          return db.Customers.findAll({
-            where: { id: customer.customer_id },
-            attributes: ["name", "lastName", "phoneNumber", "status"],
-            raw: true,
-          });
-        });
-
-      const billToPet = await targetBill.map((bill) => {
-        return bill.id;
-      });
-
-      const targetPetBills = await db.PetsBills.findAll({
-        where: { bill_id: billToPet },
-        attributes: ["pet_id"],
-        raw: true,
-      });
-
-      const targetPet = await
-        targetPetBills.map(async (ele, idx) => {
-          return await db.Pets.findAll({
-            where: { id: [ele.pet_id] },
->>>>>>> develop
             attributes: [
               "name",
               "breedType",
@@ -184,37 +150,47 @@ const getProviderBills = async (req, res) => {
               "image",
               "other",
               "customer_id",
-              
             ],
-<<<<<<< HEAD
-            include:{
-                model:db.Customers,
-                attributes:["id","name","lastName","phoneNumber","email","status","image"]
-              }
+            include: {
+              model: db.Customers,
+              attributes: [
+                "id",
+                "name",
+                "lastName",
+                "phoneNumber",
+                "email",
+                "status",
+                "image",
+              ],
+            },
           },
         },
       ],
-    
     });
 
     if (!targetBill) {
       res.status(404).send({ message: `Not Found bill ID: ${id}` });
     } else {
-      console.log("this is",targetBill)
-      res.send({ targetBill });
-=======
-            raw: true,
-          });
-        })
-
-      res.send({ targetBill, billToCustomers, targetPet });
->>>>>>> develop
+      let proposedDate = moment().format("YYYY-MM-DDTHH:mm");
+      for (let i = 0; i < targetBill.length; i++) {
+        if(targetBill[i].status=="CONFIRM") {
+          const  startDateDatabase =  (JSON.stringify(targetBill[i].startDate)).slice(1,-1)
+          const endDateDatabase =  (JSON.stringify(targetBill[i].endDate)).slice(1,-1)
+          if  (startDateDatabase< proposedDate) {
+            await targetBill[i].update({ status: "ONTIME" });
+            console.log(startDateDatabase , proposedDate)
+            console.log(startDateDatabase > proposedDate)
+          } else if (endDateDatabase < proposedDate) {
+            await targetBill[i].update({ status: "ENDING" });
+          }
+        }
+      }
+      res.status(200).send({ targetBill });
     }
   } catch (error) {
     res.send(error);
   }
 };
-
 
 const UpdateProviderBIlls = async (req, res) => {
   const { status } = req.body;
@@ -228,7 +204,7 @@ const UpdateProviderBIlls = async (req, res) => {
       },
     });
     if (targetBill) {
-      await targetBill.update({ status:req.body.status});
+      await targetBill.update({ status: req.body.status });
       res.send({ message: "provider accecpted" });
     } else {
       res.send({ message: "provider accecpted" });

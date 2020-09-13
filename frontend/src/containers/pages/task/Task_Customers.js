@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Modal} from "antd";
+import { Table, Tag, Modal } from "antd";
 import axios from "../../../config/axios";
 import moment from "moment";
 import "./task.css";
 
 const updateBill = async (newstatus, billId) => {
   try {
-    console.log(billId);
-    console.log(newstatus);
     await axios.patch(`/tasks/customers/${billId}`, {
       status: newstatus,
     });
@@ -46,6 +44,24 @@ const columns = [
             })}
       </>
     ),
+  },
+  {
+    title: "cost",
+    dataIndex: "cost",
+    key: "cost",
+    width: "15%",
+    render: (cost) => {
+      return cost.map((cost, key) => (
+        <div key={key}>
+          <Tag>{cost}</Tag>
+        </div>
+      ));
+    },
+  },
+  {
+    title: "total",
+    dataIndex: "total",
+    key: "total",
   },
   {
     title: "start date",
@@ -91,23 +107,27 @@ const columns = [
           </>
         ) : status === "REJECT" ? (
           <>
-            <span className={"status-grey"}>accept</span>
+            <span className={"status-grey"}>reject</span>
           </>
         ) : status === "CONFIRM" ? (
           <>
-            <span className={"status-yellow"}>accept</span>
+            <span className={"status-yellow"}>confirm</span>
           </>
         ) : status === "ONTIME" ? (
           <>
-            <span className={"status-yellow"}>accept</span>
+            <span className={"status-yellow"}>ontime</span>
           </>
         ) : status === "PROGRESS" ? (
           <>
-            <span className={"status-yellow"}>accept</span>
+            <span className={"status-yellow"}>progress</span>
           </>
         ) : status === "ENDING" ? (
           <>
-            <span className={"status-yellow"}>accept</span>
+            <span className={"status-yellow"}>ending</span>
+          </>
+        ) : status === "COMPLETE" ? (
+          <>
+            <span className={"status-yellow"}>complete</span>
           </>
         ) : (
           <div>something went wrong</div>
@@ -117,14 +137,15 @@ const columns = [
   },
 ];
 
-
-
 function Task_Customers() {
   const [bill, setBill] = useState([]);
-  const [billModal, setBillModal] = useState([]);
-  const [visible, setVisible] = useState(false);
-  const [paymentModalVisible,setPaymentModalVisible] = useState(false)
+  const [rowTask, setRowTask] = useState(false);
 
+  const [billModal, setBillModal] = useState([]);
+  const [paymentModalVisible, setPaymentModalVisible] = useState(false);
+
+  const [confirmSentpetModal, setConfirmSentpetModal] = useState(false);
+  const [onProgressVisible, setOnProgressVisible] = useState(true);
 
   const columnsModal = [
     {
@@ -172,6 +193,18 @@ function Task_Customers() {
       title: "Ban",
       dataIndex: "statusBan",
       key: "statusBan",
+    },
+    {
+      title: "cost",
+      dataIndex: "cost",
+      key: "cost",
+      render: (cost) => {
+        return cost.map((cost, key) => (
+          <div key={key}>
+            <Tag>{cost}</Tag>
+          </div>
+        ));
+      },
     },
     {
       title: "pet name",
@@ -305,7 +338,7 @@ function Task_Customers() {
             </>
           ) : status === "REJECT" ? (
             <>
-              <span className={"status-grey"}>accept</span>
+              <span className={"status-grey"}>reject</span>
             </>
           ) : status === "CONFIRM" ? (
             <>
@@ -313,15 +346,19 @@ function Task_Customers() {
             </>
           ) : status === "ONTIME" ? (
             <>
-              <span className={"status-yellow"}>accept</span>
+              <span className={"status-yellow"}>ontime</span>
             </>
           ) : status === "PROGRESS" ? (
             <>
-              <span className={"status-yellow"}>accept</span>
+              <span className={"status-yellow"}>progress</span>
             </>
           ) : status === "ENDING" ? (
             <>
-              <span className={"status-yellow"}>accept</span>
+              <span className={"status-yellow"}>ending</span>
+            </>
+          ) : status === "COMPLETE" ? (
+            <>
+              <span className={"status-yellow"}>complete</span>
             </>
           ) : (
             <div>something went wrong</div>
@@ -330,37 +367,101 @@ function Task_Customers() {
       ),
     },
     {
+      title: "total",
+      dataIndex: "total",
+      key: "total",
+    },
+    {
       title: "Action",
       key: "status",
       dataIndex: "status",
-      render: (status, billId,cost) => {
+      render: (status, billId, total) => {
+        console.log(status, billId, total);
         return (
           <>
             {status === "WAITING" ? (
-              <button><Tag
+              <button
                 color={"volcano"}
                 onClick={() => updateBill("CANCEL", billId.billId)}
               >
                 cancel
-              </Tag>
               </button>
-            ) : 
-              status === "ACCEPT" ? (
-                <>
-               <button><Tag
+            ) : status === "ACCEPT" ? (
+              <>
+                <button
                   color={"blue"}
-                  onClick={this.showModalPay}
+                  onClick={() => showModalPay(billId, total)}
                 >
-                  CONFIRM
-                </Tag>
+                  Pay
                 </button>
-                <Modal visible={paymentModalVisible} onOk={handleCancelPay} onCancel={handleCancelPay}>
-                    are you sure you want to pay?
-
+                <Modal
+                  visible={paymentModalVisible}
+                  onOk={() => {
+                    handleOkPay(billId);
+                    handleCancelPay(false);
+                    fetchData();
+                  }}
+                  onCancel={handleCancelPay}
+                >
+                  <div>are you sure you want to pay?</div>
                 </Modal>
-                </>
-              ):"something wen wrong"
-            }
+              </>
+            ) : status === "CONFIRM" ? (
+              billId.startDate.slice(0, -14) >=
+                moment().format().slice(0, -15) &&
+              billId.endDate.slice(0, -14) < moment().format().slice(0, -15) ? (
+                 <div>
+              <Modal
+                visible={confirmSentpetModal}
+                onOk={() => {
+                  handleOkPay(billId);
+                  handleCancleSentPet(true);
+                  setOnProgressVisible(false)
+                }}
+                onCancel={handleCancleSentPet}
+              >
+                <div>are you sure you want to sent pet?</div>
+              </Modal>
+              {onProgressVisible ? (
+                <button onClick={()=>setConfirmSentpetModal(true)}>"sent pet"</button>
+              ) : (
+                "on progress"
+              )}
+            </div>
+              ) : billId.endDate.slice(0, -14) >
+                moment().format().slice(0, -15) ? (
+                "ending"
+              ) : (
+                []
+              )
+            ) : status === "ONTIME" ? (
+              <div>
+              <Modal
+                visible={confirmSentpetModal}
+                onOk={() => {
+                  handleOkPay(billId);
+                  handleCancleSentPet(true);
+                  setOnProgressVisible(false)
+                }}
+                onCancel={handleCancleSentPet}
+              >
+                <div>are you sure you want to sent pet?</div>
+              </Modal>
+              {onProgressVisible ? (
+                <button onClick={()=>setConfirmSentpetModal(true)}>"sent pet"</button>
+              ) : (
+                "on progress"
+              )}
+            </div>
+            ) : status === "PROGRESS" ? (
+              []
+            ) : status === "ENDING" ? (
+              <button onClick={updateBill("COMPLETE",billId.billId)}>get pet </button>
+            ) : status === "COMPLETE" ? (
+              "COMPLETE"
+            ) : (
+              "somthing went wrong"
+            )}
           </>
         );
       },
@@ -368,42 +469,65 @@ function Task_Customers() {
   ];
 
   const handleOk = (e) => {
-    setVisible(false);
+    setRowTask(false);
   };
 
   const handleCancel = (e) => {
-    setVisible(false);
+    setRowTask(false);
   };
 
-  const showModalPay = () => {
-    this.setState({
-      visible: true,
-    });
+  const showModalPay = (bill, total) => {
+    setPaymentModalVisible(bill.billId);
   };
 
-  const handleOkPay = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
+  const handleOkPay = (bill) => {
+    /*
+    This is For P'Kanin Only you
+
+    =================================
+    ====================== ==========
+    ===================== ===========
+    =================================
+    =================================
+    =================================
+    =================================
+    =================================
+    
+    */
+    /*case pay success*/
+    const Paymentsuccess = async () => {
+      try {
+        console.log(bill.billId);
+        await axios.patch(`/tasks/customers/${bill.billId}`, {
+          status: "CONFIRM",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    Paymentsuccess();
+    setPaymentModalVisible(false);
+    setRowTask(false);
   };
 
-  const handleCancelPay = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
+  const handleCancelPay = (e) => {
+    setPaymentModalVisible(false);
+  };
+
+  const handleCancleSentPet = (e) => {
+    setConfirmSentpetModal(false);
+    setRowTask(false);
   };
 
   useEffect(() => {
     fetchData();
-  }, [visible]);
+  }, [rowTask]);
 
   const fetchData = async () => {
     try {
       const targetBill = await axios.get(`/tasks/customers`);
-      await setBill(targetBill.data);
-      console.log(targetBill)
+      setBill(targetBill.data);
+      console.log(targetBill);
     } catch (error) {
       console.log(error);
     }
@@ -412,7 +536,7 @@ function Task_Customers() {
   let newArrayData = [];
 
   if (bill.length !== 0) {
-    newArrayData = bill.targetBill.map((bill, idx) => {
+    newArrayData = bill.targetBill.map((bill) => {
       return {
         key: Math.random(),
         billId: bill.id,
@@ -426,8 +550,15 @@ function Task_Customers() {
         image: bill.Provider.image,
         statusBan: bill.Provider.status,
         startDate: bill.startDate,
-        endDate: bill.endtDate,
+        endDate: bill.endDate,
         status: bill.status,
+        cost: bill.PetsBills.map((pet) => pet.cost),
+        total: bill.PetsBills.map((pet) => pet.cost).reduce(
+          (totalcost, cost) => {
+            return totalcost + cost;
+          },
+          0
+        ),
         petName: bill.PetsBills.map((pet) => pet.Pet.name),
         petType: bill.PetsBills.map((pet) => pet.Pet.breedType),
         petWeight: bill.PetsBills.map((pet) => pet.Pet.weight),
@@ -447,16 +578,16 @@ function Task_Customers() {
         width={200}
         onRow={(record, rowIndex) => {
           return {
-            onClick: (event, record, rowInd) => {
+            onClick: (event) => {
               event.preventDefault();
-              setVisible(true);
+              setRowTask(true);
               setBillModal([newArrayData[rowIndex]]);
             },
           };
         }}
       />
       <Modal
-        visible={visible}
+        visible={rowTask}
         onOk={handleOk}
         onCancel={handleCancel}
         width={1200}
