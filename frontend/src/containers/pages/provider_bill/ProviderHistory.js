@@ -14,18 +14,26 @@ function ProviderHistory() {
             key: "customer_name",
         },
         {
-            title: 'optionalServices',
-            dataIndex: 'optional_Services',
-            key: 'optional_Services'
+            title: 'pet name',
+            dataIndex: 'pet_name',
+            key: 'pet_name'
         },
+        {
+            title: 'pet type',
+            dataIndex: 'pet_type',
+            key: 'pet_type'
+        },
+        
         {
             title: "date",
             dataIndex: "startDate",
+            dataIndex: "endDate",
             key: "startDate",
+            key: "endDate",
             render: (startDate, endDate) => (
                 <>
-                    <span>{moment(startDate).format("Do MMMM YYYY h:mm a")}</span>{" "}
-                    <span>{moment(endDate).format("Do MMMM YYYY h:mm a")}</span>
+                    <span>{moment(endDate).format("Do MMMM  h:mm a")}</span>{" - "}
+                    <span>{moment(startDate).format("Do MMMM  h:mm a")}</span>
                 </>
             )
         }
@@ -33,8 +41,8 @@ function ProviderHistory() {
     const fetchData = async () => {
         try {
             const targetBill = await axios.get(`/tasks/providers`);
-            console.log(targetBill.data)
-            setBill(targetBill.data);
+            console.log(targetBill.data.result)
+            setBill(targetBill.data.result);
         } catch (error) {
             console.log(error);
         }
@@ -44,32 +52,22 @@ function ProviderHistory() {
         fetchData();
     }, []);
 
-    console.log("pet", bill);
+   
 
-    // let arrayData = [];
-    // if (bill.length !== 0) {
-    //     for (let i = 0; i < bill.targetBill.length; i++) {
-    //         arrayData = [
-    //             ...arrayData,
-    //             {
-    //                 key: i,
-    //                 customer_name: bill.billToCustomers[i][0].name,
-    //                 lastName: bill.billToCustomers[i][0].lastName,
-    //                 BanStatus: bill.billToCustomers[i][0].status,
-    //                 petName: bill.targetPet[i][0].name,
-    //                 breedType: bill.targetPet[i][0].breedType,
-    //                 weight: bill.targetPet[i][0].weight,
-    //                 startDate: bill.targetBill[i].startDate,
-    //                 endDate: bill.targetBill[i].endtDate,
-    //                 status: bill.targetBill[i].status,
-    //             },
-    //         ];
-    //     }
-    // }
+    const source = bill.map((item, index) => ({
+        key: index,
+        startDate: item.startDate,
+        endDate: item.endDate,
+        customer_name : item.customerName,
+        pet_name : item.pets_data,
+        pet_type : item.pets_Breed
+        
+    }))
+    console.log(bill)
 
     return (
         <div>
-            {/* <Table columns={columns} dataSource={bill} /> */}
+            <Table columns={columns} dataSource={source} />
         </div>
     )
 }

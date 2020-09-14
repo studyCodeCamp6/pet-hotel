@@ -7,6 +7,18 @@ function CustomerHistory() {
     let [bill, setBill] = useState([]);
     let [allData, setAllData] = useState([]);
 
+    const source = bill.map((item, index) => ({
+        key: index,
+        startDate: item.startDate,
+        endDate: item.endDate,
+        hotel_name: item.hotelName_bill,
+        address: item.hotelAddress_bill,
+        pet_name: item.pets_split,
+        pet_type: item.petsBreed_split,
+
+    })
+    )
+
     const columns = [
         {
             title: "Hotel name",
@@ -14,62 +26,64 @@ function CustomerHistory() {
             key: "hotel_name",
         },
         {
-            title: 'optionalServices',
-            dataIndex: 'optional_Services',
-            key: 'optional_Services'
+            title: 'Address',
+            dataIndex: 'address',
+            key: 'address'
         },
         {
-            title: "date",
+            title: 'Pet Name',
+            dataIndex: 'pet_name',
+            key: 'pet_name'
+        },
+        {
+            title: 'Pet type',
+            dataIndex: 'pet_type',
+            key: 'pet_type'
+        },
+        {
+            title: "StartDate",
             dataIndex: "startDate",
             key: "startDate",
-            render: (startDate, endDate) => (
+
+            render: (startDate) => (
                 <>
-                    <span>{moment(startDate).format("Do MMMM YYYY h:mm a")}</span>{" "}
-                    <span>{moment(endDate).format("Do MMMM YYYY h:mm a")}</span>
+                    <span>{moment(startDate).format("Do MMMM  h:mm a")}</span>
+                </>
+            )
+        },
+        {
+            title: "EndDate",
+            dataIndex: "endDate",
+            key: "endDate",
+            render: (endDate) => (
+                <>
+                    <span>{moment(endDate).format("Do MMMM  h:mm a")}</span>
                 </>
             )
         }
     ]
-    // const fetchData = async () => {
-    //     try {
-    //         // const targetBill = await axios.get(`/tasks/providers`);
-    //         await setBill(...bill, targetBill.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-
-    console.log("pet", bill.targetPet);
-
-    let arrayData = [];
-    if (bill.length !== 0) {
-        for (let i = 0; i < bill.targetBill.length; i++) {
-            arrayData = [
-                ...arrayData,
-                {
-                    key: i,
-                    customer_name: bill.billToCustomers[i][0].name,
-                    lastName: bill.billToCustomers[i][0].lastName,
-                    BanStatus: bill.billToCustomers[i][0].status,
-                    petName: bill.targetPet[i][0].name,
-                    breedType: bill.targetPet[i][0].breedType,
-                    weight: bill.targetPet[i][0].weight,
-                    startDate: bill.targetBill[i].startDate,
-                    endDate: bill.targetBill[i].endtDate,
-                    status: bill.targetBill[i].status,
-                },
-            ];
+    const fetchData = async () => {
+        try {
+            const targetBill = await axios.get(`/tasks/customers`);
+            console.log(targetBill.data.result)
+            setBill(targetBill.data.result);
+        } catch (error) {
+            console.log(error);
         }
-    }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    // console.log(endDate,startDate)
+    console.log(source)
+
 
     return (
         <div>
-
-            <Table columns={columns} dataSource={arrayData} />
+            <Table columns={columns} dataSource={source} />
         </div>
     )
 }
