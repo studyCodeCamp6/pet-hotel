@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Tag, Modal } from "antd";
 import axios from "../../../config/axios";
 import moment from "moment";
+import Card from '../../component/Card/Card';
 import "./task.css";
 
 const updateBill = async (newstatus, billId) => {
@@ -571,7 +572,9 @@ function Task_Customers() {
 
   return (
     <>
-      <Table
+    <Card />
+
+      {/* <Table
         columns={columns}
         dataSource={newArrayData}
         size="middle"
@@ -585,7 +588,7 @@ function Task_Customers() {
             },
           };
         }}
-      />
+      /> */}
       <Modal
         visible={rowTask}
         onOk={handleOk}

@@ -1,0 +1,70 @@
+.card-componant {
+  width: 341px;
+  height: 221px;
+  background-color: #f6d04a;
+  border-radius: 10px;
+  margin: auto;
+}
+
+.card-content {
+  width: 341px;
+  height: 221px;
+  margin: 15px auto;
+  padding: 6px 16px;
+}
+
+.name-customer span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #23d434;
+  margin-left: 5px;
+}
+
+.fa-mobile-alt {
+  color: white;
+  padding: 5px 5px;
+}
+
+.name-customer b {
+  font-size: 18px;
+}
+
+.address-wrap {
+  width: 309px;
+  word-wrap: break-word;
+  padding-top: 2px;
+  margin-bottom: 15px;
+}
+
+.task-content div b {
+  font-size: 14px;
+padding-right: 95px;
+}
+
+.task-content div:last-child {
+  margin-top: 6px;
+  margin-bottom: 20px;
+}
+
+hr {
+  border: 0.5px solid #7e4c4f;
+
+}
+
+.show-status {
+  height: 40px;
+  padding-top: 7px;
+  /* display: flex;
+  align-items: center; */
+}
+
+.show-button-cancel {
+  border: none;
+  background-color: #7e4c4f;
+  color: #fff;
+  font-size: 14px;
+  width: 59px;
+  height: 26px;
+  float: right;
+}
