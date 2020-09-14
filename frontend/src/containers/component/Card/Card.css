@@ -1,6 +1,6 @@
 .card-componant {
   width: 341px;
-  height: 221px;
+  height: 247px;
   background-color: #f6d04a;
   border-radius: 10px;
   margin: auto;
@@ -39,17 +39,21 @@
 
 .task-content div b {
   font-size: 14px;
-padding-right: 95px;
+  padding-right: 30%;
 }
 
-.task-content div:last-child {
+.task-content div:nth-child(2) {
+  margin-top: 6px;
+}
+
+.task-content div:nth-child(3) {
   margin-top: 6px;
   margin-bottom: 20px;
+  /* padding-right: 95px; */
 }
 
 hr {
   border: 0.5px solid #7e4c4f;
-
 }
 
 .show-status {

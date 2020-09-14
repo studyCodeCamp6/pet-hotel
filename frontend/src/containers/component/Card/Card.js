@@ -28,6 +28,11 @@ function Card() {
             <div>
               <b>Date</b>
             </div>
+            <div>
+              <b>Price</b>
+              {}
+              <b>Baht</b>
+            </div>
           </div>
         </div>
         <hr />
