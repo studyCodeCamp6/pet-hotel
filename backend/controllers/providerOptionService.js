@@ -3,7 +3,7 @@ const db = require("../models")
 const getService = async (req, res) => {
 
     const target = await db.Providers.findOne({
-        where: { id: 3 },
+        where: { id: req.user.id },
         include: {
             model: db.ProviderOptionalServices,
             include: { model: db.OptionalServices }
