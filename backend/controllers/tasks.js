@@ -1,5 +1,9 @@
 const { Op } = require("sequelize");
 const db = require("../models");
+const moment = require("moment");
+const momentTimezone = require("moment-timezone");
+const { utc } = require("moment");
+const { sequelize } = require("../models");
 
 /* =============  Customer Bill =============*/
 
@@ -128,13 +132,12 @@ const UpdateCustomerBIlls = async (req, res) => {
     const myId = req.user.id;
     const targetBill = await db.Bills.findOne({
       where: {
-        [Op.and]: [{ id: bId }, { customer_id: myId }, { status: ["WAITING"] }],
+        [Op.and]: [{ id: bId }, { customer_id: myId }],
       },
     });
     if (targetBill) {
-      console.log("a", targetBill.status)
-      await targetBill.update({ status: "CANCEL" });
-      console.log("b", targetBill)
+      console.log(req.body.status);
+      await targetBill.update({ status: req.body.status });
       res.send({ message: "sucess" });
     } else {
       res.send({ message: "provider accecpted" });
@@ -149,9 +152,11 @@ const UpdateCustomerBIlls = async (req, res) => {
 const getProviderBills = async (req, res) => {
   try {
     const myId = req.user.id;
-    // console.log("this is the ", myId)
     const targetBill = await db.Bills.findAll({
-      where: { provider_id: myId },
+      where: {
+        provider_id: myId,
+        [Op.not]: [{ status: ["ENDING", "COMPLETE"] }],
+      },
       order: [["startDate", "DESC"]],
       attributes: ["id", "provider_id", "startDate", "endDate", "status"],
       include: {
@@ -207,11 +212,11 @@ const UpdateProviderBIlls = async (req, res) => {
 
     const targetBill = await db.Bills.findOne({
       where: {
-        [Op.and]: [{ id: bId }, { provider_id: myId }, { status: status }],
+        [Op.and]: [{ id: bId }, { provider_id: myId }],
       },
     });
     if (targetBill) {
-      await targetBill.update({ status: status });
+      await targetBill.update({ status: req.body.status });
       res.send({ message: "provider accecpted" });
     } else {
       res.send({ message: "provider accecpted" });
