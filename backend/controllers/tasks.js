@@ -110,13 +110,9 @@ const UpdateCustomerBIlls = async (req, res) => {
       },
     });
     if (targetBill) {
-<<<<<<< HEAD
-      await targetBill.update({ status:req.body.status });
-=======
       console.log("a", targetBill.status)
       await targetBill.update({ status: "CANCEL" });
       console.log("b", targetBill)
->>>>>>> develop
       res.send({ message: "sucess" });
     } else {
       res.send({ message: "provider accecpted" });
@@ -135,15 +131,6 @@ const getProviderBills = async (req, res) => {
     const targetBill = await db.Bills.findAll({
       where: { provider_id: myId },
       order: [["startDate", "DESC"]],
-<<<<<<< HEAD
-      attributes: ["id", "startDate", "endDate", "status"],
-      include: [
-        {
-          model: db.PetsBills,
-          attributes: [["bill_id", "pet_id","id"]],
-          include: {
-            model: db.Pets,
-=======
       attributes: ["id", "customer_id", "startDate", "endDate", "status"],
       raw: true,
     });
@@ -174,7 +161,6 @@ const getProviderBills = async (req, res) => {
         targetPetBills.map(async (ele, idx) => {
           return await db.Pets.findAll({
             where: { id: [ele.pet_id] },
->>>>>>> develop
             attributes: [
               "name",
               "breedType",
@@ -186,29 +172,11 @@ const getProviderBills = async (req, res) => {
               "customer_id",
               
             ],
-<<<<<<< HEAD
-            include:{
-                model:db.Customers,
-                attributes:["id","name","lastName","phoneNumber","email","status","image"]
-              }
-          },
-        },
-      ],
-    
-    });
-
-    if (!targetBill) {
-      res.status(404).send({ message: `Not Found bill ID: ${id}` });
-    } else {
-      console.log("this is",targetBill)
-      res.send({ targetBill });
-=======
             raw: true,
           });
         })
 
       res.send({ targetBill, billToCustomers, targetPet });
->>>>>>> develop
     }
   } catch (error) {
     res.send(error);
