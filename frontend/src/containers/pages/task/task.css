@@ -11,9 +11,12 @@ tr.ant-table-row.ant-table-row-level-0 {
 }
 .status-yellow{
     margin:0 10% 0 0;
-    color:yellow;
+    color:rgb(150, 150, 0);
 }
 .status-grey{
     margin:0 10% 0 0;
     color:grey;
+}
+.button:hover {
+    cursor: pointer;
 }
