@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Tag, Modal } from "antd";
 import axios from "../../../config/axios";
 import moment from "moment";
-import Card from '../../component/Card/Card';
+import TaskCard from '../../component/TaskCard/TaskCard';
 import "./task.css";
 
 const updateBill = async (newstatus, billId) => {
@@ -574,7 +574,7 @@ function Task_Customers() {
     <>
             <div className="flex-container"></div>
         <div className="header-task">Task</div>
-    <Card />
+    <TaskCard />
   
 
       {/* <Table

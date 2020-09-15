@@ -54,6 +54,11 @@
 }
 
 @media screen and (max-width: 960px) {
+.fixed-scroll{
+  max-width: 100%;
+  /* overflow-x: hidden; */
+}
+
   .NavbarItems {
     position: relative;
   }

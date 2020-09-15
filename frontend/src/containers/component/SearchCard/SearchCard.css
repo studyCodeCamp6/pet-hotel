@@ -1,0 +1,41 @@
+.cards-component {
+  width: 341px;
+  height: 130px;
+  background-color: #f6ab4a;
+  border-radius: 10px;
+  margin: auto;
+}
+
+.cards-content {
+  width: 341px;
+  height: 221px;
+  margin: 17px auto;
+  padding: 9px 16px;
+}
+
+.cards-content b:first-child {
+  font-size: 18px;
+}
+
+.show-price-Day {
+  margin: 5px auto;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.show-price-Day div:last-child {
+  right: 0px;
+  display: flex;
+  align-items: stretch;
+}
+
+.show-price-Day span {
+  margin-right: 10px;
+  font-size: 24px;
+  margin-top: -8px;
+}
+
+.show-rate {
+  float: right;
+}

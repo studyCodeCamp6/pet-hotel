@@ -1,9 +1,9 @@
 import React from "react";
-import "./Card.css";
+import "./TaskCard.css";
 
-function Card() {
+function TaskCard() {
   return (
-    <div className="card-componant">
+    <div className="card-component">
       <div className="card-content">
         <div>
           <div>
@@ -49,4 +49,4 @@ function Card() {
   );
 }
 
-export default Card;
+export default TaskCard;

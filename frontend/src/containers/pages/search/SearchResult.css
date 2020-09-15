@@ -1,0 +1,10 @@
+.show-map{
+    width: auto;
+    height: 250px;
+    background-color: #F6F6F6;
+}
+
+.show-result {
+    font-size: 18px;
+    margin: 27px 17px;
+}
