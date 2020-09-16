@@ -535,7 +535,7 @@ function Task_Customers() {
 
   let newArrayData = [];
 
-  if (bill.length !== 0) {
+  if (bill.targetBill !== undefined) {
     newArrayData = bill.targetBill.map((bill) => {
       return {
         key: Math.random(),

@@ -490,7 +490,7 @@ function Task_Providers() {
 
   let newArrayData = [];
 
-  if (bill.length !== 0) {
+  if (bill.length !== undefined) {
     newArrayData = bill.targetBill.map((bill) => {
       return {
         key: Math.random(),
