@@ -1,0 +1,96 @@
+.search-show-map-booking {
+  width: auto;
+  height: 250px;
+  background-color: #f6f6f6;
+}
+
+.name-provider-booking {
+  font-size: 18px;
+  margin-top: 33px;
+  margin-bottom: 19px;
+  text-align: center;
+}
+
+.name-provider-booking :last-child {
+  margin-top: auto auto;
+  font-size: 14px;
+}
+
+.grid-container {
+  width: 303px;
+  height: auto;
+  margin: 19px auto;
+  display: grid;
+  grid-template-columns: auto;
+}
+
+.item1 {
+  width: 303px;
+  font-size: 16px;
+}
+
+.item2 {
+  width: 303px;
+  font-size: 16px;
+  margin: 10px auto;
+}
+
+.item3 {
+  width: 303px;
+  font-size: 16px;
+  margin: 8px auto;
+}
+
+.item4 {
+  width: 303px;
+  font-size: 16px;
+  margin: 8px auto;
+}
+
+.item5 {
+    width: 303px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 5px auto;
+}
+
+.item5 #pet{
+    width: 295px;
+    height: 37px;
+    padding: 0 2%;
+    font-size: 16px;
+    background-color:transparent;
+    border: none;
+}
+
+.item6 {
+    width: 303px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 5px auto;
+}
+
+.item6 #petId{
+    width: 295px;
+    height: 37px;
+    padding: 0 2%;
+    font-size: 16px;
+    background-color:transparent;
+    border: none;
+}
+
+.item7 {
+    width: 303px;
+    height: 37px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 5px auto;
+}
+
+.item8 {
+    width: 303px;
+    height: 37px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 5px auto;
+}

@@ -1,0 +1,22 @@
+.review-card {
+  width: 303px;
+  height: 85px;
+  border-radius: 5px;
+  background-color: #f6ab4a;
+  margin: auto auto;
+  padding: 12px;
+}
+
+.review-card p {
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+.review-card :last-child {
+  font-size: 14px;
+}
+
+.show-rate-review p {
+  float: right;
+  color: #7E4C4F;
+}

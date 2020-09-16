@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import Navbar from './containers/component/Navbar/Navbar';
+import Booking from './containers/pages/Booking/Booking';
 import SearchResult from './containers/pages/search/SearchResult';
 import CreateReview from './containers/pages/customer_review/CreateReview';
 import Task_Customers from './containers/pages/task/Task_Customers';
@@ -18,7 +19,8 @@ ReactDOM.render(
     {/* <App /> */}
     <Navbar />
     {/* <CreateReview /> */}
-    <SearchResult />
+    {/* <SearchResult /> */}
+    <Booking />
 
     {/* <Task_Customers /> */}
     {/* <Task_Providers /> */}
