@@ -10,81 +10,58 @@ const { sequelize } = require("../models");
 const getCustomerBills = async (req, res) => {
   try {
     const myId = req.user.id;
-    console.log("this is the ", myId)
-    const targetBill = await db.Customers.findAll({
-      where: { id: myId },
-      attributes: ['id'],
-      include: {
-        model: db.Pets,
-        attributes: ['name', 'breedType'],
-        include: {
+    const targetBill = await db.Bills.findAll({
+      where: { customer_id: myId },
+      order: [["startDate", "DESC"]],
+      attributes: ["id", "provider_id", "startDate", "endDate", "status"],
+      include: [
+        {
+          model: db.Providers,
+          attributes: [
+            "hotelName",
+            "phoneNumber",
+            "email",
+            "area",
+            "wage",
+            "type",
+            "image",
+            "address",
+            "status",
+            "isOpen",
+          ],
+        },
+        {
           model: db.PetsBills,
           include: {
-            model: db.Bills,
-            attributes: ["startDate", "endDate"],
-            order: [["startDate", "DESC"]],
-            include: {
-              model: db.Providers,
-              attributes: ['hotelName', 'address']
-            }
-          }
-        }
-      }
+            model: db.Pets,
+            attributes: [
+              "name",
+              "breedType",
+              "weight",
+              "sex",
+              "certificate",
+              "image",
+              "other",
+            ],
+          },
+        },
+      ],
     });
 
-    const result = targetBill.map(item => {
-      const pets = item.Pets.map(pet => {
-        return pet.name
-      })
-      const pets_split = pets.join(" , ")
-
-      const petsBreed = item.Pets.map(petBreed => {
-        return petBreed.breedType
-      })
-      const petsBreed_split = petsBreed.join(" , ")
-
-      const hotelInfo = item.Pets.map(data => {
-        const hotelInfo_PetBills = data.PetsBills.map(bill => { return bill.Bill.Provider.hotelName }
-        )
-        return hotelInfo_PetBills[0]
-      })
-      const hotelName_bill = hotelInfo.reduce((a, b) => (a === b) ? [a] : NaN)
-      console.log("address => ", hotelInfo)
-
-      const hotelAddress = item.Pets.map(data => {
-        const hotelInfo_PetBills = data.PetsBills.map(bill => { return bill.Bill.Provider.address }
-        )
-        return hotelInfo_PetBills[0]
-      })
-      const hotelAddress_bill = hotelAddress.reduce((a, b) => (a === b) ? [a] : NaN)
-
-      const stDate = item.Pets.map(data => {
-        const stDate_PetBills = data.PetsBills.map(bill => {
-          return bill.Bill.startDate
+    if (!targetBill) {
+      res.status(404).send({ message: `Not Found bill ID: ${id}` });
+    } else {
+      const billToCustomers = await Promise.all(
+        targetBill.map((provider) => {
+          return db.Providers.findAll({
+            where: { id: provider.provider_id },
+            attributes: ["hotelName", "address"],
+            raw: true,
+          });
         })
-        return stDate_PetBills[0]
-      })
-      const stDate_sum = stDate.reduce((a, b) => (a.getTime() == b.getTime()) ? a : NaN)
-
-      const enDate = item.Pets.map(data => {
-        const enDate_PetBills = data.PetsBills.map(bill => {
-          return bill.Bill.endDate
-        })
-        return enDate_PetBills[0]
-      })
-      const enDate_sum = enDate.reduce((a, b) => (a.getTime() == b.getTime()) ? a : NaN)
-
-      console.log("enDate => ", enDate)
-
-      return {
-        pets_split, petsBreed_split, hotelName_bill, hotelAddress_bill,
-        startDate: stDate_sum, endDate: enDate_sum
-      }
-    })
-
-
-    res.send({ result });
-
+      );
+      res.send({ targetBill });
+    }
   } catch (error) {
     res.send(error);
   }
@@ -158,48 +135,59 @@ const getProviderBills = async (req, res) => {
         [Op.not]: [{ status: ["ENDING", "COMPLETE"] }],
       },
       order: [["startDate", "DESC"]],
-      attributes: ["id", "provider_id", "startDate", "endDate", "status"],
-      include: {
-        model: db.PetsBills,
-        include: {
-          model: db.Pets,
-          attributes: [
-            "name",
-            "breedType",
-          ],
+      attributes: ["id", "startDate", "endDate", "status"],
+      include: [
+        {
+          model: db.PetsBills,
           include: {
-            model: db.Customers,
-            attributes: ["name", "lastName", "phoneNumber", "status"],
+            model: db.Pets,
+            attributes: [
+              "name",
+              "breedType",
+              "weight",
+              "sex",
+              "certificate",
+              "image",
+              "other",
+              "customer_id",
+            ],
+            include: {
+              model: db.Customers,
+              attributes: [
+                "id",
+                "name",
+                "lastName",
+                "phoneNumber",
+                "email",
+                "status",
+                "image",
+              ],
+            },
+          },
+        },
+      ],
+    });
+
+    if (!targetBill) {
+      res.status(404).send({ message: `Not Found bill ID: ${id}` });
+    } else {
+      let proposedDate = moment().format("YYYY-MM-DDTHH:mm");
+      for (let i = 0; i < targetBill.length; i++) {
+        if(targetBill[i].status=="CONFIRM") {
+          const  startDateDatabase =  (JSON.stringify(targetBill[i].startDate)).slice(1,-1)
+          const endDateDatabase =  (JSON.stringify(targetBill[i].endDate)).slice(1,-1)
+          if  (startDateDatabase< proposedDate) {
+            await targetBill[i].update({ status: "ONTIME" });
+            console.log(startDateDatabase , proposedDate)
+            console.log(startDateDatabase > proposedDate)
+          } else if (endDateDatabase < proposedDate) {
+            await targetBill[i].update({ status: "ENDING" });
           }
         }
       }
-    });
-
-    const result = targetBill.map(item => {
-      const customer = item.PetsBills.map(petBill => {
-        return petBill.Pet.Customer.name
-      })
-      const customerName = customer.reduce((a, b) => (a == b) ? [a] : NaN)
-      // console.log("customer =>",customerName)
-
-      const petsData = item.PetsBills.map(petsBill => {
-        return petsBill.Pet.name
-      })
-      const pets_data = petsData.join(',')
-
-      const petsBreed = item.PetsBills.map(petsBill => {
-        return petsBill.Pet.breedType
-      })
-      const pets_Breed = petsBreed.join(',')
-
-      console.log("petsData =>", petsData)
-
-      return { startDate: item.startDate, endDate: item.endDate, customerName, pets_data, pets_Breed }
-    })
-    res.send({ result });
-
-  }
-  catch (error) {
+      res.status(200).send({ targetBill });
+    }
+  } catch (error) {
     res.send(error);
   }
 };
