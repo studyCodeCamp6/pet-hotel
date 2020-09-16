@@ -4,12 +4,15 @@ import SearchCard from "../../component/SearchCard/SearchCard";
 
 function SearchResult() {
   return (
-    <div>
-      <div className="show-map"></div>
-      <div className="show-result">
+    <div className="search-results">
+      <div className="search-show-map"></div>
+      <div className="search-center">
         <i>Search Results</i>
+        <div className="search-show-result">
+          <SearchCard />
+          <button>ค้นหาเพิ่มเติม</button>
+        </div>
       </div>
-      <SearchCard />
     </div>
   );
 }
