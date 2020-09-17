@@ -129,28 +129,33 @@ function App() {
               <PrivateRoutes role={role} setRole={setRole} />
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
+          <Footer style={{ textAlign: 'center' }}>Ant Design ©2020 Created by Ant UED</Footer>
         </Layout>
-      ) : localStorageService.getRole() === 'provider' &&
-        role === 'provider' ? (
-        <Layout>
-          <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <div className='logo' />
-            <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['1']}>
-              <Menu.Item key='1'>
-                <Link to='/provider/home' />
-                Home
-              </Menu.Item>
-              <Menu.Item key='2'>
-                <Link to='/providers/task' />
-                Booking request
-              </Menu.Item>
-              <SubMenu icon={<DownOutlined />} title={hotel.hotelName}>
-                <Menu.ItemGroup title='profile'>
-                  <Menu.Item key='user-profile'>
-                    <Link to='/provider/profile' />
+        :
+        (localStorageService.getRole() === "provider" && role === "provider") ?
+          <Layout>
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+              <div className="logo" />
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+                <Menu.Item key="1">
+                  <Link to="/providers/home" />
+                  Home
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <Link to="/providers/task" />
+                  Booking request
+                </Menu.Item>
+                <SubMenu
+                  icon={<DownOutlined />}
+                  title={hotel.hotelName}
+                >
+                  <Menu.ItemGroup
+                    title="profile"
+                  >
+                    <Menu.Item
+                      key="user-profile"
+                    >
+                      <Link to="/providers/profile" />
                     Profile
                   </Menu.Item>
                 </Menu.ItemGroup>
@@ -167,61 +172,44 @@ function App() {
                   <Link to='/login' />
                   Logout
                 </Menu.Item>
-              </SubMenu>
-            </Menu>
-          </Header>
-          <Content
-            className='site-layout'
-            style={{ padding: '0 50px', marginTop: 64 }}
-          >
-            <div
-              className='site-layout-background'
-              style={{ padding: 24, minHeight: 380 }}
-            >
-              <PrivateRoutes role={role} setRole={setRole} />
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
-        </Layout>
-      ) : localStorageService.getRole() === 'guest' && role === 'guest' ? (
-        <Layout>
-          <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <div className='logo' />
-            <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['0']}>
-              <Menu.Item key='0'>
-                <Link to='/home' />
-                Home
-              </Menu.Item>
-              <Menu.Item key='3'>
-                <Link to='/register' />
-                Register
-              </Menu.Item>
-              <Menu.Item key='2'>
-                <Link to='/login' />
-                Login
-              </Menu.Item>
-            </Menu>
-          </Header>
-          <Content
-            className='site-layout'
-            style={{ padding: '0 50px', marginTop: 64 }}
-          >
-            <div
-              className='site-layout-background'
-              style={{ padding: 24, minHeight: 380 }}
-            >
-              <PrivateRoutes role={role} setRole={setRole} />
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>Haustier's hotel</Footer>
-        </Layout>
-      ) : (
-        // asdasdasdasdasdasdasd
-        <div>123123123</div>
-      )}
-    </div>
+                </SubMenu>
+              </Menu>
+            </Header>
+            <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+              <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
+                <PrivateRoutes role={role} setRole={setRole} />
+              </div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>Ant Design ©2020 Created by Ant UED</Footer>
+          </Layout>
+          :
+          <Layout>
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+              <div className="logo" />
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']}>
+                <Menu.Item key="0">
+                  <Link to="/home" />
+                    Home
+                  </Menu.Item>
+                <Menu.Item key="3">
+                  <Link to="/register" />
+                    Register
+                  </Menu.Item>
+                <Menu.Item key="2">
+                  <Link to="/login" />
+                    Login
+                  </Menu.Item>
+              </Menu>
+            </Header>
+            <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+              <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
+                <PrivateRoutes role={role} setRole={setRole} />
+              </div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>Ant Design ©2020 Created by Ant UED</Footer>
+          </Layout>
+      }
+    </div >
   );
 }
 

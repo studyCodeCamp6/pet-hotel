@@ -10,7 +10,9 @@ export default function createReview() {
   
         <div className="boxReview">
           <div className="providerNameReview">Dog & Cat</div>
-          <div className="rate"><Rate style={{fontSize:"36px",marginTop: "10px", color:"#F6AB4A"}}/></div>
+          <div className="rate">
+            <Rate style={{ fontSize: "36px", marginTop: "10px", color: "#F6AB4A" }} />
+          </div>
           <form>
             <textarea className="textReview" placeholder="Comment"></textarea>
           </form>

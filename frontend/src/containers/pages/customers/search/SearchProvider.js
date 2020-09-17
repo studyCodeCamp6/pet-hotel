@@ -4,7 +4,7 @@ import { SearchOutlined } from '@ant-design/icons'
 
 export function SearchProviderByName() {
     const { Search } = Input
-    
+
     return (
         <Search
             placeholder="search hotel name here..."
@@ -41,16 +41,28 @@ export function SearchProviderByType() {
     )
 }
 
+export function SearchProviderByArea() {
+    const { Search } = Input
+
+    return (
+        <Search
+            placeholder="enter area you want to search ..."
+            onSearch={value => console.log(value)}
+            enterButton
+        />
+    )
+}
+
 export function SearchOptions(props) {
     const options = [
         { label: 'search by hotel name', value: 'hotel' },
-        { label: 'search by pet type', value: 'type' }
+        { label: 'search by pet type', value: 'type' },
+        { label: 'search by area', value: 'area' }
     ]
     const [value, setValue] = useState('hotel')
     const { setSearchType } = props
 
     const onChange = (e) => {
-        console.log('checked', e.target.value);
         setValue(e.target.value)
         setSearchType(e.target.value)
     }
