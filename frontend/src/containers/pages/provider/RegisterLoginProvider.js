@@ -23,9 +23,9 @@ function RegisterLoginProvider() {
             wage: values.wage
         }
         console.log(body)
-       
+
         try {
-            await axios.post('/providers/newHotel', body)
+            await axios.post('/providers/new/hotel', body)
             notification.success({
                 message: "register as hotel provider successfully"
             })
@@ -37,7 +37,7 @@ function RegisterLoginProvider() {
 
     }
 
-    const onFinishLast =  (values) => {
+    const onFinishLast = (values) => {
         const bodyLast = {
             key: uid(),
             name: values.optional,
@@ -93,8 +93,8 @@ function RegisterLoginProvider() {
     const pageFirst = (
         <Row justify="center" align="middle" style={{ height: "100%" }}>
             <Col xs={23} sm={20} md={20} lg={12} xl={10}>
-                <Form 
-                onFinish={onFinishFirst}>
+                <Form
+                    onFinish={onFinishFirst}>
                     <Row justify="center" style={{ margin: "20px" }}>
                         <img
                             style={{ width: "100%", maxWidth: "250px" }}
@@ -177,44 +177,44 @@ function RegisterLoginProvider() {
                     <Form.Item
                         label="Area Of Hotel(m²)"
                         name="area"
-                        // rules={[
-                        //     {
-                        //         required: true,
-                        //         message: "Please input your hotel area!",
-                        //     },
-                        //     {
-                        //         validator(rule, val) {
-                        //             let regex = /^[0-9]$/
-                        //             if (regex.test(val) && val) {
-                        //                 return Promise.resolve()
-                        //             } else {
-                        //                 return Promise.reject("hotel area should contain numbers")
-                        //             }
-                        //         }
-                        //     }
-                        // ]}
+                    // rules={[
+                    //     {
+                    //         required: true,
+                    //         message: "Please input your hotel area!",
+                    //     },
+                    //     {
+                    //         validator(rule, val) {
+                    //             let regex = /^[0-9]$/
+                    //             if (regex.test(val) && val) {
+                    //                 return Promise.resolve()
+                    //             } else {
+                    //                 return Promise.reject("hotel area should contain numbers")
+                    //             }
+                    //         }
+                    //     }
+                    // ]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Wage Rate (1 dog or cat/Baht)"
                         name="wage"
-                        // rules={[
-                        //     {
-                        //         required: true,
-                        //         message: "Please input your Wage Rate!",
-                        //     },
-                        //     {
-                        //         validator(rule, val) {
-                        //             let regex = /^[0-9]{9,10}$/
-                        //             if (regex.test(val) && val) {
-                        //                 return Promise.resolve()
-                        //             } else {
-                        //                 return Promise.reject("Wage Rate should contain numbers")
-                        //             }
-                        //         }
-                        //     }
-                        // ]}
+                    // rules={[
+                    //     {
+                    //         required: true,
+                    //         message: "Please input your Wage Rate!",
+                    //     },
+                    //     {
+                    //         validator(rule, val) {
+                    //             let regex = /^[0-9]{9,10}$/
+                    //             if (regex.test(val) && val) {
+                    //                 return Promise.resolve()
+                    //             } else {
+                    //                 return Promise.reject("Wage Rate should contain numbers")
+                    //             }
+                    //         }
+                    //     }
+                    // ]}
                     >
                         <Input />
                     </Form.Item>

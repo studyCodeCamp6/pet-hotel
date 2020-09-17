@@ -78,7 +78,7 @@ function App() {
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">
                 <Link to="/home" />
-                  home
+                  Home
               </Menu.Item>
               <Menu.Item key="2">
                 <Link to="/providers/register" />
@@ -99,26 +99,31 @@ function App() {
                     key="user-profile"
                   >
                     <Link to="/customer/profile" />
-                    profile
+                    Profile
                   </Menu.Item>
                 </Menu.ItemGroup>
-                <Menu.ItemGroup
-                  title="hotel"
-                >
-                  <Menu.Item
-                    key="provider"
-                    onClick={changeToProvider}
-                  >
-                    {hotel.hotelName}
-                  </Menu.Item>
-                </Menu.ItemGroup>
+                {
+                  (hotel) ?
+                    <Menu.ItemGroup
+                      title="hotel"
+                    >
+                      <Menu.Item
+                        key="provider"
+                        onClick={changeToProvider}
+                      >
+                        {hotel.hotelName}
+                      </Menu.Item>
+                    </Menu.ItemGroup>
+                    :
+                    null
+                }
                 <Menu.Item
                   key="logout"
                   icon={<PoweroffOutlined />}
                   onClick={logout}
                 >
                   <Link to="/login" />
-                  logout
+                  Logout
                 </Menu.Item>
               </SubMenu>
             </Menu>
@@ -138,7 +143,7 @@ function App() {
               <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1">
                   <Link to="/provider/home" />
-                  home
+                  Home
                 </Menu.Item>
                 <Menu.Item key="2">
                   <Link to="/providers/task" />
@@ -155,7 +160,7 @@ function App() {
                       key="user-profile"
                     >
                       <Link to="/provider/profile" />
-                    profile
+                    Profile
                   </Menu.Item>
                   </Menu.ItemGroup>
                   <Menu.ItemGroup
@@ -174,7 +179,7 @@ function App() {
                     onClick={logout}
                   >
                     <Link to="/login" />
-                  logout
+                  Logout
                 </Menu.Item>
                 </SubMenu>
               </Menu>
