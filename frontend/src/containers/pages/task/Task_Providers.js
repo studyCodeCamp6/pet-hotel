@@ -8,7 +8,7 @@ const updateBill = async (newstatus, billId) => {
   try {
     console.log(billId);
     console.log(newstatus);
-    await axios.patch(`/tasks/customers/${billId}`, {
+    await axios.patch(`/tasks/providers/${billId}`, {
       status: newstatus,
     });
   } catch (error) {
@@ -490,7 +490,7 @@ function Task_Providers() {
 
   let newArrayData = [];
 
-  if (bill.length !== undefined) {
+  if (bill.targetBill?.length > 0) {
     newArrayData = bill.targetBill.map((bill) => {
       return {
         key: Math.random(),

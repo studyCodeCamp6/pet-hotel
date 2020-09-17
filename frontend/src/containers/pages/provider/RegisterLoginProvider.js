@@ -270,9 +270,7 @@ function RegisterLoginProvider() {
                     </Button>
                 )}
                 {current === steps.length - 1 && (
-                    <Button type="primary" >
-                        Done
-                    </Button>
+                    <></>
                 )}
                 {current > 0 && (
                     <Button style={{ margin: '0 8px' }} onClick={() => prev()}>

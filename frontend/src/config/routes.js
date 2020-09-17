@@ -43,35 +43,35 @@ const components = {
         component: BookingPetsPage
     },
     taskCustomers: {
-        url: '/customer/task',
+        url: '/customers/task',
         component: TaskCustomers
     },
     customerProfilePage: {
-        url: '/customer/profile',
+        url: '/customers/profile',
         component: CustomerProfilePage
     },
     customerEditProfilePage: {
-        url: '/customer/editProfile',
+        url: '/customers/editProfile',
         component: CustomerEditProfilePage
     },
     createReviewPage: {
-        url: '/customer/review/new',
+        url: '/customers/review/new',
         component: CreateReviewPage
     },
     editReviewPage: {
-        url: '/customer/review/edit',
+        url: '/customers/review/edit',
         component: EditReviewPage
     },
     customerReviewPage: {
-        url: '/customer/review',
+        url: '/customers/review',
         component: CustomerReviewPage
     },
     customerHistoryPage: {
-        url: '/customer/history',
+        url: '/customers/history',
         component: CustomerHistoryPage
     },
     taskProviders: {
-        url: '/provider/task',
+        url: '/providers/task',
         component: TaskProviders,
     },
     editProviderPage: {
@@ -83,27 +83,27 @@ const components = {
         component: RegisterLoginProviderPage
     },
     providerProfilePage: {
-        url: '/provider/profile',
+        url: '/providers/profile',
         component: ProviderProfilePage
     },
     providerHistoryPage: {
-        url: '/provider/history',
+        url: '/providers/history',
         component: ProviderHistoryPage
     },
     providerReviewPage: {
-        url: '/provider/review',
+        url: '/providers/review',
         component: ProviderReviewPage
     },
     providerHomePage: {
-        url: '/provider/home',
+        url: '/providers/home',
         component: ProviderHomePage
     },
     adminLoginPage: {
-        url: '/admin/login',
+        url: '/admins/login',
         component: AdminLoginPage
     },
     adminManagePage: {
-        url: '/admin/manage',
+        url: '/admins/manage',
         component: AdminManagePage
     },
 }
@@ -144,13 +144,13 @@ export default {
             components.providerHistoryPage,
             components.providerReviewPage
         ],
-        redirectRoutes: "/provider/home"
+        redirectRoutes: "/providers/home"
     },
     admin: {
         allowedRoutes: [
             components.adminLoginPage,
             components.adminManagePage
         ],
-        redirectRoutes: "/admin/login"
+        redirectRoutes: "/admins/login"
     }
 }
