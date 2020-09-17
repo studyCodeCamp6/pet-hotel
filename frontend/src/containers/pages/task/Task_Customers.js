@@ -521,7 +521,7 @@ function Task_Customers() {
 
   useEffect(() => {
     fetchData();
-  }, [rowTask]);
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -535,7 +535,7 @@ function Task_Customers() {
 
   let newArrayData = [];
 
-  if (bill.targetBill !== undefined) {
+  if (bill.targetBill?.length > 0) {
     newArrayData = bill.targetBill.map((bill) => {
       return {
         key: Math.random(),
