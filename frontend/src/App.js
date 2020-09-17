@@ -1,131 +1,134 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './App.css';
-import PrivateRoutes from './containers/private-routes/PrivateRoutes';
-import localStorageService from './services/LocalStorage';
-import { Menu, Layout, Dropdown, Button } from 'antd';
-import { DownOutlined, PoweroffOutlined } from '@ant-design/icons';
-import axios from './config/axios';
-import jwtDecode from 'jwt-decode';
-import { Link } from 'react-router-dom';
-import SubMenu from 'antd/lib/menu/SubMenu';
+import React, { useState, useEffect, useRef } from "react";
+import "./App.css";
+import PrivateRoutes from "./containers/private-routes/PrivateRoutes";
+import localStorageService from "./services/LocalStorage";
+import { Menu, Layout } from "antd";
+import { DownOutlined, PoweroffOutlined } from '@ant-design/icons'
+import axios from "./config/axios"
+import jwtDecode from 'jwt-decode'
+import { Link } from "react-router-dom";
+import SubMenu from "antd/lib/menu/SubMenu";
 
 const { Header, Content, Footer } = Layout;
 function App() {
   const [role, setRole] = useState(localStorageService.getRole());
   const [name, setName] = useState('');
-  const [hotel, setHotel] = useState('');
-  console.log(localStorageService.getRole());
-  console.log(role);
+  const [hotel, setHotel] = useState('')
+  console.log(localStorageService.getRole())
+  console.log(role)
 
   const changeToProvider = async () => {
-    await axios.patch('customers/role', { isCustomer: 'FALSE' });
-    await axios.patch('providers/role', { isProvider: 'TRUE' });
-    setRole('provider');
-    localStorageService.setRole('provider');
-  };
+    await axios.patch('customers/role', { isCustomer: "FALSE" })
+    await axios.patch('providers/role', { isProvider: "TRUE" })
+    setRole("provider")
+    localStorageService.setRole("provider")
+  }
   const changeToUser = async () => {
-    await axios.patch('customers/role', { isCustomer: 'TRUE' });
-    await axios.patch('providers/role', { isProvider: 'FALSE' });
-    setRole('user');
-    localStorageService.setRole('user');
-  };
-
-  const changeToAdmin = () => {
-    setRole('admin');
-    localStorageService.setRole('admin');
-  };
+    await axios.patch('customers/role', { isCustomer: "TRUE" })
+    await axios.patch('providers/role', { isProvider: "FALSE" })
+    setRole("user")
+    localStorageService.setRole('user')
+  }
 
   const usePrevious = (val) => {
     const ref = useRef();
     useEffect(() => {
-      ref.current = val;
+      ref.current = val
     });
-    return ref.current;
-  };
+    return ref.current
+  }
 
   const fetchUserData = async () => {
-    const token = localStorageService.getToken();
+    const token = localStorageService.getToken()
     if (token) {
-      const user = jwtDecode(token);
-      await setName(user.name);
+      const user = jwtDecode(token)
+      await setName(user.name)
     }
-  };
+  }
 
   const fetchHotelData = async () => {
-    const hotel = await axios.get('/providers/');
-    setHotel(hotel.data);
-  };
+    const hotel = await axios.get("/providers/")
+    setHotel(hotel.data)
+  }
 
   const logout = async () => {
-    await axios.patch('/customers/role', { isCustomer: 'FALSE' });
-    await setName('');
-    await setRole('guest');
-    await setHotel('');
-    localStorageService.setRole('guest');
+    await axios.patch('/customers/role', { isCustomer: "FALSE" })
+    await setName("")
+    await setRole("guest")
+    await setHotel("")
+    localStorageService.setRole("guest");
     localStorageService.removeToken();
-  };
+  }
 
-  const hotelData = usePrevious(hotel);
-  const userName = usePrevious(name);
-  // const prevRole = usePrevious(role)
+  const hotelData = usePrevious(hotel)
+  const userName = usePrevious(name)
 
   useEffect(() => {
-    fetchHotelData();
-    fetchUserData();
-  }, [userName, hotelData, role]);
+    fetchHotelData()
+    fetchUserData()
+  }, [userName, hotelData, role])
 
   return (
     <div>
-      {localStorageService.getRole() === 'user' && role === 'user' ? (
+      {(localStorageService.getRole() === "user" && role === "user") ?
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <div className='logo' />
-            <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['1']}>
-              <Menu.Item key='1'>
-                <Link to='/home' />
-                Home
+            <div className="logo" />
+            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+              <Menu.Item key="1">
+                <Link to="/home" />
+                  Home
               </Menu.Item>
-              <Menu.Item key='2'>
-                <Link to='/providers/register' />
-                Hotel register
+              <Menu.Item key="2">
+                <Link to="/providers/register" />
+                  Hotel register
               </Menu.Item>
-              <Menu.Item key='3'>
-                <Link to='/customer/task' />
-                My Booking
+              <Menu.Item key="3">
+                <Link to="/customer/task" />
+                  My Booking
               </Menu.Item>
-              <SubMenu icon={<DownOutlined />} title={!name ? 'user' : name}>
-                <Menu.ItemGroup title='profile'>
-                  <Menu.Item key='user-profile'>
-                    <Link to='/customer/profile' />
+              <SubMenu
+                icon={<DownOutlined />}
+                title={(!name) ? "user" : name}
+              >
+                <Menu.ItemGroup
+                  title="profile"
+                >
+                  <Menu.Item
+                    key="user-profile"
+                  >
+                    <Link to="/customer/profile" />
                     Profile
                   </Menu.Item>
                 </Menu.ItemGroup>
-                {hotel ? (
-                  <Menu.ItemGroup title='hotel'>
-                    <Menu.Item key='provider' onClick={changeToProvider}>
-                      {hotel.hotelName}
-                    </Menu.Item>
-                  </Menu.ItemGroup>
-                ) : null}
+                {
+                  (hotel) ?
+                    <Menu.ItemGroup
+                      title="hotel"
+                    >
+                      <Menu.Item
+                        key="provider"
+                        onClick={changeToProvider}
+                      >
+                        {hotel.hotelName}
+                      </Menu.Item>
+                    </Menu.ItemGroup>
+                    :
+                    null
+                }
                 <Menu.Item
-                  key='logout'
+                  key="logout"
                   icon={<PoweroffOutlined />}
                   onClick={logout}
                 >
-                  <Link to='/login' />
+                  <Link to="/login" />
                   Logout
                 </Menu.Item>
               </SubMenu>
             </Menu>
           </Header>
-          <Content
-            className='site-layout'
-            style={{ padding: '0 50px', marginTop: 64 }}
-          >
-            <div
-              className='site-layout-background'
-              style={{ padding: 24, minHeight: 380 }}
-            >
+          <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+            <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
               <PrivateRoutes role={role} setRole={setRole} />
             </div>
           </Content>
@@ -138,7 +141,7 @@ function App() {
               <div className="logo" />
               <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1">
-                  <Link to="/providers/home" />
+                  <Link to="/provider/home" />
                   Home
                 </Menu.Item>
                 <Menu.Item key="2">
@@ -155,21 +158,26 @@ function App() {
                     <Menu.Item
                       key="user-profile"
                     >
-                      <Link to="/providers/profile" />
+                      <Link to="/provider/profile" />
                     Profile
                   </Menu.Item>
-                </Menu.ItemGroup>
-                <Menu.ItemGroup title='customer'>
-                  <Menu.Item key='provider' onClick={changeToUser}>
-                    {name}
-                  </Menu.Item>
-                </Menu.ItemGroup>
-                <Menu.Item
-                  key='logout'
-                  icon={<PoweroffOutlined />}
-                  onClick={logout}
-                >
-                  <Link to='/login' />
+                  </Menu.ItemGroup>
+                  <Menu.ItemGroup
+                    title="customer"
+                  >
+                    <Menu.Item
+                      key="provider"
+                      onClick={changeToUser}
+                    >
+                      {name}
+                    </Menu.Item>
+                  </Menu.ItemGroup>
+                  <Menu.Item
+                    key="logout"
+                    icon={<PoweroffOutlined />}
+                    onClick={logout}
+                  >
+                    <Link to="/login" />
                   Logout
                 </Menu.Item>
                 </SubMenu>
