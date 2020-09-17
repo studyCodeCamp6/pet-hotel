@@ -27,7 +27,19 @@ const billOptionalService = async (req, res) => {
 
 }
 
+const getBillReview = async (req, res) => {
+    const currentId = Number(req.user.id)
+    const pet = await db.Pets.findAll({ where: { customer_id: currentId } })
+    console.log(pet)
+}
+
+const createNewReview = async (req, res) => {
+
+}
+
 module.exports = {
     addBill,
-    billOptionalService
+    billOptionalService,
+    getBillReview,
+    createNewReview
 }

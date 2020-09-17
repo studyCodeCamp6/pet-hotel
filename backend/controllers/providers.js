@@ -27,7 +27,7 @@ const register = async (req, res) => {
         res.status(400).send({ message: 'already have hotel' })
     } else {
         // const salt = bc.genSaltSync(Number(process.env.ROUNDS));
-        const hashedPW = bc.hashSync(password, salt);
+        // const hashedPW = bc.hashSync(password, salt);
         await db.Providers.create({
             // username,
             // password: hashedPW,
@@ -70,7 +70,7 @@ const getProvider = async (req, res) => {
 
 
 
-   
+
 const updateProvider = async (req, res) => {
     const { hotelName, address, phoneNumber, email, area, type, wage } = req.body
     const { id } = req.params

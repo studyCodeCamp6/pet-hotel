@@ -5,7 +5,7 @@ const controllers = require("../controllers/providers")
 const controllersGetService = require('../controllers/providerOptionService')
 const auth = passport.authenticate("jwt", { session: false });
 
-router.post("/newHotel", auth, controllers.register);
+router.post("/new/hotel", auth, controllers.register);
 router.get('/', auth, controllers.getProvider)
 router.get('/service', auth, controllersGetService.getService)
 router.get('/token', auth, controllers.getProviderToken)
