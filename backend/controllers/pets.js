@@ -32,7 +32,22 @@ const registerPets = async (req, res) => {
         // console.log("bill Date", newDate)
 
         // const newResponse = { bill_id: newDate.dataValues.id }
-        const newBills = addDog.map(item => ({ pet_id: item.dataValues.id, bill_id: newDate.dataValues.id }))
+
+
+        const myId = req.user.id
+        const targetProvider = await db.Providers.findOne({
+            where: { id: myId },
+            // attributes: ['wage']
+        })
+        console.log("add cost =>", targetProvider)
+        // const targetProviders = 
+
+
+        const newBills = addDog.map(item => ({
+            pet_id: item.dataValues.id,
+            bill_id: newDate.dataValues.id,
+            cost: targetProvider.wage
+        }))
         const addPets = await db.PetsBills.bulkCreate(newBills)
         // console.log("bill pets", addPets)
 
@@ -45,7 +60,7 @@ const registerPets = async (req, res) => {
         res.status(201).send({ message: `Add New Pets Success.` })
     }
     catch (err) {
-       console.log(err)
+        console.log(err)
     }
 }
 
