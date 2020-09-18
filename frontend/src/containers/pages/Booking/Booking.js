@@ -1,9 +1,18 @@
 import React from "react";
 import ReviewCard from "../../component/ReviewCard/ReviewCard";
 import { Rate } from "antd";
+import { DatePicker, Space } from "antd";
+import moment from "moment";
 import "./Booking.css";
 
 function Booking() {
+  const { RangePicker } = DatePicker;
+
+  const dateFormat = "YYYY/MM/DD";
+  const monthFormat = "YYYY/MM";
+
+  const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
+
   return (
     <div>
       <div className="search-show-map-booking"></div>
@@ -48,8 +57,20 @@ function Booking() {
             </select>
           </form>
         </div>
-        <div className="item7">Startdate</div>
-        <div className="item8">EndDate</div>
+        <div className="item7">
+          <DatePicker
+            // defaultValue={moment("01/01/2015", dateFormatList[0])}
+            placeholder={"Start Date"}
+            format={dateFormatList}
+          />
+        </div>
+        <div className="item7">
+          <DatePicker
+            // defaultValue={moment("01/01/2015", dateFormatList[0])}
+            placeholder={"End Date"}
+            format={dateFormatList}
+          />
+        </div>
         <div className="item9">
           <p>Note</p>
         </div>

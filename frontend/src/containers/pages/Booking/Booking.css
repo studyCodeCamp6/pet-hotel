@@ -85,16 +85,40 @@
 .item7 {
   width: 303px;
   height: 37px;
+  /* border: 1px solid black; */
+  /* border-radius: 10px; */
+  margin: 5px auto;
+}
+.item7 div:first-child{
+  width: 303px;
+  height: 37px;
   border: 1px solid black;
   border-radius: 10px;
-  margin: 5px auto;
+  /* margin: 5px auto; */
+  /* z-index: -1; */
+  color: black;
+}
+
+.item7 div:first-child .ant-picker-input{
+  border: none;
+}
+
+.item7 span.anticon.anticon-calendar{
+  color: black;
+}
+
+.item7 :first-child ::placeholder{
+  color: black;
+  font-style: normal;
+  font-size: 16px;
+
 }
 
 .item8 {
   width: 303px;
   height: 37px;
-  border: 1px solid black;
-  border-radius: 10px;
+  /* border: 1px solid black;
+  border-radius: 10px; */
   margin: 5px auto;
 }
 
@@ -176,8 +200,5 @@ border-style: none;
 
 .item13{
   margin: 33px auto 10px;
-  /* margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px; */
   font-size: 18px;
 }
