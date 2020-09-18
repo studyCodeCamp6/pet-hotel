@@ -1,0 +1,22 @@
+.ant-carousel .slick-dots li button {
+    background: #F6AB4A;
+    opacity: 0.4;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+    opacity: 1;
+    background: #ff84f9;
+}
+
+.ant-carousel .slick-slide h3 {
+    color: #fff;
+  }
+
+.ant-carousel .slick-slide {
+    height: 183px;
+    color: #626262;
+    line-height: 183px;
+    text-align: center;
+    background: #2b2b2b;
+    overflow: hidden;
+}
