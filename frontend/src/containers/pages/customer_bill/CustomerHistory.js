@@ -7,17 +7,7 @@ function CustomerHistory() {
     let [bill, setBill] = useState([]);
     let [allData, setAllData] = useState([]);
 
-    const source = bill.map((item, index) => ({
-        key: index,
-        startDate: item.startDate,
-        endDate: item.endDate,
-        hotel_name: item.hotelName_bill,
-        address: item.hotelAddress_bill,
-        pet_name: item.pets_split,
-        pet_type: item.petsBreed_split,
-
-    })
-    )
+    
 
     const columns = [
         {
@@ -41,7 +31,7 @@ function CustomerHistory() {
             key: 'pet_type'
         },
         {
-            title: "StartDate",
+            title: "Start Date",
             dataIndex: "startDate",
             key: "startDate",
 
@@ -52,7 +42,7 @@ function CustomerHistory() {
             )
         },
         {
-            title: "EndDate",
+            title: "End Date",
             dataIndex: "endDate",
             key: "endDate",
             render: (endDate) => (
@@ -65,8 +55,8 @@ function CustomerHistory() {
 
     const fetchData = async () => {
         try {
-            const targetBill = await axios.get(`/tasks/customers`);
-            console.log(targetBill.data.result)
+            const targetBill = await axios.get(`/histories/customers`);
+            console.log(targetBill.data)
             setBill(targetBill.data.result);
         } catch (error) {
             console.log(error);
@@ -78,6 +68,19 @@ function CustomerHistory() {
     }, []);
 
     // console.log(endDate,startDate)
+
+
+    const source = bill.map((item, index) => ({
+        key: index,
+        startDate: item.startDate,
+        endDate: item.endDate,
+        hotel_name: item.hotelName_bill,
+        address: item.hotelAddress_bill,
+        pet_name: item.pets_split,
+        pet_type: item.petsBreed_split,
+
+    })
+    )
     console.log(source)
 
 
