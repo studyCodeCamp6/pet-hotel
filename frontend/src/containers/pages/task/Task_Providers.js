@@ -8,7 +8,7 @@ const updateBill = async (newstatus, billId) => {
   try {
     console.log(billId);
     console.log(newstatus);
-    await axios.patch(`/tasks/customers/${billId}`, {
+    await axios.patch(`/tasks/providers/${billId}`, {
       status: newstatus,
     });
   } catch (error) {
@@ -38,12 +38,12 @@ const columns = [
         {petName === undefined
           ? false
           : petName.map((pet, idx) => {
-              return (
-                <div key={idx}>
-                  {idx + 1}. <Tag>{pet}</Tag>
-                </div>
-              );
-            })}
+            return (
+              <div key={idx}>
+                {idx + 1}. <Tag>{pet}</Tag>
+              </div>
+            );
+          })}
       </>
     ),
   },
@@ -138,8 +138,8 @@ const columns = [
             <span className={"status-yellow"}>complete</span>
           </>
         ) : (
-          <div>something went wrong</div>
-        )}
+                            <div>something went wrong</div>
+                          )}
       </>
     ),
   },
@@ -219,12 +219,12 @@ function Task_Providers() {
           {petName === undefined
             ? false
             : petName.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -237,12 +237,12 @@ function Task_Providers() {
           {petType === undefined
             ? false
             : petType.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -255,12 +255,12 @@ function Task_Providers() {
           {petWeight === undefined
             ? false
             : petWeight.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -273,12 +273,12 @@ function Task_Providers() {
           {petSex === undefined
             ? false
             : petSex.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -291,12 +291,12 @@ function Task_Providers() {
           {petImage === undefined
             ? false
             : petImage.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -366,8 +366,8 @@ function Task_Providers() {
               <span className={"status-yellow"}>complete</span>
             </>
           ) : (
-            <div>something went wrong</div>
-          )}
+                              <div>something went wrong</div>
+                            )}
         </>
       ),
     },
@@ -408,44 +408,44 @@ function Task_Providers() {
             ) : status === "CONFIRM" ? (
               billId.startDate.slice(0, -14) <=
                 moment().format().slice(0, -15) &&
-              billId.endDate.slice(0, -14) >=
+                billId.endDate.slice(0, -14) >=
                 moment().format().slice(0, -15) ? (
                   <div>
-                  {onProgressVisible ? (
-                     <button onClick={()=>setConfirmGetPetModal(true)}>
-                     "get pet"
-                   </button>
+                    {onProgressVisible ? (
+                      <button onClick={() => setConfirmGetPetModal(true)}>
+                        "get pet"
+                      </button>
+                    ) : (
+                        "on progress"
+                      )}
+                    <Modal
+                      visible={confirmGetPetModal}
+                      onOk={() => {
+                        setHandleCancleSentPet(false);
+                        setOnProgressVisible(false)
+                        setConfirmGetPetModal(false)
+                        updateBill("PROGRESS", billId.billId);
+                      }}
+                      onCancel={handleCancleSentPet}
+                    >
+                      <div>are you sure you want to get pet?</div>
+                    </Modal>
+                  </div>
+                ) : billId.endDate.slice(0, -14) >
+                  moment().format().slice(0, -15) ? (
+                    "ending"
                   ) : (
-                    "on progress"
-                  )}
-                  <Modal
-                    visible={confirmGetPetModal}
-                    onOk={() => {
-                      setHandleCancleSentPet(false);
-                      setOnProgressVisible(false)
-                      setConfirmGetPetModal(false)
-                      updateBill("PROGRESS", billId.billId);
-                    }}
-                    onCancel={handleCancleSentPet}
-                  >
-                    <div>are you sure you want to get pet?</div>
-                  </Modal>
-                </div>
-              ) : billId.endDate.slice(0, -14) >
-                moment().format().slice(0, -15) ? (
-                "ending"
-              ) : (
-                []
-              )
+                    []
+                  )
             ) : status === "ONTIME" ? (
               <div>
                 {onProgressVisible ? (
-                   <button onClick={()=>setConfirmGetPetModal(true)}>
-                   "get pet"
-                 </button>
+                  <button onClick={() => setConfirmGetPetModal(true)}>
+                    "get pet"
+                  </button>
                 ) : (
-                  "on progress"
-                )}
+                    "on progress"
+                  )}
                 <Modal
                   visible={confirmGetPetModal}
                   onOk={() => {
@@ -460,8 +460,8 @@ function Task_Providers() {
                 </Modal>
               </div>
             ) : (
-              []
-            )}
+                    []
+                  )}
           </>
         );
       },
@@ -490,7 +490,7 @@ function Task_Providers() {
 
   let newArrayData = [];
 
-  if (bill.length !== undefined) {
+  if (bill.targetBill?.length > 0) {
     newArrayData = bill.targetBill.map((bill) => {
       return {
         key: Math.random(),

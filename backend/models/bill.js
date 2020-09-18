@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         status: {
             type: DataTypes.ENUM("WAITING", "ACCEPT", "REJECT", "CONFIRM", "CANCEL", "ONTIME", "PROGRESS", "ENDING", "COMPLETE")
-        },
-        customer_id:{
-            type:DataTypes.INTEGER
         }
     })
 
@@ -21,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         model.hasMany(models.PetsBills, { foreignKey: 'bill_id' })
         model.hasMany(models.BillOptionalServices, { foreignKey: 'bill_id' })
         model.belongsTo(models.Providers, { foreignKey: 'provider_id' })
+        model.belongsTo(models.Customers, { foreignKey: "customer_id" })
     }
 
     return model;

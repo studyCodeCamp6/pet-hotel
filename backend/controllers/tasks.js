@@ -113,7 +113,7 @@ const UpdateCustomerBIlls = async (req, res) => {
       },
     });
     if (targetBill) {
-      console.log(req.body.status);
+      console.log("here", req.body.status);
       await targetBill.update({ status: req.body.status });
       res.send({ message: "sucess" });
     } else {
@@ -173,13 +173,11 @@ const getProviderBills = async (req, res) => {
     } else {
       let proposedDate = moment().format("YYYY-MM-DDTHH:mm");
       for (let i = 0; i < targetBill.length; i++) {
-        if(targetBill[i].status=="CONFIRM") {
-          const  startDateDatabase =  (JSON.stringify(targetBill[i].startDate)).slice(1,-1)
-          const endDateDatabase =  (JSON.stringify(targetBill[i].endDate)).slice(1,-1)
-          if  (startDateDatabase< proposedDate) {
+        if (targetBill[i].status == "CONFIRM") {
+          const startDateDatabase = (JSON.stringify(targetBill[i].startDate)).slice(1, -1)
+          const endDateDatabase = (JSON.stringify(targetBill[i].endDate)).slice(1, -1)
+          if (startDateDatabase < proposedDate) {
             await targetBill[i].update({ status: "ONTIME" });
-            console.log(startDateDatabase , proposedDate)
-            console.log(startDateDatabase > proposedDate)
           } else if (endDateDatabase < proposedDate) {
             await targetBill[i].update({ status: "ENDING" });
           }
@@ -193,6 +191,7 @@ const getProviderBills = async (req, res) => {
 };
 
 const UpdateProviderBIlls = async (req, res) => {
+  console.log("a")
   const { status } = req.body;
   try {
     const { bId } = req.params;
@@ -204,7 +203,7 @@ const UpdateProviderBIlls = async (req, res) => {
       },
     });
     if (targetBill) {
-      await targetBill.update({ status: req.body.status });
+      await targetBill.update({ status });
       res.send({ message: "provider accecpted" });
     } else {
       res.send({ message: "provider accecpted" });

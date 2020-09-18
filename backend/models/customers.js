@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 
     model.associate = models => {
         model.hasMany(models.Pets, { foreignKey: "customer_id" })
+        model.hasMany(models.Bills, {foreignKey: "customer_id"})
         model.hasOne(models.Providers, { foreignKey: "customer_id" })
     }
 

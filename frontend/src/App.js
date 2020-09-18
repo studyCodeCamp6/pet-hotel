@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import PrivateRoutes from "./containers/private-routes/PrivateRoutes";
 import localStorageService from "./services/LocalStorage";
-import { Menu, Layout, Dropdown, Button } from "antd";
+import { Menu, Layout } from "antd";
 import { DownOutlined, PoweroffOutlined } from '@ant-design/icons'
 import axios from "./config/axios"
 import jwtDecode from 'jwt-decode'
@@ -62,7 +62,6 @@ function App() {
 
   const hotelData = usePrevious(hotel)
   const userName = usePrevious(name)
-  // const prevRole = usePrevious(role)
 
   useEffect(() => {
     fetchHotelData()
@@ -78,7 +77,7 @@ function App() {
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
               <Menu.Item key="1">
                 <Link to="/home" />
-                  home
+                  Home
               </Menu.Item>
               <Menu.Item key="2">
                 <Link to="/providers/register" />
@@ -99,26 +98,31 @@ function App() {
                     key="user-profile"
                   >
                     <Link to="/customer/profile" />
-                    profile
+                    Profile
                   </Menu.Item>
                 </Menu.ItemGroup>
-                <Menu.ItemGroup
-                  title="hotel"
-                >
-                  <Menu.Item
-                    key="provider"
-                    onClick={changeToProvider}
-                  >
-                    {hotel.hotelName}
-                  </Menu.Item>
-                </Menu.ItemGroup>
+                {
+                  (hotel) ?
+                    <Menu.ItemGroup
+                      title="hotel"
+                    >
+                      <Menu.Item
+                        key="provider"
+                        onClick={changeToProvider}
+                      >
+                        {hotel.hotelName}
+                      </Menu.Item>
+                    </Menu.ItemGroup>
+                    :
+                    null
+                }
                 <Menu.Item
                   key="logout"
                   icon={<PoweroffOutlined />}
                   onClick={logout}
                 >
                   <Link to="/login" />
-                  logout
+                  Logout
                 </Menu.Item>
               </SubMenu>
             </Menu>
@@ -128,7 +132,7 @@ function App() {
               <PrivateRoutes role={role} setRole={setRole} />
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer style={{ textAlign: 'center' }}>Ant Design ©2020 Created by Ant UED</Footer>
         </Layout>
         :
         (localStorageService.getRole() === "provider" && role === "provider") ?
@@ -138,7 +142,7 @@ function App() {
               <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1">
                   <Link to="/provider/home" />
-                  home
+                  Home
                 </Menu.Item>
                 <Menu.Item key="2">
                   <Link to="/providers/task" />
@@ -155,7 +159,7 @@ function App() {
                       key="user-profile"
                     >
                       <Link to="/provider/profile" />
-                    profile
+                    Profile
                   </Menu.Item>
                   </Menu.ItemGroup>
                   <Menu.ItemGroup
@@ -174,7 +178,7 @@ function App() {
                     onClick={logout}
                   >
                     <Link to="/login" />
-                  logout
+                  Logout
                 </Menu.Item>
                 </SubMenu>
               </Menu>
@@ -184,37 +188,34 @@ function App() {
                 <PrivateRoutes role={role} setRole={setRole} />
               </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+            <Footer style={{ textAlign: 'center' }}>Ant Design ©2020 Created by Ant UED</Footer>
           </Layout>
           :
-          (localStorageService.getRole() === "guest" && role === "guest") ?
-            <Layout>
-              <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                <div className="logo" />
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']}>
-                  <Menu.Item key="0">
-                    <Link to="/home" />
+          <Layout>
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+              <div className="logo" />
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']}>
+                <Menu.Item key="0">
+                  <Link to="/home" />
                     Home
                   </Menu.Item>
-                  <Menu.Item key="3">
-                    <Link to="/register" />
+                <Menu.Item key="3">
+                  <Link to="/register" />
                     Register
                   </Menu.Item>
-                  <Menu.Item key="2">
-                    <Link to="/login" />
+                <Menu.Item key="2">
+                  <Link to="/login" />
                     Login
                   </Menu.Item>
-                </Menu>
-              </Header>
-              <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
-                <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
-                  <PrivateRoutes role={role} setRole={setRole} />
-                </div>
-              </Content>
-              <Footer style={{ textAlign: 'center' }}>Haustier's hotel</Footer>
-            </Layout>
-            :
-            <div>123123123</div>
+              </Menu>
+            </Header>
+            <Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+              <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
+                <PrivateRoutes role={role} setRole={setRole} />
+              </div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>Ant Design ©2020 Created by Ant UED</Footer>
+          </Layout>
       }
     </div >
   );
