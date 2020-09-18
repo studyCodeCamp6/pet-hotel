@@ -54,15 +54,19 @@ function Booking() {
           <p>Note</p>
         </div>
         <div className="item10">
-          <textarea value="note"></textarea>
+          <form>
+            <textarea className="note-booking" placeholder=""></textarea>
+          </form>
         </div>
         <div className="item11">
           <div>300 bath/day/pet</div>
           <div>
             <p>4 day</p>
-            <p>total</p>
-            <p>1,200</p>
-            <p>Baht</p>
+            <div>
+              <p>total</p>
+              <p>1,200</p>
+              <p>Baht</p>
+            </div>
           </div>
         </div>
         <div className="item12">

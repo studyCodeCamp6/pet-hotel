@@ -5,6 +5,7 @@
   background-color: #f6ab4a;
   margin: auto auto;
   padding: 12px;
+  word-wrap: break-word;
 }
 
 .review-card p {

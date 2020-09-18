@@ -72,16 +72,18 @@
     top: 27px;
     left: 100%;
     opacity: 1;
-    transition: all 0.5s ease;
+    transition: right 0.5s ease;
+    
   }
 
   .nav-menu.active {
+    display: flex;
     background: #f6d04a;
     background-color: #f6d04a;
     height: 2000px;
     left: 30%;
     opacity: 1;
-    transition: all 0.5s ease;
+    transition: left 0.5s ease;
     z-index: 1;
     padding-left: 0;
   }
@@ -91,6 +93,7 @@
     padding: 1rem 2rem;
     width: 100%;
     display: table;
+
   }
 
   .nav-links:hover {

@@ -21,7 +21,6 @@ ReactDOM.render(
     {/* <CreateReview /> */}
     {/* <SearchResult /> */}
     <Booking />
-
     {/* <Task_Customers /> */}
     {/* <Task_Providers /> */}
   </BrowserRouter>,
