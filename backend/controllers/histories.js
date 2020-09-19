@@ -6,74 +6,77 @@ const db = require("../models");
 const getCustomerHistories = async (req, res) => {
   try {
     const myId = req.user.id;
-    const targetBill = await db.Customers.findAll({
-      where: { id: myId },
-      attributes: ['id'],
+    const targetBill = await db.Pets.findAll({
+      where: { customer_id: myId },
+      attributes: ['name', 'breedType'],
       include: {
-        model: db.Pets,
-        attributes: ['name', 'breedType'],
+        model: db.PetsBills,
+        attributes: ["cost"],
         include: {
-          model: db.PetsBills,
+          model: db.Bills,
+          attributes: ["startDate", "endDate"],
+          order: [["startDate", "DESC"]],
           include: {
-            model: db.Bills,
-            attributes: ["startDate", "endDate"],
-            order: [["startDate", "DESC"]],
+            model: db.Providers,
+            attributes: ['hotelName', 'address'],
             include: {
-              model: db.Providers,
-              attributes: ['hotelName', 'address']
+              model : db.ProviderOptionalServices,
+              include : {
+                model : db.OptionalServices,
+                attributes : ["name"]
+              }
             }
           }
         }
       }
+
     });
 
     const result = targetBill.map(item => {
-      const pets = item.Pets.map(pet => {
-        return pet.name
-      })
-      const pets_split = pets.join(" , ")
 
-      const petsBreed = item.Pets.map(petBreed => {
-        return petBreed.breedType
-      })
-      const petsBreed_split = petsBreed.join(" , ")
+      const petName = item.name
 
-      const hotelInfo = item.Pets.map(data => {
-        const hotelInfo_PetBills = data.PetsBills.map(bill => { return bill.Bill.Provider.hotelName }
-        )
-        return hotelInfo_PetBills[0]
-      })
-      const hotelName_bill = hotelInfo.reduce((a, b) => (a === b) ? [a] : NaN)
-      console.log("address => ", hotelInfo)
+      const petBreed = item.breedType
 
-      const hotelAddress = item.Pets.map(data => {
-        const hotelInfo_PetBills = data.PetsBills.map(bill => { return bill.Bill.Provider.address }
-        )
-        return hotelInfo_PetBills[0]
+      const costPet = item.PetsBills.map(costs => {
+        return costs.cost
       })
-      const hotelAddress_bill = hotelAddress.reduce((a, b) => (a === b) ? [a] : NaN)
 
-      const stDate = item.Pets.map(data => {
-        const stDate_PetBills = data.PetsBills.map(bill => {
-          return bill.Bill.startDate
+      const dateBill = item.PetsBills.map(bill => {
+        return bill.Bill
+      })
+      const stDate = dateBill.map(date => date.startDate)
+      const enDate = dateBill.map(date => date.endDate)
+
+      const providerInfo = dateBill.map(bill => {
+        return bill.Provider
+      })
+
+      const providerInfo_Name = providerInfo.map(info => info.hotelName)
+      const providerInfo_Address = providerInfo.map(info => info.address)
+
+      const dayTotal = (enDate[0] - stDate[0]) / (1000 * 24 * 60 * 60)
+
+      const serviceProvider = providerInfo.map(serV => 
+        { const services = serV.ProviderOptionalServices.map(service => {
+          return service.OptionalService.name
         })
-        return stDate_PetBills[0]
+        return services
       })
-      const stDate_sum = stDate.reduce((a, b) => (a.getTime() == b.getTime()) ? a : NaN)
+      const serviceProvider_split = serviceProvider.join(',')
 
-      const enDate = item.Pets.map(data => {
-        const enDate_PetBills = data.PetsBills.map(bill => {
-          return bill.Bill.endDate
-        })
-        return enDate_PetBills[0]
-      })
-      const enDate_sum = enDate.reduce((a, b) => (a.getTime() == b.getTime()) ? a : NaN)
 
-      console.log("enDate => ", enDate)
 
       return {
-        pets_split, petsBreed_split, hotelName_bill, hotelAddress_bill,
-        startDate: stDate_sum, endDate: enDate_sum
+        petName,
+        petBreed,
+        cost: costPet * dayTotal,
+        startDate: stDate[0],
+        endDate: enDate[0],
+        hotelName: providerInfo_Name,
+        address: providerInfo_Address,
+        service : serviceProvider_split
+
       }
     })
 
