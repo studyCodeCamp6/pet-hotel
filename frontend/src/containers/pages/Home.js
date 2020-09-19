@@ -18,7 +18,7 @@ import ReviewCard from "../component/ReviewCard/ReviewCard";
 function Home() {
   return (
     <div className="home">
-      <Carousel fade>
+      <Carousel autoplay>
         <div>
           <h3 className="carousel">1</h3>
         </div>

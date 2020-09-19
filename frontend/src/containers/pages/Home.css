@@ -3,26 +3,30 @@
   padding: auto;
 }
 
-.ant-carousel .slick-dots li button {
-  background: #f6ab4a;
-  opacity: 0.4;
+.ant-carousel > div :nth-child(2){
+    z-index: 0;
 }
 
-.ant-carousel .slick-dots li.slick-active button {
-  opacity: 1;
-  background: #ff84f9;
+.ant-carousel > div :nth-child(2) li button{
+    background: #f6ab4a;
+    opacity: 0.5;
+}
+
+.ant-carousel > div :nth-child(2) li.slick-active button{
+    opacity: 1;
+    background:  #553234;
 }
 
 .ant-carousel .slick-slide h3 {
-  color: #fff;
+  color:#553234;
+
 }
 
 .ant-carousel .slick-slide {
   height: 183px;
-  color: #626262;
   line-height: 183px;
   text-align: center;
-  background: #2b2b2b;
+  background: #F6F6F6;
   overflow: hidden;
 }
 
