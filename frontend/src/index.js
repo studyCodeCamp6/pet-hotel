@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import Navbar from './containers/component/Navbar/Navbar';
-import Home from './containers/pages/Home';
+import Home from './containers/pages/Home'
 import Booking from './containers/pages/Booking/Booking';
 import SearchResult from './containers/pages/search/SearchResult';
 import CreateReview from './containers/pages/customer_review/CreateReview';

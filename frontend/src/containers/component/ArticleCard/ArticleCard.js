@@ -6,20 +6,22 @@ const { Meta } = Card;
 
 function ArticleCard() {
   return (
-    <div>
+    <div className="article-card">
+      {/* <div>
+          <img></img>
+      </div>
+      <div>
+      <Meta title="บทความ" description="หนูมาลีมีลูกแมวเหมียว ลูกแมวเมียว ลูกแมวเมี้ยว หนูมาลีมีลูกแมวเหมียว ลูกแมวเมียว ลูกแมวเมี้ยวหนูมาลีมี ลูกแมวเหมียว ลูกแมวเมียวลูกแมวเมี้ยว" />
+      </div> */}
+      
       <Card
-        hoverable
-        style={{ width: 240 }}
-        cover={
-          <img
-            alt="example"
-            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-          />
-        }
+        style={{ width: 303, height:331 }}
+        cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+        
       >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
+        <Meta title="บทความ" description="หนูมาลีมีลูกแมวเหมียว ลูกแมวเมียว ลูกแมวเมี้ยว หนูมาลีมีลูกแมวเหมียว ลูกแมวเมียว ลูกแมวเมี้ยวหนูมาลีมี ลูกแมวเหมียว ลูกแมวเมียวลูกแมวเมี้ยว" />
       </Card>
-      ,
+
     </div>
   );
 }

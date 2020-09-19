@@ -17,35 +17,52 @@ import ReviewCard from "../component/ReviewCard/ReviewCard";
 
 function Home() {
   return (
-    <div style={{ height: "100vh"}}>
+    <div className="home">
       <Carousel fade>
         <div>
           <h3 className="carousel">1</h3>
         </div>
         <div>
-          <h3  className="carousel">2</h3>
+          <h3 className="carousel">2</h3>
         </div>
         <div>
-          <h3  className="carousel">3</h3>
+          <h3 className="carousel">3</h3>
         </div>
-
       </Carousel>
 
-      <div>
-          <div>Location Area</div>
-        <select id="typePet" name="typePet">
-          <option placeholder="ประเภทสัตว์เลี้ยง">ประเภทสัตว์เลี้ยง</option>
-          <option value="cat">cat</option>
-          <option value="dog">dog</option>
-          <option value="all">ทั้งหมด</option>
-        </select>
+      <div className="dropdown-search">
+        <div>
+          <select id="location" name="location">
+            <option placeholder="locationArea">Location Area</option>
+            <option value="sukumvit">Sukumvit</option>
+            <option value="samyan">Samyan</option>
+            <option value="all">ทั้งหมด</option>
+          </select>
+        </div>
+        <div>
+          <select id="typePet" name="typePet">
+            <option placeholder="ประเภทสัตว์เลี้ยง">ประเภทสัตว์เลี้ยง</option>
+            <option value="cat">cat</option>
+            <option value="dog">dog</option>
+            <option value="all">ทั้งหมด</option>
+          </select>
+        </div>
+      </div>
+      <div className="button-search-home">
         <button>ค้นหา</button>
       </div>
 
       <ArticleCard />
-      <b>Review</b>
-      <b>ProviderName</b>
-      <ReviewCard />
+      <div className="show-review-home">
+        <div>
+          <b>Review</b>
+        </div>
+        <div>
+          <b>ProviderName</b>
+        </div>
+      </div>
+          <ReviewCard />
+
       <Footer />
     </div>
   );

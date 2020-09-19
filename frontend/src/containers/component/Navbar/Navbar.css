@@ -1,3 +1,7 @@
+.fixed-scroll {
+  height: auto;
+}
+
 .NavbarItems {
   background: #553234;
   height: 47px;
@@ -54,36 +58,35 @@
 }
 
 @media screen and (max-width: 960px) {
-.fixed-scroll{
-  max-width: 100%;
-  /* overflow-x: hidden; */
-}
+/* .fixed-scroll{
+} */
 
-  .NavbarItems {
-    position: relative;
+.NavbarItems {
+  position: relative;
+    overflow: hidden;
   }
 
   .nav-menu {
     display: flex;
     flex-direction: column;
     width: 70%;
-    height: 2000px;
+    height: 100vh;
     position: absolute;
-    top: 27px;
+    /* top: 27px; */
+    margin-top: 108vh;
     left: 100%;
     opacity: 1;
-    transition: right 0.5s ease;
-    
+    transition: all 0.5s ease;
   }
 
   .nav-menu.active {
-    display: flex;
+    position: fixed;
     background: #f6d04a;
     background-color: #f6d04a;
-    height: 2000px;
+    height: 100vh;
     left: 30%;
     opacity: 1;
-    transition: left 0.5s ease;
+    transition: all 0.5s ease;
     z-index: 1;
     padding-left: 0;
   }
@@ -93,7 +96,6 @@
     padding: 1rem 2rem;
     width: 100%;
     display: table;
-
   }
 
   .nav-links:hover {
@@ -131,5 +133,4 @@
   .nav-links:hover {
     color: #000000;
   }
-
 }
