@@ -7,7 +7,7 @@ function CustomerHistory() {
     let [bill, setBill] = useState([]);
     let [allData, setAllData] = useState([]);
 
-    
+
 
     const columns = [
         {
@@ -31,10 +31,14 @@ function CustomerHistory() {
             key: 'pet_type'
         },
         {
+            title: 'Service',
+            dataIndex: 'service',
+            key: 'service'
+        },
+        {
             title: "Start Date",
             dataIndex: "startDate",
             key: "startDate",
-
             render: (startDate) => (
                 <>
                     <span>{moment(startDate).format("Do MMMM  h:mm a")}</span>
@@ -50,7 +54,12 @@ function CustomerHistory() {
                     <span>{moment(endDate).format("Do MMMM  h:mm a")}</span>
                 </>
             )
-        }
+        },
+        {
+            title: 'Total Cost',
+            dataIndex: 'cost',
+            key: 'cost'
+        },
     ]
 
     const fetchData = async () => {
@@ -74,10 +83,12 @@ function CustomerHistory() {
         key: index,
         startDate: item.startDate,
         endDate: item.endDate,
-        hotel_name: item.hotelName_bill,
-        address: item.hotelAddress_bill,
-        pet_name: item.pets_split,
-        pet_type: item.petsBreed_split,
+        hotel_name: item.hotelName,
+        address: item.address,
+        pet_name: item.petName,
+        pet_type: item.petBreed,
+        cost: item.cost,
+        service : item.service
 
     })
     )
