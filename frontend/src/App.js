@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import PrivateRoutes from "./containers/private-routes/PrivateRoutes";
 import localStorageService from "./services/LocalStorage";
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Dropdown, Button } from "antd";
 import { DownOutlined, PoweroffOutlined } from '@ant-design/icons'
 import axios from "./config/axios"
 import jwtDecode from 'jwt-decode'
@@ -84,7 +84,7 @@ function App() {
                   Hotel register
               </Menu.Item>
               <Menu.Item key="3">
-                <Link to="/customer/task" />
+                <Link to="/customers/task" />
                   My Booking
               </Menu.Item>
               <SubMenu
@@ -97,7 +97,7 @@ function App() {
                   <Menu.Item
                     key="user-profile"
                   >
-                    <Link to="/customer/profile" />
+                    <Link to="/customers/profile" />
                     Profile
                   </Menu.Item>
                 </Menu.ItemGroup>
@@ -141,7 +141,7 @@ function App() {
               <div className="logo" />
               <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1">
-                  <Link to="/provider/home" />
+                  <Link to="/providers/home" />
                   Home
                 </Menu.Item>
                 <Menu.Item key="2">
@@ -158,7 +158,7 @@ function App() {
                     <Menu.Item
                       key="user-profile"
                     >
-                      <Link to="/provider/profile" />
+                      <Link to="/providers/profile" />
                     Profile
                   </Menu.Item>
                   </Menu.ItemGroup>

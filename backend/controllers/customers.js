@@ -120,58 +120,7 @@ const searchingProvidersByPetType = async (req, res) => {
 }
 
 const createNewReview = async (req, res) => {
-  const currentCustomer = Number(req.user.id)
-  const bill_id = Number(req.body.bill_id)
-  const { score, comment } = req.body
-  // const targetPetBill = await db.Pets.findAll({
-  //   where: { customer_id: currentCustomer },
-  //   include: [
-  //     {
-  //       model: db.PetsBills,
-  //       // where: { bill_id },
-  //       attributes: ['id', 'bill_id', 'pet_id'],
-  //       include: [
-  //         {
-  //           model: db.Bills,
-  //           where: { status: "COMPLETE" },
-  //           attributes: [['id', 'bill_id'], 'status', 'provider_id']
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // });
   
-  const targetBill = await db.Bills.findAll({
-    where: { customer_id: currentCustomer },
-    include: [
-      {
-        model: db.PetBills
-      }
-    ]
-  })
-  
-  if (targetPetBill) {
-    // const petBills = await targetPetBill.map(pet => pet.PetsBills)
-    // let results = []
-    // for (i = 0; i < petBills.length; i++) {
-    //   for (let j = 0; j < petBills[i].length; j++) {
-    //     results.push(petBills[i][j])
-    //   }
-    // }
-    // const result = results.map((bill, id) => (bill.Bill.status) ? true : false)
-    res.send(targetPetBill)
-    // for (let i = 0; i < result.length; i++){
-    //   if (result[i]) {
-    //     await db.Reviews.create({
-    //       bill_id,
-    //       provider_id,
-    //       score,
-    //       comment
-    //     })
-    //   }
-    // }
-    // res.status(201).send({message: 'Created review already'})
-  }
 }
 
 const getAllReview = async (req, res) => {

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Modal } from "antd";
+import { Table, Tag, Modal, Button } from "antd";
 import axios from "../../../config/axios";
 import moment from "moment";
 import "./task.css";
+import { Link } from "react-router-dom";
+import createReview from "../customer_review/CreateReview";
 
 const updateBill = async (newstatus, billId) => {
   try {
@@ -36,12 +38,12 @@ const columns = [
         {petName === undefined
           ? false
           : petName.map((pet, idx) => {
-              return (
-                <div key={idx}>
-                  {idx + 1}. <Tag>{pet}</Tag>
-                </div>
-              );
-            })}
+            return (
+              <div key={idx}>
+                {idx + 1}. <Tag>{pet}</Tag>
+              </div>
+            );
+          })}
       </>
     ),
   },
@@ -130,8 +132,8 @@ const columns = [
             <span className={"status-yellow"}>complete</span>
           </>
         ) : (
-          <div>something went wrong</div>
-        )}
+                            <div>something went wrong</div>
+                          )}
       </>
     ),
   },
@@ -215,12 +217,12 @@ function Task_Customers() {
           {petName === undefined
             ? false
             : petName.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -233,12 +235,12 @@ function Task_Customers() {
           {petType === undefined
             ? false
             : petType.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -251,12 +253,12 @@ function Task_Customers() {
           {petWeight === undefined
             ? false
             : petWeight.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -269,12 +271,12 @@ function Task_Customers() {
           {petSex === undefined
             ? false
             : petSex.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -287,12 +289,12 @@ function Task_Customers() {
           {petImage === undefined
             ? false
             : petImage.map((pet, idx) => {
-                return (
-                  <div key={idx}>
-                    {idx + 1}. <Tag>{pet}</Tag>
-                  </div>
-                );
-              })}
+              return (
+                <div key={idx}>
+                  {idx + 1}. <Tag>{pet}</Tag>
+                </div>
+              );
+            })}
         </>
       ),
     },
@@ -361,8 +363,8 @@ function Task_Customers() {
               <span className={"status-yellow"}>complete</span>
             </>
           ) : (
-            <div>something went wrong</div>
-          )}
+                              <div>something went wrong</div>
+                            )}
         </>
       ),
     },
@@ -409,58 +411,64 @@ function Task_Customers() {
             ) : status === "CONFIRM" ? (
               billId.startDate.slice(0, -14) >=
                 moment().format().slice(0, -15) &&
-              billId.endDate.slice(0, -14) < moment().format().slice(0, -15) ? (
-                 <div>
-              <Modal
-                visible={confirmSentpetModal}
-                onOk={() => {
-                  handleOkPay(billId);
-                  handleCancleSentPet(true);
-                  setOnProgressVisible(false)
-                }}
-                onCancel={handleCancleSentPet}
-              >
-                <div>are you sure you want to sent pet?</div>
-              </Modal>
-              {onProgressVisible ? (
-                <button onClick={()=>setConfirmSentpetModal(true)}>"sent pet"</button>
-              ) : (
-                "on progress"
-              )}
-            </div>
-              ) : billId.endDate.slice(0, -14) >
-                moment().format().slice(0, -15) ? (
-                "ending"
-              ) : (
-                []
-              )
+                billId.endDate.slice(0, -14) < moment().format().slice(0, -15) ? (
+                  <div>
+                    <Modal
+                      visible={confirmSentpetModal}
+                      onOk={() => {
+                        handleOkPay(billId);
+                        handleCancleSentPet(true);
+                        setOnProgressVisible(false)
+                      }}
+                      onCancel={handleCancleSentPet}
+                    >
+                      <div>are you sure you want to sent pet?</div>
+                    </Modal>
+                    {onProgressVisible ? (
+                      <button onClick={() => setConfirmSentpetModal(true)}>"sent pet"</button>
+                    ) : (
+                        "on progress"
+                      )}
+                  </div>
+                ) : billId.endDate.slice(0, -14) >
+                  moment().format().slice(0, -15) ? (
+                    "ending"
+                  ) : (
+                    []
+                  )
             ) : status === "ONTIME" ? (
               <div>
-              <Modal
-                visible={confirmSentpetModal}
-                onOk={() => {
-                  handleOkPay(billId);
-                  handleCancleSentPet(true);
-                  setOnProgressVisible(false)
-                }}
-                onCancel={handleCancleSentPet}
-              >
-                <div>are you sure you want to sent pet?</div>
-              </Modal>
-              {onProgressVisible ? (
-                <button onClick={()=>setConfirmSentpetModal(true)}>"sent pet"</button>
-              ) : (
-                "on progress"
-              )}
-            </div>
+                <Modal
+                  visible={confirmSentpetModal}
+                  onOk={() => {
+                    handleOkPay(billId);
+                    handleCancleSentPet(true);
+                    setOnProgressVisible(false)
+                  }}
+                  onCancel={handleCancleSentPet}
+                >
+                  <div>are you sure you want to sent pet?</div>
+                </Modal>
+                {onProgressVisible ? (
+                  <button onClick={() => setConfirmSentpetModal(true)}>"sent pet"</button>
+                ) : (
+                    "on progress"
+                  )}
+              </div>
             ) : status === "PROGRESS" ? (
               []
             ) : status === "ENDING" ? (
-              <button onClick={updateBill("COMPLETE",billId.billId)}>get pet </button>
+              <button onClick={updateBill("COMPLETE", billId.billId)}>get pet </button>
             ) : status === "COMPLETE" ? (
-              "COMPLETE"
+              <Link to="/customer/review/new">
+                <button
+                  color={"blue"}
+                >
+                  Review
+                </button>
+              </Link>
             ) : (
-              "somthing went wrong"
+              "something went wrong"
             )}
           </>
         );
