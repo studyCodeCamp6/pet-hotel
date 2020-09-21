@@ -4,9 +4,40 @@ const jwt = require("jsonwebtoken");
 
 const getPetsByCustomers = async (req, res) => {
 
-    const petsAll = await db.Pets.findAll()
-    res.status(201).send(petsAll)
+    const petsAll = await db.Pets.findAll({
+        attributes: ["name",
+            "BreedType",
+            "sex",
+            "weight",
+            "other",
+            "id"]
+    })
+    const result = petsAll.map(item => ({
+        name: item.name,
+        key: item.id,
+        BreedType: item.BreedType,
+        sex: item.sex,
+        weight: item.weight,
+        other: item.other,
+        id: item.id
+
+    }))
+
+
+
+    res.status(201).send(result)
     // await db.Pets.findAll({include:{model : db.Pets}, where: {customer_id : req.customers.id} })
+}
+
+const addPets = async (req, res) => {
+    try {
+        const { body } = req.body
+        const addPet = await db.Pets.create(body)
+        res.status(200).send(addPet)
+    }
+    catch (err) {
+        res.send(err)
+    }
 }
 
 const registerPets = async (req, res) => {
@@ -21,20 +52,35 @@ const registerPets = async (req, res) => {
     // image.mv(`image/${filePath}`);  // path อะไร
 
     try {
-        const { cloneData, bodyDate, newServices } = req.body
+        const { cloneDataKeyPets, bodyDate, newServices } = req.body
         // console.log(bodyDate)
-        const addDog = await db.Pets.bulkCreate(cloneData)
-        // console.log('pets' , addDog)
-
+        // const addDog = await db.Pets.bulkCreate(cloneData)
+        
+        // console.log('pets' , petsID)
         // certificate: filePath,
         // image: filePath,
         const newDate = await db.Bills.create(bodyDate)
         // console.log("bill Date", newDate)
 
         // const newResponse = { bill_id: newDate.dataValues.id }
-        const newBills = addDog.map(item => ({ pet_id: item.dataValues.id, bill_id: newDate.dataValues.id }))
+
+
+        const myId = req.user.id
+        const targetProvider = await db.Providers.findOne({
+            where: { id: myId },
+            // attributes: ['wage']
+        })
+        // console.log("add cost =>", targetProvider)
+        // const targetProviders = 
+
+
+        const newBills = cloneDataKeyPets.map(item => ({
+            pet_id: item.pet_id,
+            bill_id: newDate.dataValues.id,
+            cost: targetProvider.wage
+        }))
         const addPets = await db.PetsBills.bulkCreate(newBills)
-        // console.log("bill pets", addPets)
+        console.log("bill pets", addPets)
 
 
         // bill service
@@ -45,7 +91,7 @@ const registerPets = async (req, res) => {
         res.status(201).send({ message: `Add New Pets Success.` })
     }
     catch (err) {
-       console.log(err)
+        console.log(err)
     }
 }
 
@@ -62,5 +108,6 @@ const deletePets = async (req, res) => {
 module.exports = {
     registerPets,
     deletePets,
-    getPetsByCustomers
+    getPetsByCustomers,
+    addPets
 };

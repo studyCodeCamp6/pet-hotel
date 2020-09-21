@@ -7,6 +7,7 @@ function List_Pets(props) {
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            props.addKeyPets(selectedRowKeys)
         },
         getCheckboxProps: record => ({
             name: record.name,
@@ -50,7 +51,7 @@ function List_Pets(props) {
             key: 'action',
             render: (text, record) => (
                 <Space size="large">
-                    <a onClick={() => props.deletePets(text.key)}>Delete</a>
+                    <a onClick={() => props.deletePets(text.id)}>Delete</a>
                 </Space>
             ),
         },

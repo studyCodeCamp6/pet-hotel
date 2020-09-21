@@ -13,7 +13,7 @@ function Add_Pets(props) {
     const [data, setData] = useState([])
     const [confirm, setConfirm] = useState(false)
     const [pets, setPets] = useState([])
-    const [key, setKey] = useState(0)
+    const [keyPets, setKeyPets] = useState([])
     const [ID, setID] = useState('')
     const [stDate, setStDate] = useState('')
     const [enDate, setEnDate] = useState('')
@@ -27,6 +27,8 @@ function Add_Pets(props) {
             setID(user.id)
         }
     }, [])
+
+
 
     const fetchDataPets = async () => {
         const newData = await axios.get('/pets')
@@ -58,7 +60,7 @@ function Add_Pets(props) {
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
         const body = {
-            key,
+            // key,
             name: values.name,
             breedType: values.breedType,
             weight: values.weight,
@@ -68,10 +70,10 @@ function Add_Pets(props) {
             // image: values.uploadImage,
             // certificate: values.uploadCertificate,
         }
-        const newData = [...data, body]
-        setData(newData)
-        // setConfirm((pervState) => !pervState)
-        setKey(key + 1)
+        await axios.post('/pets/pets', { body })
+        // setData(newData)
+        setConfirm((pervState) => !pervState)
+        // setKey(key + 1)
         setVisible(false);
     }
 
@@ -101,11 +103,18 @@ function Add_Pets(props) {
         setService(checkedValues)
     }
 
+    const addKeyPets = (selectedRowKeys) => {
+        console.log(selectedRowKeys)
+        setKeyPets(selectedRowKeys)
+    }
+
     const confirmPets = async () => {
-        const cloneData = [...data]
-        console.log(cloneData)
+        const cloneData = [...keyPets]
+        // console.log(cloneData)
+        const cloneDataKeyPets = cloneData.map(key => ({pet_id : key}))
+        console.log(cloneDataKeyPets)
         const cloneDataServices = [...service]
-        const newServices = await cloneDataServices.map(item => ({ service_id: item }))
+        const newServices =  cloneDataServices.map(item => ({ service_id: item }))
         console.log(newServices)
         const bodyDate = {
             startDate: stDate,
@@ -115,7 +124,7 @@ function Add_Pets(props) {
         }
         console.log(bodyDate)
         try {
-            await axios.post('/pets', { cloneData, bodyDate, newServices })
+            await axios.post('/pets', { cloneDataKeyPets, bodyDate, newServices })
             console.log('Add pets && Date && service Success')
         }
         catch (err) {
@@ -141,7 +150,7 @@ function Add_Pets(props) {
                         </Row>
                         <Button shape="round" onClick={showModal}>+ Add Pets </Button>
                         <Row >
-                            <Col lg={23}>
+                            <Col md={18}>
                                 <List_Pets
                                     data={data}
                                     deletePets={deletePets}
@@ -149,6 +158,7 @@ function Add_Pets(props) {
                                     stDate={stDate}
                                     enDate={enDate}
                                     onChangeTimePicker={onChangeTimePicker}
+                                    addKeyPets={addKeyPets}
                                 />
                             </Col>
                         </Row>
@@ -160,6 +170,7 @@ function Add_Pets(props) {
                         </Row>
                         <Row justify='center'>
                             <Col>
+                            
                                 <Button shape="round" onClick={() => confirmPets()}>Confirm </Button>
                             </Col>
                         </Row>

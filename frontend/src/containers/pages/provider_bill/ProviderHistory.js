@@ -9,38 +9,58 @@ function ProviderHistory() {
 
     const columns = [
         {
-            title: "customer name",
+            title: "Customer Name",
             dataIndex: "customer_name",
             key: "customer_name",
         },
         {
-            title: 'pet name',
+            title: 'Pet Name',
             dataIndex: 'pet_name',
             key: 'pet_name'
         },
         {
-            title: 'pet type',
+            title: 'Pet Type',
             dataIndex: 'pet_type',
             key: 'pet_type'
         },
-        
         {
-            title: "date",
+            title: 'Service',
+            dataIndex: 'service',
+            key: 'service'
+        },
+
+        {
+            title: "Start Date",
             dataIndex: "startDate",
-            dataIndex: "endDate",
             key: "startDate",
-            key: "endDate",
-            render: (startDate, endDate) => (
+
+            render: (startDate) => (
                 <>
-                    <span>{moment(endDate).format("Do MMMM  h:mm a")}</span>{" - "}
                     <span>{moment(startDate).format("Do MMMM  h:mm a")}</span>
                 </>
             )
-        }
+        },
+        {
+            title: "End Date",
+            dataIndex: "endDate",
+            key: "endDate",
+            render: (endDate) => (
+                <>
+                    <span>{moment(endDate).format("Do MMMM  h:mm a")}</span>
+                </>
+            )
+        },
+        {
+            title: 'Total Price',
+            dataIndex: 'total_price',
+            key: 'total_price'
+        },
     ]
+
+
     const fetchData = async () => {
         try {
-            const targetBill = await axios.get(`/tasks/providers`);
+            const targetBill = await axios.get(`/histories/providers`);
             console.log(targetBill.data.result)
             setBill(targetBill.data.result);
         } catch (error) {
@@ -52,16 +72,18 @@ function ProviderHistory() {
         fetchData();
     }, []);
 
-   
+
 
     const source = bill.map((item, index) => ({
         key: index,
         startDate: item.startDate,
         endDate: item.endDate,
-        customer_name : item.customerName,
-        pet_name : item.pets_data,
-        pet_type : item.pets_Breed
-        
+        customer_name: item.customerName,
+        pet_name: item.pets_data,
+        pet_type: item.pets_Breed , 
+        total_price : item.cost,
+        service : item.service
+
     }))
     console.log(bill)
 
