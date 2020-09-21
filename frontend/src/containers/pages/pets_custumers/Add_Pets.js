@@ -68,8 +68,9 @@ function Add_Pets(props) {
             // image: values.uploadImage,
             // certificate: values.uploadCertificate,
         }
-        const newData = [...data, body]
-        setData(newData)
+        await axios.post('/pets/pets',body)
+        // const newData = [...data, body]
+        // setData(newData)
         // setConfirm((pervState) => !pervState)
         setKey(key + 1)
         setVisible(false);

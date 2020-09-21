@@ -109,22 +109,22 @@ function RegisterLoginProvider() {
                     <Form.Item
                         label="Hotel name"
                         name="hotelName"
-                        rules={[
-                            {
-                                required: true,
-                                message: "please input hotel name!!",
-                            },
-                            {
-                                validator(rule, val) {
-                                    let regex = /^[a-z0-9_-]{3,}$/;
-                                    if (regex.test(val) && val) {
-                                        return Promise.resolve()
-                                    } else {
-                                        return Promise.reject("hotel name should contain at least 3 characters or numbers")
-                                    }
-                                }
-                            }
-                        ]}
+                        // rules={[
+                        //     {
+                        //         required: true,
+                        //         message: "please input hotel name!!",
+                        //     },
+                        //     {
+                        //         validator(rule, val) {
+                        //             let regex = /^[a-z0-9_-]{3,}$/;
+                        //             if (regex.test(val) && val) {
+                        //                 return Promise.resolve()
+                        //             } else {
+                        //                 return Promise.reject("hotel name should contain at least 3 characters or numbers")
+                        //             }
+                        //         }
+                        //     }
+                        // ]}
                     >
                         <Input />
                     </Form.Item>
