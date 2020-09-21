@@ -3,8 +3,9 @@ const bc = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const getPetsByCustomers = async (req, res) => {
-
+    const targetId = req.user.id
     const petsAll = await db.Pets.findAll({
+        where: { customer_id: targetId },
         attributes: ["name",
             "BreedType",
             "sex",
@@ -55,7 +56,7 @@ const registerPets = async (req, res) => {
         const { cloneDataKeyPets, bodyDate, newServices } = req.body
         // console.log(bodyDate)
         // const addDog = await db.Pets.bulkCreate(cloneData)
-        
+
         // console.log('pets' , petsID)
         // certificate: filePath,
         // image: filePath,
