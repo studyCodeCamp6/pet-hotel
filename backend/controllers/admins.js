@@ -32,9 +32,9 @@ const login = async (req, res) => {
     if (isPWCorrect) {
       const payload = {
         id: targetUser.id,
-        isAdmin: targetUser.isCustomer,
+        isAdmin: targetUser.isAdmin,
       };
-      const token = jwt.sign(payload, process.env.ADMIN_SECRET, {
+      const token = jwt.sign(payload, process.env.SECRET, {
         expiresIn: `${process.env.TIMEOUT}d`,
       });
 
