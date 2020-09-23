@@ -18,6 +18,7 @@ const getCustomerBills = async (req, res) => {
         {
           model: db.Providers,
           attributes: [
+            "id",
             "hotelName",
             "phoneNumber",
             "email",

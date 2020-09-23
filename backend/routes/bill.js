@@ -10,6 +10,6 @@ router.post('/optionals/services', auth, Controller.billOptionalService)
 router.post('/pets-bills', auth, ControllerPetsBills.addPetsBills)
 // router.post('/services-bills',auth,ControllerPetsBills)
 router.post('/reviews', auth, Controller.createNewReview)
-router.get('/reviews', auth, Controller.getBillReview)
+router.get('/reviews/:id', auth, Controller.getBillReview)
 
 module.exports = router

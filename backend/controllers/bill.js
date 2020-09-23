@@ -29,55 +29,44 @@ const billOptionalService = async (req, res) => {
 }
 
 const getBillReview = async (req, res) => {
-    const currentId = Number(req.user.id)
-    const { bill_id } = req.body
-    const targetBillReviews = await db.Reviews.findOne({ where: { bill_id } })
-    if (currentId && targetBillReviews) {
-        res.status(200).send(targetBillReviews)
-    } else {
-        res.status(404).send({ message: 'not found' })
+    try {
+        const bill_id = Number(req.params.id)
+        const targetBillReviews = await db.Reviews.findOne({ where: { bill_id } })
+
+        if (targetBillReviews) {
+            res.status(200).send(targetBillReviews)
+        } else {
+            res.status(404).send({ message: 'not found' })
+        }
+
+    } catch (err) {
+        console.log(err)
+        res.status(400).send(err)
     }
 }
 
 const createNewReview = async (req, res) => {
-    const currentCustomer = Number(req.user.id)
     const score = Number(req.body.score),
-        { review } = req.body;
+        { review, bill_id, provider_id } = req.body;
 
-    const targetBill = await db.Bills.findAll({
-        where: {
-            customer_id: currentCustomer
+    try {
+        const reviewCheck = await db.Reviews.findAll({
+            where: { bill_id }
+        })
+        console.log(reviewCheck)
+        if (reviewCheck.length > 0) {
+            res.status(400).send({ message: 'you can review only one time per process' })
+        } else {
+            await db.Reviews.create({
+                score,
+                bill_id,
+                provider_id,
+                comment: review
+            })
+            res.status(201).send({ message: 'review created' })
         }
-    })
-
-
-    if (!targetBill) {
-        res.status(400).send({ message: 'you can not review now' })
-    } else {
-        try {
-            for (let i = 0; i < targetBill.length; i++) {
-                if (targetBill[i].status === 'COMPLETE') {
-                    const reviewCheck = await db.Reviews.findAll({
-                        where: { bill_id: targetBill[i].id }
-                    })
-                    if (!reviewCheck) {
-                        await db.Reviews.create({
-                            score,
-                            comment: review,
-                            bill_id: targetBill[i].id,
-                            provider_id: targetBill[i].provider_id
-                        })
-                        res.status(201).send({ message: 'review created' })
-                    } else {
-                        res.status(400).send({ message: 'you can review only one time per process' })
-                    }
-                } else {
-                    res.send({ message: 'you can not review now' })
-                }
-            }
-        } catch (err) {
-            res.status(400).send(err)
-        }
+    } catch (err) {
+        res.status(400).send(err)
     }
 }
 

@@ -84,7 +84,7 @@ function App() {
                   Hotel register
               </Menu.Item>
               <Menu.Item key="3">
-                <Link to="/customers/task" />
+                <Link to="/customer/task" />
                   My Booking
               </Menu.Item>
               <SubMenu
@@ -97,7 +97,7 @@ function App() {
                   <Menu.Item
                     key="user-profile"
                   >
-                    <Link to="/customers/profile" />
+                    <Link to="/customer/profile" />
                     Profile
                   </Menu.Item>
                 </Menu.ItemGroup>
@@ -141,11 +141,11 @@ function App() {
               <div className="logo" />
               <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1">
-                  <Link to="/providers/home" />
+                  <Link to="/provider/home" />
                   Home
                 </Menu.Item>
                 <Menu.Item key="2">
-                  <Link to="/providers/task" />
+                  <Link to="/provider/task" />
                   Booking request
                 </Menu.Item>
                 <SubMenu
@@ -158,7 +158,7 @@ function App() {
                     <Menu.Item
                       key="user-profile"
                     >
-                      <Link to="/providers/profile" />
+                      <Link to="/provider/profile" />
                     Profile
                   </Menu.Item>
                   </Menu.ItemGroup>

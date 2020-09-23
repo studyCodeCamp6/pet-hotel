@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Table, Tag, Modal, Button } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import { Table, Tag, Modal, Button, Row, Col, Rate, Input, notification } from "antd";
 import axios from "../../../config/axios";
 import moment from "moment";
 import "./task.css";
-import { Link } from "react-router-dom";
-import createReview from "../customer_review/CreateReview";
 
+const { TextArea } = Input
 const updateBill = async (newstatus, billId) => {
   try {
     await axios.patch(`/tasks/customers/${billId}`, {
@@ -19,8 +18,8 @@ const updateBill = async (newstatus, billId) => {
 const columns = [
   {
     title: "Hotel Name",
-    dataIndex: "provider_id",
-    key: "provider_id",
+    dataIndex: "provider_name",
+    key: "provider_name",
     width: "15%",
   },
   {
@@ -149,11 +148,17 @@ function Task_Customers() {
   const [confirmSentpetModal, setConfirmSentpetModal] = useState(false);
   const [onProgressVisible, setOnProgressVisible] = useState(true);
 
+  const [showReview, setShowReview] = useState(false)
+  const [review, setReview] = useState(null)
+  const [reviewScore, setReviewScore] = useState(null)
+
+  const [reviewFromDb, setReviewFromDb] = useState(null)
+
   const columnsModal = [
     {
       title: "Hotel Name",
-      dataIndex: "provider_id",
-      key: "provider_id",
+      dataIndex: "provider_name",
+      key: "provider_name",
       fixed: "left",
     },
     {
@@ -362,9 +367,7 @@ function Task_Customers() {
             <>
               <span className={"status-yellow"}>complete</span>
             </>
-          ) : (
-                              <div>something went wrong</div>
-                            )}
+          ) : (<div>something went wrong</div>)}
         </>
       ),
     },
@@ -378,7 +381,6 @@ function Task_Customers() {
       key: "status",
       dataIndex: "status",
       render: (status, billId, total) => {
-        console.log(status, billId, total);
         return (
           <>
             {status === "WAITING" ? (
@@ -460,16 +462,53 @@ function Task_Customers() {
             ) : status === "ENDING" ? (
               <button onClick={updateBill("COMPLETE", billId.billId)}>get pet </button>
             ) : status === "COMPLETE" ? (
-              <Link to="/customer/review/new">
-                <button
-                  color={"blue"}
+              (reviewFromDb?.bill_id === billId.billId) ?
+                <Button
+                  disabled
                 >
                   Review
-                </button>
-              </Link>
-            ) : (
-              "something went wrong"
-            )}
+                </Button>
+                :
+                <>
+                  <Button
+                    type="primary"
+                    onClick={() => showModalReview()}
+                  >
+                    Review
+                  </Button>
+                  <Modal
+                    visible={showReview}
+                    onOk={async () => {
+                      await handelCreateReview(billId);
+                      hideModalReview();
+                      setRowTask(false)
+                    }}
+                    onCancel={hideModalReview}
+                  >
+                    <Row>
+                      <Col>
+                        <Row>
+                          <h2>Review {billId.provider_name}</h2>
+                        </Row>
+                        <Row>
+                          <Rate
+                            style={{ fontSize: "36px", marginTop: "10px", color: "#F6AB4A" }}
+                            onChange={async (value) => await setReviewScore(value)}
+                          />
+                        </Row>
+                        <Row>
+                          <TextArea
+                            rows={10}
+                            onChange={async (e) => await setReview(e.target.value)}
+                            value={review}
+                          />
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Modal>
+                </>
+            ) : ("something went wrong")
+            }
           </>
         );
       },
@@ -491,7 +530,7 @@ function Task_Customers() {
   const handleOkPay = (bill) => {
     /*
     This is For P'Kanin Only you
-
+  
     =================================
     ====================== ==========
     ===================== ===========
@@ -505,7 +544,6 @@ function Task_Customers() {
     /*case pay success*/
     const Paymentsuccess = async () => {
       try {
-        console.log(bill.billId);
         await axios.patch(`/tasks/customers/${bill.billId}`, {
           status: "CONFIRM",
         });
@@ -527,6 +565,32 @@ function Task_Customers() {
     setRowTask(false);
   };
 
+  const showModalReview = () => {
+    setShowReview(true)
+  }
+
+  const hideModalReview = () => {
+    setShowReview(false)
+  }
+
+  const handelCreateReview = async (bill) => {
+    try {
+      const payload = {
+        review,
+        score: reviewScore,
+        bill_id: bill.billId,
+        provider_id: bill.provider_id
+      }
+      await axios.post('/bills/reviews', payload)
+      setReview(null)
+      notification.success({ message: 'hotel reviewed' })
+    } catch (err) {
+      notification.error({
+        message: err.response?.data?.message || 'something went wrong'
+      })
+    }
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -535,11 +599,21 @@ function Task_Customers() {
     try {
       const targetBill = await axios.get(`/tasks/customers`);
       setBill(targetBill.data);
-      console.log(targetBill);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const fetchReview = async (bill) => {
+    const bill_id = Number(bill[0])
+    try {
+      const getReview = await axios.get(`/bills/reviews/${bill_id}`)
+      console.log(getReview.data)
+      setReviewFromDb(getReview.data)
+    } catch (er) {
+      console.log(er)
+    }
+  }
 
   let newArrayData = [];
 
@@ -548,7 +622,8 @@ function Task_Customers() {
       return {
         key: Math.random(),
         billId: bill.id,
-        provider_id: bill.Provider.hotelName,
+        provider_id: bill.Provider.id,
+        provider_name: bill.Provider.hotelName,
         address: bill.Provider.address,
         phoneNumber: bill.Provider.phoneNumber,
         email: bill.Provider.email,
@@ -574,7 +649,6 @@ function Task_Customers() {
         petImage: bill.PetsBills.map((pet) => pet.Pet.image),
       };
     });
-    console.log(billModal);
   }
 
   return (
@@ -590,6 +664,7 @@ function Task_Customers() {
               event.preventDefault();
               setRowTask(true);
               setBillModal([newArrayData[rowIndex]]);
+              fetchReview([newArrayData[rowIndex].billId]);
             },
           };
         }}
