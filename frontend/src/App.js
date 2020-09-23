@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import PrivateRoutes from "./containers/private-routes/PrivateRoutes";
 import localStorageService from "./services/LocalStorage";
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Dropdown, Button } from "antd";
 import { DownOutlined, PoweroffOutlined } from '@ant-design/icons'
 import axios from "./config/axios"
 import jwtDecode from 'jwt-decode'
@@ -145,7 +145,7 @@ function App() {
                   Home
                 </Menu.Item>
                 <Menu.Item key="2">
-                  <Link to="/providers/task" />
+                  <Link to="/provider/task" />
                   Booking request
                 </Menu.Item>
                 <SubMenu
