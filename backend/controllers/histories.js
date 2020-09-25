@@ -108,7 +108,7 @@ const getProviderHistories = async (req, res) => {
           ],
           include: {
             model: db.Customers,
-            attributes: ["name", "lastName", "phoneNumber", "status"],
+            
           }
         }
       }
