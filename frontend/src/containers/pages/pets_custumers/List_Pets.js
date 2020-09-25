@@ -63,7 +63,7 @@ function List_Pets(props) {
     return (
         <div>
             <Row justify="center">
-                <Col md={12}>
+                <Col md={23}>
                     <Radio.Group
                         onChange={({ target: { value } }) => {
                             setSelectionType(value);

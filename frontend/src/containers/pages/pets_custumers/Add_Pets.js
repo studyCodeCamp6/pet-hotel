@@ -150,7 +150,7 @@ function Add_Pets(props) {
                         </Row>
                         <Button shape="round" onClick={showModal}>+ Add Pets </Button>
                         <Row >
-                            <Col md={18}>
+                            <Col lg={23}>
                                 <List_Pets
                                     data={data}
                                     deletePets={deletePets}
