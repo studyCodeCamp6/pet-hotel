@@ -13,7 +13,8 @@ const RoutesTasks = require('./routes/tasks');
 const RoutesHistories = require('./routes/histories');
 const RoutesOptionals = require('./routes/optionals');
 const RoutesAdmins = require('./routes/admins');
-const RoutesBills = require('./routes/bill')
+const RoutesBills = require('./routes/bill');
+const RoutesPayment = require('./routes/payment');
 
 let allowedOrigins = ['http://localhost:3000', 'http://localhost:3001'];
 
@@ -45,6 +46,7 @@ app.use('/pets', RoutesPets);
 app.use('/optionals', RoutesOptionals);
 app.use('/admins', RoutesAdmins);
 app.use('/bills', RoutesBills);
+app.use('/payment', RoutesPayment);
 
 db.sequelize.sync({ force: false }).then(() => {
   app.listen(process.env.PORT, () => {
