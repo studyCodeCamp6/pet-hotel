@@ -1,5 +1,6 @@
 import React from 'react';
 import Script from 'react-load-script';
+import axios from 'axios';
 
 let OmiseCard;
 
@@ -31,6 +32,7 @@ function CheckoutInternetBanking(props) {
 
   const omiseCardHandler = () => {
     const { cart, createInternetBankingCharge } = props;
+    console.log(cart);
     OmiseCard.open({
       frameDescription: 'Invoice #3847',
       amount: cart.total * 100,
@@ -39,17 +41,29 @@ function CheckoutInternetBanking(props) {
           cart.email,
           cart.provider_name,
           cart.total,
-          token
+          token,
+          cart.billId
         );
       },
       onFormClosed: () => {},
     });
+  };
+  const Paymentsuccess = async () => {
+    const { cart } = props;
+    try {
+      await axios.patch(`/tasks/customers/${cart.billId}`, {
+        status: 'CONFIRM',
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClick = (e) => {
     e.preventDefault();
     internetBankingConfigure();
     omiseCardHandler();
+    // Paymentsuccess();
   };
   const { cart } = props;
   return (

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Script from 'react-load-script';
+import axios from 'axios';
 let OmiseCard;
 function Checkout(props) {
   const handleScriptLoad = () => {
@@ -28,29 +29,41 @@ function Checkout(props) {
   const omiseCardHandler = () => {
     // console.log(props);
     const { cart, createCreditCardCharge } = props;
-    console.log(cart.email);
-    console.log(cart.provider_name);
-    console.log(cart.total);
+    console.log(cart);
+    // console.log(cart.provider_name);
+    // console.log(cart.total);
 
     OmiseCard.open({
       frameDescription: 'Invoice #3847',
       amount: cart.total * 100,
       onCreateTokenSuccess: (token) => {
-        console.log(token);
+        // console.log(token);
         createCreditCardCharge(
           cart.email,
           cart.provider_name,
           cart.total,
-          token
+          token,
+          cart.billId
         );
       },
       onFormClosed: () => {},
     });
   };
+  const Paymentsuccess = async () => {
+    const { cart } = props;
+    try {
+      await axios.patch(`/tasks/customers/${cart.billId}`, {
+        status: 'CONFIRM',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleClick = (e) => {
     e.preventDefault();
     creditCardConfigure();
     omiseCardHandler();
+    // Paymentsuccess();
   };
   const { cart } = props;
 

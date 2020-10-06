@@ -3,6 +3,8 @@ const path = require('path');
 const util = require('util');
 const cors = require('cors');
 require('dotenv').config();
+const db = require('../models');
+const { Op } = require('sequelize');
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
@@ -16,7 +18,7 @@ const omise = require('omise')({
 });
 
 const omiseCheckoutCreditCard = async (req, res, next) => {
-  const { email, name, amount, token } = req.body;
+  const { email, name, amount, token, billId } = req.body;
 
   try {
     const customer = await omise.customers.create({
@@ -29,6 +31,7 @@ const omiseCheckoutCreditCard = async (req, res, next) => {
       amount: amount * 100,
       currency: 'thb',
       customer: customer.id,
+      return_uri: 'http://localhost:3000/customer/task',
     });
     // console.log(charge);
     res.send({
@@ -36,6 +39,19 @@ const omiseCheckoutCreditCard = async (req, res, next) => {
       status: charge.status,
       amount: charge.amount / 100,
     });
+    const myId = req.user.id;
+    const targetBill = await db.Bills.findOne({
+      where: {
+        [Op.and]: [{ id: billId }, { customer_id: myId }],
+      },
+    });
+    // console.log(
+    //   `Shit this is ${targetBill} and status ${charge.status} and this is ${myId}`
+    // );
+
+    if (charge.status === 'successful') {
+      await targetBill.update({ status: 'CONFIRM' });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -44,15 +60,16 @@ const omiseCheckoutCreditCard = async (req, res, next) => {
 
 const omiseCheckoutInternetBanking = async (req, res, next) => {
   try {
-    const { email, name, amount, token } = req.body;
-    console.log(`Bitch ${amount} Email ${email} name ${name} token ${token}`);
+    const { email, name, amount, token, billId } = req.body;
+    // console.log(`Bitch ${amount} Email ${email} name ${name} token ${token}`);
     const charge = await omise.charges.create({
       amount: amount * 100,
       source: token,
       currency: 'thb',
-      return_uri: 'http://localhost:3000/message',
+      return_uri: 'http://localhost:3000/customer/task',
     });
-    console.log(`this is Charge ${charge}`);
+    console.log(`this is Charge ${charge.status}`);
+    // console.log(`this is data ${req.body.data}`);
     res.send({ authorizeUri: charge.authorize_uri });
     // console.log(charge);
   } catch (err) {
@@ -79,7 +96,7 @@ const omiseTransfer = async (req, res, next) => {
       amount,
       recipient: recipient,
     });
-    console.log(transfer);
+    // console.log(transfer);
 
     res.send({
       authorizeUri: charge.authorize_uri,

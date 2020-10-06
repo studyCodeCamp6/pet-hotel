@@ -406,14 +406,6 @@ function Task_Customers() {
               </button>
             ) : status === 'ACCEPT' ? (
               <>
-                <ChekoutCreditCard
-                  cart={billId}
-                  createCreditCardCharge={createCreditCardCharge}
-                />
-                <CheckoutInternetBanking
-                  cart={billId}
-                  createInternetBankingCharge={createInternetBankingCharge}
-                />
                 <button
                   color={'blue'}
                   onClick={() => showModalPay(billId, total)}
@@ -429,7 +421,21 @@ function Task_Customers() {
                   }}
                   onCancel={handleCancelPay}
                 >
-                  <div>are you sure you want to pay?</div>
+                  <div>
+                    <div>are you sure you want to pay?</div>
+                    <div>
+                      <ChekoutCreditCard
+                        cart={billId}
+                        createCreditCardCharge={createCreditCardCharge}
+                      />
+                      <CheckoutInternetBanking
+                        cart={billId}
+                        createInternetBankingCharge={
+                          createInternetBankingCharge
+                        }
+                      />
+                    </div>
+                  </div>
                 </Modal>
               </>
             ) : status === 'CONFIRM' ? (
@@ -558,14 +564,14 @@ function Task_Customers() {
     setPaymentModalVisible(bill.billId);
   };
   // Kanin
-  const createCreditCardCharge = async (email, name, amount, token) => {
+  const createCreditCardCharge = async (email, name, amount, token, billId) => {
     // setCart({ ...cart, token: token });
     // console.log(token);
     try {
       const res = await axios({
         method: 'POST',
         url: '/payment/checkout-credit-card',
-        data: { email, name, amount, token },
+        data: { email, name, amount, token, billId },
         headers: {
           'Content-Type': 'application/json',
         },
@@ -617,16 +623,16 @@ function Task_Customers() {
     
     */
     /*case pay success*/
-    const Paymentsuccess = async () => {
-      try {
-        await axios.patch(`/tasks/customers/${bill.billId}`, {
-          status: 'CONFIRM',
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    Paymentsuccess();
+    // const Paymentsuccess = async () => {
+    //   try {
+    //     await axios.patch(`/tasks/customers/${bill.billId}`, {
+    //       status: 'CONFIRM',
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // Paymentsuccess();
     setPaymentModalVisible(false);
     setRowTask(false);
   };
