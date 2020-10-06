@@ -20,6 +20,7 @@ import ProviderReviewPage from '../containers/pages/provider_review/Review';
 import AdminLoginPage from '../containers/pages/admin/Login';
 import AdminManagePage from '../containers/pages/admin/Manage';
 import ProviderHomePage from '../containers/pages/provider/Home';
+import Message from '../containers/pages/task/Message';
 
 const components = {
   login: {
@@ -106,6 +107,10 @@ const components = {
     url: '/admins/manage',
     component: AdminManagePage,
   },
+  Message: {
+    url: '/manage',
+    component: Message,
+  },
 };
 export default {
   guest: {
@@ -132,6 +137,7 @@ export default {
       components.customerHistoryPage,
       components.editProviderPage,
       components.providerHistoryPage,
+      components.Message,
     ],
     redirectRoutes: '/home',
   },

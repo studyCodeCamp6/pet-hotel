@@ -26,13 +26,23 @@ function Checkout(props) {
   // console.log(OmiseCard);
 
   const omiseCardHandler = () => {
+    // console.log(props);
     const { cart, createCreditCardCharge } = props;
-    // console.log(cart);
+    console.log(cart.email);
+    console.log(cart.provider_name);
+    console.log(cart.total);
+
     OmiseCard.open({
       frameDescription: 'Invoice #3847',
-      amount: cart.amount,
+      amount: cart.total * 100,
       onCreateTokenSuccess: (token) => {
-        createCreditCardCharge(cart.email, cart.name, cart.amount, token);
+        console.log(token);
+        createCreditCardCharge(
+          cart.email,
+          cart.provider_name,
+          cart.total,
+          token
+        );
       },
       onFormClosed: () => {},
     });

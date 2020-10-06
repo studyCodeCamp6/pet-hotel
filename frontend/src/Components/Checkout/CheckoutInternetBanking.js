@@ -33,9 +33,14 @@ function CheckoutInternetBanking(props) {
     const { cart, createInternetBankingCharge } = props;
     OmiseCard.open({
       frameDescription: 'Invoice #3847',
-      amount: cart.amount,
+      amount: cart.total * 100,
       onCreateTokenSuccess: (token) => {
-        createInternetBankingCharge(cart.email, cart.name, cart.amount, token);
+        createInternetBankingCharge(
+          cart.email,
+          cart.provider_name,
+          cart.total,
+          token
+        );
       },
       onFormClosed: () => {},
     });
@@ -55,7 +60,7 @@ function CheckoutInternetBanking(props) {
           id='internet-banking'
           className='btn internet-banking'
           type='button'
-          disabled={cart.amount === 0}
+          disabled={cart.total === 0}
           onClick={handleClick}
         >
           Pay with Internet Banking / Others
