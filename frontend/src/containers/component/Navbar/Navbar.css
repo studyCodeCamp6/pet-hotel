@@ -30,6 +30,7 @@
   justify-content: end;
   margin-right: 2rem;
   margin-top: 20px;
+
 }
 
 .nav-links {
@@ -69,6 +70,10 @@
     opacity: 1;
     transition: all 0.5s ease;
   }
+
+  .nav-menu.disabled{
+    display: none;
+  } 
 
   .nav-menu.active {
     background: #f6d04a;
