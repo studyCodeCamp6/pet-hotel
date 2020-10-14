@@ -112,9 +112,10 @@ export default {
         allowedRoutes: [
             components.login,
             components.register,
+            components.bookingPets,
             components.homePage,
         ],
-        redirectRoutes: "/home"
+        redirectRoutes: "/login"
     },
     user: {
         allowedRoutes: [
@@ -128,7 +129,9 @@ export default {
             components.editReviewPage,
             components.customerReviewPage,
             components.registerLoginProviderPage,
-            components.customerHistoryPage
+            components.customerHistoryPage,
+            components.editProviderPage,
+            components.providerHistoryPage
         ],
         redirectRoutes: "/home"
     },

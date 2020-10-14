@@ -6,24 +6,24 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import Navbar from './containers/component/Navbar/Navbar';
+import SearchResult from './containers/pages/search/SearchResult';
 import CreateReview from './containers/pages/customer_review/CreateReview';
 import Task_Customers from './containers/pages/task/Task_Customers';
 import Task_Providers from './containers/pages/task/Task_Providers';
+import Search from 'antd/lib/input/Search';
+
 
 
 ReactDOM.render(
   <BrowserRouter>
     {/* <App /> */}
     <Navbar />
-    <CreateReview />
+    {/* <CreateReview /> */}
+    <SearchResult />
 
     {/* <Task_Customers /> */}
     {/* <Task_Providers /> */}
-    </BrowserRouter>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

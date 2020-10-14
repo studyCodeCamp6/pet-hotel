@@ -13,8 +13,7 @@ const register = async (req, res) => {
         area,
         wage,
         type,
-        address
-    } = req.body
+        address, } = req.body
 
     // req.file.{{ชื่อ field ใน Postman นะจ๊ะ}}
     // let { image } = req.files;
@@ -28,7 +27,7 @@ const register = async (req, res) => {
         res.status(400).send({ message: 'already have hotel' })
     } else {
         // const salt = bc.genSaltSync(Number(process.env.ROUNDS));
-        // const hashedPW = bc.hashSync(password, salt);
+        const hashedPW = bc.hashSync(password, salt);
         await db.Providers.create({
             // username,
             // password: hashedPW,
@@ -44,10 +43,9 @@ const register = async (req, res) => {
             customer_id: req.user.id
         })
 
-        // image.mv(`images/providers/${filePath}`);
-        res.status(201).send({ message: 'hotel created' })
     }
 }
+
 
 const getProvider = async (req, res) => {
     try {
@@ -61,6 +59,18 @@ const getProvider = async (req, res) => {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+   
 const updateProvider = async (req, res) => {
     const { hotelName, address, phoneNumber, email, area, type, wage } = req.body
     const { id } = req.params

@@ -2,18 +2,27 @@ tr.ant-table-row.ant-table-row-level-0 {
   cursor: pointer;
 }
 
-.status{
-    margin:0 10% 0 0;
+.status {
+  margin: 0 10% 0 0;
 }
-.status-green{
-    margin:0 10% 0 0;
-    color:yellowgreen;
+.status-green {
+  margin: 0 10% 0 0;
+  color: yellowgreen;
 }
-.status-yellow{
-    margin:0 10% 0 0;
-    color:yellow;
+.status-yellow {
+  margin: 0 10% 0 0;
+  color: rgb(150, 150, 0);
 }
-.status-grey{
-    margin:0 10% 0 0;
-    color:grey;
+.status-grey {
+  margin: 0 10% 0 0;
+  color: grey;
+}
+.button:hover {
+  cursor: pointer;
+}
+
+.header-task {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 36px;
 }

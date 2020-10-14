@@ -14,6 +14,8 @@ function App() {
   const [role, setRole] = useState(localStorageService.getRole());
   const [name, setName] = useState('');
   const [hotel, setHotel] = useState('')
+  console.log(localStorageService.getRole())
+  console.log(role)
 
   const changeToProvider = async () => {
     await axios.patch('customers/role', { isCustomer: "FALSE" })
@@ -212,7 +214,7 @@ function App() {
               <Footer style={{ textAlign: 'center' }}>Haustier's hotel</Footer>
             </Layout>
             :
-            null
+            <div>123123123</div>
       }
     </div >
   );

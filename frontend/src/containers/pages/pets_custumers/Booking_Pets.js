@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Checkbox, Space, DatePicker, Form, Input, Button, Table, Radio, } from 'antd'
+import { Row, Col, Checkbox,Form,} from 'antd'
 import axios from '../../../config/axios'
 import jwtDecode from 'jwt-decode'
 import LocalStorage from '../../../services/LocalStorage'
@@ -8,16 +8,15 @@ import Item from 'antd/lib/list/Item'
 
 function Booking_Pets(props) {
     const [dataService, setDataService] = useState([])
-    
-    const [ID, setID] = useState(0)
+    // const [ID, setID] = useState(0)
 
-    useEffect(() => {
-        const token = LocalStorage.getToken()
-        if (token) {
-            const user = jwtDecode(token)
-            setID(user.id)
-        }
-    }, [])
+    // useEffect(() => {
+    //     const token = LocalStorage.getToken()
+    //     if (token) {
+    //         const user = jwtDecode(token)
+    //         setID(user.id)
+    //     }
+    // }, [])
 
     const fetchService = async () => {
         const httpData = await axios.get('/providers/service')
@@ -50,6 +49,7 @@ function Booking_Pets(props) {
     // }
 
     const plainOptions = dataService.map(item => ({ label: item.OptionalService.name, value: item.OptionalService.id }))
+   
 
 
     return (

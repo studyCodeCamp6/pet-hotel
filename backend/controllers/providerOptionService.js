@@ -3,7 +3,7 @@ const db = require("../models")
 const getService = async (req, res) => {
 
     const target = await db.Providers.findOne({
-        where: { id: req.user.id},
+        where: { id: 3 },
         include: {
             model: db.ProviderOptionalServices,
             include: { model: db.OptionalServices }
@@ -16,7 +16,7 @@ const getService = async (req, res) => {
 const deleteService = async (req, res) => {
     const { id } = req.params
     const targetId = await db.ProviderOptionalServices.findOne({ where: { id } })
-   
+
     if (targetId) {
         await targetId.destroy()
         res.status(201).send({ message: "deleted" })
