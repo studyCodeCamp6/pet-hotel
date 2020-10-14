@@ -52,7 +52,7 @@ function Home() {
         <button>ค้นหา</button>
       </div>
 
-      <ArticleCard />
+      {<ArticleCard />}
       <div className="show-review-home">
         <div>
           <b>Review</b>
@@ -61,7 +61,7 @@ function Home() {
           <b>ProviderName</b>
         </div>
       </div>
-          <ReviewCard />
+          {<ReviewCard />}
 
       <Footer />
     </div>
