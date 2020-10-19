@@ -22,8 +22,13 @@ module.exports = (sequelize, DataTypes) => {
         type: {
             type: DataTypes.ENUM("CAT", "DOG", "CATANDDOG")
         },
-        address: {
-            type: DataTypes.STRING(1200)
+        latitude: {
+            type: DataTypes.DOUBLE,
+            // allowNull: false
+        },
+        longitude: {
+            type: DataTypes.DOUBLE,
+            // allowNull: false
         },
         image: {
             type: DataTypes.STRING(1200)

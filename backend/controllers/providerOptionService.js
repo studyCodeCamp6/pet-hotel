@@ -9,7 +9,12 @@ const getService = async (req, res) => {
             include: { model: db.OptionalServices }
         }
     })
-    res.status(200).send(target.ProviderOptionalServices)
+
+    if (!target) {
+        res.status(200).send('null')
+    } else {
+        res.status(200).send(target.ProviderOptionalServices)
+    }
 
 }
 

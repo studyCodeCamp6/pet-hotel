@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Checkbox,Form,} from 'antd'
+import { Row, Col, Checkbox, Form, } from 'antd'
 import axios from '../../../config/axios'
-import jwtDecode from 'jwt-decode'
-import LocalStorage from '../../../services/LocalStorage'
-import Item from 'antd/lib/list/Item'
+// import jwtDecode from 'jwt-decode'
+// import LocalStorage from '../../../services/LocalStorage'
+// import Item from 'antd/lib/list/Item'
 
 
-function Booking_Pets(props) {
+function BookingPets(props) {
     const [dataService, setDataService] = useState([])
     // const [ID, setID] = useState(0)
 
@@ -48,8 +48,8 @@ function Booking_Pets(props) {
     //     setService(checkedValues)
     // }
 
-    const plainOptions = dataService.map(item => ({ label: item.OptionalService.name, value: item.OptionalService.id }))
-   
+    const plainOptions = dataService?.map(item => ({ label: item.OptionalService.name, value: item.OptionalService.id }))
+
 
 
     return (
@@ -74,4 +74,4 @@ function Booking_Pets(props) {
 }
 
 
-export default Booking_Pets
+export default BookingPets

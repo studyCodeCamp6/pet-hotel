@@ -11,5 +11,7 @@ router.post("/login", controllers.login);
 router.patch("/role", auth, controllers.setRole);
 router.get("/profile", auth, controllers.getProfile);
 
+router.get('/hotels/:hotel', controllers.searchingProvidersByHotelName);
+router.get('/types/:type', controllers.searchingProvidersByPetType);
 
 module.exports = router;
