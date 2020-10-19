@@ -13,7 +13,8 @@ const register = async (req, res) => {
         area,
         wage,
         type,
-        address, } = req.body
+        latitude,
+        longitude } = req.body
 
     // req.file.{{ชื่อ field ใน Postman นะจ๊ะ}}
     // let { image } = req.files;
@@ -28,7 +29,7 @@ const register = async (req, res) => {
     } else {
         // const salt = bc.genSaltSync(Number(process.env.ROUNDS));
         // const hashedPW = bc.hashSync(password, salt);
-        await db.Providers.create({
+        const newHotel = await db.Providers.create({
             // username,
             // password: hashedPW,
             hotelName,
@@ -38,14 +39,14 @@ const register = async (req, res) => {
             area,
             wage,
             type,
-            address,
+            latitude,
+            longitude,
             // image: filePath,
             customer_id: req.user.id
         })
-
+        res.status(201).send(newHotel)
     }
 }
-
 
 const getProvider = async (req, res) => {
     try {
@@ -57,19 +58,6 @@ const getProvider = async (req, res) => {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const updateProvider = async (req, res) => {
     const { hotelName, address, phoneNumber, email, area, type, wage } = req.body
@@ -101,31 +89,6 @@ const setRole = async (req, res) => {
     }
 }
 
-const getProviderToken = async (req, res) => {
-    const currentId = Number(req.user.id)
-
-    const targetHotel = await db.Providers.findOne({ where: { customer_id: currentId } })
-
-    if (targetHotel) {
-        const payload = {
-            id: targetHotel.id,
-            name: targetHotel.hotelName,
-            status: targetHotel.status,
-            isProvider: targetHotel.isProvider
-        }
-        const token = jwt.sign(payload,
-            process.env.PROVIDER_SECRET,
-            { expiresIn: `${process.env.TIMEOUT}d` }
-        )
-
-        res.status(200).send({
-            provider_token: token
-        })
-    } else {
-        res.status(400).send({ message: "hotel not found" })
-    }
-}
-
 const getProviderReviews = async (req, res) => {
     const currentId = Number(req.user.id)
     const targetProvider = await db.Providers.findOne({ customer_id: currentId })
@@ -143,12 +106,30 @@ const getProviderReviews = async (req, res) => {
     }
 }
 
+const hotelReview = async (req, res) => {
+    const provider_id = Number(req.params.id)
+
+    try {
+        const targetProvider = await db.Reviews.findAll({
+            where: { provider_id }
+        })
+
+        if (targetProvider.length >= 0) {
+            res.status(200).send(targetProvider)
+        } else {
+            res.status(200).send([])
+        }
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
 
 module.exports = {
     register,
     getProvider,
     updateProvider,
     setRole,
-    getProviderToken,
-    getProviderReviews
+    getProviderReviews,
+    hotelReview
 }

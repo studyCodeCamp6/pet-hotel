@@ -1,0 +1,14 @@
+.pseudo-button:first-child:hover {
+    font-size: larger;
+    cursor: pointer;
+}
+
+.scrollAble {
+    height: 80vh;
+    overflow: scroll;
+}
+
+.scrolling {
+    height: 45vh;
+    overflow: scroll;
+}
