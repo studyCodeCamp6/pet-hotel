@@ -2,3 +2,5 @@ backend/node_modules/
 backend/config/config.json
 backend/images/
 backend/.env
+
+adminFrontend/hotel-admin/node_modules/
