@@ -74,7 +74,7 @@ function App() {
         <Layout>
           <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
             <div className="logo" />
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+            <Menu theme="dark" mode="horizontal">
               <Menu.Item key="1">
                 <Link to="/home" />
                   Home
@@ -139,7 +139,7 @@ function App() {
           <Layout>
             <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
               <div className="logo" />
-              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+              <Menu theme="dark" mode="horizontal">
                 <Menu.Item key="1">
                   <Link to="/provider/home" />
                   Home
@@ -194,7 +194,7 @@ function App() {
           <Layout>
             <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
               <div className="logo" />
-              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['0']}>
+              <Menu theme="dark" mode="horizontal">
                 <Menu.Item key="0">
                   <Link to="/home" />
                     Home

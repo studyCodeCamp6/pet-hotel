@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { withRouter } from 'react-router-dom'
+import { SearchStore } from './customers/search/ContextStore'
 import {
     SearchProviderByName,
     SearchProviderByType,
-    SearchOptions
+    SearchOptions,
+    SearchProviderByArea
 } from './customers/search/SearchProvider'
 import {
     Row,
@@ -12,6 +14,7 @@ import {
 
 function Home() {
 
+    const { setSearchResult } = useContext(SearchStore)
     const [searchType, setSearchType] = useState('hotel')
 
     return (
@@ -23,15 +26,17 @@ function Home() {
                 {
                     (searchType === 'hotel') ?
                         <Col>
-                            <SearchProviderByName />
+                            <SearchProviderByName setSearchResult={setSearchResult} />
                         </Col>
                         :
                         (searchType === 'type') ?
                             <Col>
-                                <SearchProviderByType />
+                                <SearchProviderByType setSearchResult={setSearchResult} />
                             </Col>
                             :
-                            null
+                            <Col>
+                                <SearchProviderByArea setSearchResult={setSearchResult} />
+                            </Col>
                 }
             </Row>
         </div >

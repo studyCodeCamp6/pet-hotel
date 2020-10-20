@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Radio, Divider, Table, Space, Button, DatePicker } from 'antd';
 
-function List_Pets(props) {
+function ListPets(props) {
     const [selectionType, setSelectionType] = useState('checkbox');
 
     const rowSelection = {
@@ -15,6 +15,7 @@ function List_Pets(props) {
     };
 
 
+    console.log(props.data)
     const columns = [
         {
             title: 'Name',
@@ -22,7 +23,7 @@ function List_Pets(props) {
             key: 'name'
         },
         {
-            title: 'BreedType',
+            title: 'Type',
             dataIndex: 'breedType',
             key: 'breedType'
         },
@@ -98,4 +99,4 @@ function List_Pets(props) {
     )
 }
 
-export default List_Pets
+export default ListPets

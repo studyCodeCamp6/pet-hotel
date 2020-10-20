@@ -6,17 +6,11 @@ const getPetsByCustomers = async (req, res) => {
     const targetId = req.user.id
     const petsAll = await db.Pets.findAll({
         where: { customer_id: targetId },
-        attributes: ["name",
-            "BreedType",
-            "sex",
-            "weight",
-            "other",
-            "id"]
     })
     const result = petsAll.map(item => ({
         name: item.name,
         key: item.id,
-        BreedType: item.BreedType,
+        breedType: item.breedType,
         sex: item.sex,
         weight: item.weight,
         other: item.other,
@@ -24,10 +18,7 @@ const getPetsByCustomers = async (req, res) => {
 
     }))
 
-
-
-    res.status(201).send(result)
-    // await db.Pets.findAll({include:{model : db.Pets}, where: {customer_id : req.customers.id} })
+    res.status(200).send(result)
 }
 
 const addPets = async (req, res) => {
@@ -68,7 +59,7 @@ const registerPets = async (req, res) => {
 
         const myId = req.user.id
         const targetProvider = await db.Providers.findOne({
-            where: { id: myId },
+            where: { id: bodyDate.provider_id },
             // attributes: ['wage']
         })
         // console.log("add cost =>", targetProvider)

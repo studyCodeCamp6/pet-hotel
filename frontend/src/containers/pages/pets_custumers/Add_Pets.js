@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import axios from '../../../config/axios'
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
-import { Input, Form, Select, InputNumber, Upload, Button, Row, Col } from 'antd'
+import { UploadOutlined } from '@ant-design/icons';
+import { useLocation, useHistory } from 'react-router-dom'
+import { Input, Form, Select, InputNumber, Upload, Button, Row, Col, notification } from 'antd'
 import Modal from 'antd/lib/modal/Modal';
 import jwtDecode from 'jwt-decode'
-import List_Pets from './List_Pets';
 import LocalStorage from '../../../services/LocalStorage'
-import Booking_Pets from './Booking_Pets';
+import ListPets from './List_Pets';
+import BookingPets from './Booking_Pets';
 
-function Add_Pets(props) {
+function AddPets(props) {
     const [visible, setVisible] = useState(false)
     const [data, setData] = useState([])
     const [confirm, setConfirm] = useState(false)
@@ -55,7 +56,6 @@ function Add_Pets(props) {
     const onFormLayoutChange = ({ size }) => {
         setComponentSize(size);
     };
-    let id = 0;
 
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
@@ -108,27 +108,38 @@ function Add_Pets(props) {
         setKeyPets(selectedRowKeys)
     }
 
+    const history = useHistory()
+    const location = useLocation()
+    const provider_id = location.state.hotelId
+    console.log(provider_id)
+
     const confirmPets = async () => {
         const cloneData = [...keyPets]
         // console.log(cloneData)
-        const cloneDataKeyPets = cloneData.map(key => ({pet_id : key}))
+        const cloneDataKeyPets = cloneData.map(key => ({ pet_id: key }))
         console.log(cloneDataKeyPets)
         const cloneDataServices = [...service]
-        const newServices =  cloneDataServices.map(item => ({ service_id: item }))
+        const newServices = cloneDataServices.map(item => ({ service_id: item }))
         console.log(newServices)
         const bodyDate = {
             startDate: stDate,
             endDate: enDate,
-            provider_id: ID,
-            status: 'waiting'
+            provider_id: provider_id,
+            status: 'waiting',
+            customer_id: ID
         }
         console.log(bodyDate)
         try {
             await axios.post('/pets', { cloneDataKeyPets, bodyDate, newServices })
-            console.log('Add pets && Date && service Success')
+            notification.success({
+                message: 'sending request to Hotel owner already'
+            })
+            history.push('/customer/task')
         }
         catch (err) {
-            console.log(err)
+            notification.error({
+                message: 'something wrong'
+            })
         }
     }
 
@@ -145,13 +156,13 @@ function Add_Pets(props) {
                     <Col lg={15}>
                         <Row justify="center" >
                             <Col>
-                                <h1>Pets Information</h1>
+                                <h1>Select Pets</h1>
                             </Col>
                         </Row>
                         <Button shape="round" onClick={showModal}>+ Add Pets </Button>
                         <Row >
                             <Col lg={23}>
-                                <List_Pets
+                                <ListPets
                                     data={data}
                                     deletePets={deletePets}
                                     pets={pets}
@@ -164,14 +175,14 @@ function Add_Pets(props) {
                         </Row>
                         <Row justify='center'>
                             <Col lg={18}>
-                                <Booking_Pets
+                                <BookingPets
                                     onChange={onChange} />
                             </Col>
                         </Row>
                         <Row justify='center'>
                             <Col>
-                            
-                                <Button shape="round" onClick={() => confirmPets()}>Confirm </Button>
+
+                                <Button shape="round" onClick={() => confirmPets()}>Confirm</Button>
                             </Col>
                         </Row>
                     </Col>
@@ -257,4 +268,4 @@ function Add_Pets(props) {
     )
 }
 
-export default Add_Pets
+export default AddPets

@@ -16,7 +16,7 @@ function PrivateRoutes(props) {
           key={route.url}
           exact
         >
-            <route.component setRole={props.setRole} />
+          <route.component key={route.component} setRole={props.setRole} />
         </Route>
       ))}
       <Redirect to={redirectRoutes} />

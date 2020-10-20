@@ -1,6 +1,7 @@
 import LoginPage from '../containers/pages/Login';
 import RegisterPage from '../containers/pages/Register';
 import Home from '../containers/pages/Home';
+import HotelListPage from '../containers/pages/customers/search/HotelList'
 import CustomerProfilePage from '../containers/pages/customers/Profile';
 import CustomerEditProfilePage from '../containers/pages/customers/EditProfile';
 import AddPetsPage from '../containers/pages/pets_custumers/Add_Pets';
@@ -34,6 +35,10 @@ const components = {
   homePage: {
     url: '/home',
     component: Home,
+  },
+  resultSearchPage: {
+    url: '/hotel/lists',
+    component: HotelListPage,
   },
   addPets: {
     url: '/pets/add',
@@ -119,12 +124,14 @@ export default {
       components.register,
       components.bookingPets,
       components.homePage,
+      components.resultSearchPage
     ],
     redirectRoutes: '/login',
   },
   user: {
     allowedRoutes: [
       components.homePage,
+      components.resultSearchPage,
       components.customerProfilePage,
       components.customerEditProfilePage,
       components.addPets,

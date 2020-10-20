@@ -4,6 +4,7 @@ import uid from 'uid';
 
 import { Steps, Button, Row, Col, Form, Input, notification, message, Select, Table, Space, Divider } from 'antd';
 import OptionalProviders from './OptionalProviders';
+import InputMaps from './mapsComponents/InputMaps';
 const { Step } = Steps;
 
 function RegisterLoginProvider() {
@@ -11,15 +12,20 @@ function RegisterLoginProvider() {
     const [dataService, setDataService] = useState([])
     const [data, setData] = useState([])
     const [optional, setOptional] = useState([])
+    const [coords, setCoords] = useState(null)
 
     const onFinishFirst = async (values) => {
+
+        console.log(coords)
+
         const body = {
             hotelName: values.hotelName,
             phoneNumber: values.telephone,
             email: values.email,
             area: values.area,
             type: values.breedType,
-            address: values.address,
+            latitude: coords.lat,
+            longitude: coords.lng,
             wage: values.wage
         }
         console.log(body)
@@ -29,6 +35,7 @@ function RegisterLoginProvider() {
             notification.success({
                 message: "register as hotel provider successfully"
             })
+            next()
         } catch (error) {
             notification.error({
                 message: error.response?.data?.message || 'failed to register'
@@ -109,27 +116,28 @@ function RegisterLoginProvider() {
                     <Form.Item
                         label="Hotel name"
                         name="hotelName"
-                        // rules={[
-                        //     {
-                        //         required: true,
-                        //         message: "please input hotel name!!",
-                        //     },
-                        //     {
-                        //         validator(rule, val) {
-                        //             let regex = /^[a-z0-9_-]{3,}$/;
-                        //             if (regex.test(val) && val) {
-                        //                 return Promise.resolve()
-                        //             } else {
-                        //                 return Promise.reject("hotel name should contain at least 3 characters or numbers")
-                        //             }
-                        //         }
-                        //     }
-                        // ]}
+                    // rules={[
+                    //     {
+                    //         required: true,
+                    //         message: "please input hotel name!!",
+                    //     },
+                    //     {
+                    //         validator(rule, val) {
+                    //             let regex = /^[a-z0-9_-]{3,}$/;
+                    //             if (regex.test(val) && val) {
+                    //                 return Promise.resolve()
+                    //             } else {
+                    //                 return Promise.reject("hotel name should contain at least 3 characters or numbers")
+                    //             }
+                    //         }
+                    //     }
+                    // ]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item label="Address" name="address">
-                        <Input />
+                        <InputMaps setCoords={setCoords} />
+                        {console.log(coords)}
                     </Form.Item>
                     <Form.Item
                         label="Telephone"
@@ -271,11 +279,6 @@ function RegisterLoginProvider() {
                 )}
                 {current === steps.length - 1 && (
                     <></>
-                )}
-                {current > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                        Previous
-                    </Button>
                 )}
             </div>
         </>

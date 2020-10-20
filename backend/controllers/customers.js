@@ -81,46 +81,59 @@ const getProfile = async (req, res) => {
 }
 
 const searchingProvidersByHotelName = async (req, res) => {
-  const { hotelName } = req.body
+  const { hotel } = req.params
   const hotelLists = await db.Providers.findAll({
     where: {
       hotelName: {
-        [Op.like]: `%${hotelName}%`
+        [Op.like]: `%${hotel}%`
+      }
+    },
+    include: {
+      model: db.Reviews,
+      attributes: ['score', 'comment', 'bill_id'],
+      include: {
+        model: db.Bills,
+        include: {
+          model: db.Customers,
+          attributes: ['id', 'name', 'lastName', 'username', 'image']
+        }
       }
     }
   })
 
-  if (hotelLists.length <= 0) {
-    res.status(404).send({
-      message: `${hotelName} not found`
-    })
-  } else {
-    res.status(200).send(hotelLists)
+  try {
+    if (hotelLists.length <= 0) {
+      res.status(200).send([])
+    } else {
+      res.status(200).send(hotelLists)
+    }
+  } catch (err) {
+    res.status(400).send(err)
   }
 }
 
 const searchingProvidersByPetType = async (req, res) => {
-  const { hotelType } = req.body
+  const hotelType = req.params.type
   const hotelLists = await db.Providers.findAll({
     where: {
       type: {
         [Op.like]: `%${hotelType}%`
       }
     },
-    order: [
-      [hotelName, 'DESC']
-    ]
+    include: {
+      model: db.Reviews
+    }
   })
 
-  if (hotelLists.length <= 0) {
-    res.status(404).send({ message: `${hotelType} not found` })
-  } else {
-    res.status(200).send(hotelLists)
+  try {
+    if (hotelLists.length <= 0) {
+      res.status(200).send([])
+    } else {
+      res.status(200).send(hotelLists)
+    }
+  } catch (err) {
+    res.status(400).send(err)
   }
-}
-
-const createNewReview = async (req, res) => {
-  
 }
 
 const getAllReview = async (req, res) => {
@@ -142,7 +155,6 @@ module.exports = {
   getProfile,
   searchingProvidersByHotelName,
   searchingProvidersByPetType,
-  createNewReview,
   getAllReview,
   getReviewDetails,
   editReview

@@ -26,7 +26,6 @@ const getCustomerBills = async (req, res) => {
             "wage",
             "type",
             "image",
-            "address",
             "status",
             "isOpen",
           ],
@@ -56,15 +55,15 @@ const getCustomerBills = async (req, res) => {
         targetBill.map((provider) => {
           return db.Providers.findAll({
             where: { id: provider.provider_id },
-            attributes: ["hotelName", "address"],
+            attributes: ["hotelName"],
             raw: true,
           });
         })
       );
-      res.send({ targetBill });
+      res.status(200).send({ targetBill });
     }
   } catch (error) {
-    res.send(error);
+    res.status(400).send(error);
   }
 };
 
